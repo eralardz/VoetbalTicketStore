@@ -7,6 +7,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoetbalTicketStore", "Voetb
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoetbalTicketStore.Tests", "VoetbalTicketStore.Tests\VoetbalTicketStore.Tests.csproj", "{FFAB8510-7CF3-49B2-83D8-C400C088BA7D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoetbalTicketStore.DAO", "VoetbalTicketStore.DAO\VoetbalTicketStore.DAO.csproj", "{181D5AA2-D66D-4B0E-9745-C2A201522C81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoetbalTicketStore.Service", "VoetbalTicketStore.Service\VoetbalTicketStore.Service.csproj", "{201FE612-0E4D-44BC-A070-C40114DAB671}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoetbalTicketStore.Models", "VoetbalTicketStore.Models\VoetbalTicketStore.Models.csproj", "{4374D90E-DEF2-4349-9293-C4E3D7D913B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +27,18 @@ Global
 		{FFAB8510-7CF3-49B2-83D8-C400C088BA7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFAB8510-7CF3-49B2-83D8-C400C088BA7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFAB8510-7CF3-49B2-83D8-C400C088BA7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{181D5AA2-D66D-4B0E-9745-C2A201522C81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{181D5AA2-D66D-4B0E-9745-C2A201522C81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{181D5AA2-D66D-4B0E-9745-C2A201522C81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{181D5AA2-D66D-4B0E-9745-C2A201522C81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{201FE612-0E4D-44BC-A070-C40114DAB671}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{201FE612-0E4D-44BC-A070-C40114DAB671}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{201FE612-0E4D-44BC-A070-C40114DAB671}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{201FE612-0E4D-44BC-A070-C40114DAB671}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4374D90E-DEF2-4349-9293-C4E3D7D913B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4374D90E-DEF2-4349-9293-C4E3D7D913B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4374D90E-DEF2-4349-9293-C4E3D7D913B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4374D90E-DEF2-4349-9293-C4E3D7D913B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

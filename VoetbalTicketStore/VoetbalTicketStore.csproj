@@ -275,6 +275,16 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VoetbalTicketStore.Models\VoetbalTicketStore.Models.csproj">
+      <Project>{4374d90e-def2-4349-9293-c4e3d7d913b1}</Project>
+      <Name>VoetbalTicketStore.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VoetbalTicketStore.Service\VoetbalTicketStore.Service.csproj">
+      <Project>{201fe612-0e4d-44bc-a070-c40114dab671}</Project>
+      <Name>VoetbalTicketStore.Service</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
