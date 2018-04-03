@@ -47,9 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClubDAO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StadionDAO.cs" />
-    <Compile Include="VoetbalTicketStoreDAO.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VoetbalTicketStore.Models\VoetbalTicketStore.Models.csproj">

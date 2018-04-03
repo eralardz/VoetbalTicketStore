@@ -1,0 +1,44 @@
+﻿@model IEnumerable<VoetbalTicketStore.Models.Club>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<h2>Index</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.naam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.logo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Stadion.naam)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.naam)
+        </td>
+        <td>
+            @{ 
+                var imagePath = "placeholder.jpg";
+                if(item.logo != null)
+                {
+                    imagePath = item.logo;
+                }
+                <img src="@imagePath" alt="logo" />
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Stadion.naam)
+        </td>
+    </tr>
+}
+
+</table>
