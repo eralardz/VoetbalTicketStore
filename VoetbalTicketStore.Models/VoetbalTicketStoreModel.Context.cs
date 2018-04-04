@@ -35,5 +35,10 @@ namespace VoetbalTicketStore.Models
         public virtual DbSet<Vak> Vaks { get; set; }
         public virtual DbSet<Wedstrijd> Wedstrijds { get; set; }
         public virtual DbSet<Zitplaat> Zitplaats { get; set; }
+        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
+        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
+        public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
     }
 }

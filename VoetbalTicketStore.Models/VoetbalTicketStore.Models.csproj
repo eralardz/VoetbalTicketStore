@@ -52,7 +52,22 @@
     <Compile Include="Abonnement.cs">
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="AspNetRole.cs">
+      <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUser.cs">
+      <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUserClaim.cs">
+      <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUserLogin.cs">
+      <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Club.cs">
+      <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="C__MigrationHistory.cs">
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Gebruiker.cs">

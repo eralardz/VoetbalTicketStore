@@ -27,6 +27,14 @@
         <AssociationConnector Association="voetbalModel.FKTicket491371" ManuallyRouted="false" />
         <AssociationConnector Association="voetbalModel.Ticket_voor_een_zitplaats" ManuallyRouted="false" />
         <AssociationConnector Association="voetbalModel.Zitplaats_in_een_ring" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="voetbalModel.C__MigrationHistory" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="voetbalModel.AspNetRole" Width="1.5" PointX="5.375" PointY="10.5" />
+        <EntityTypeShape EntityType="voetbalModel.AspNetUserClaim" Width="1.5" PointX="9.875" PointY="11.625" />
+        <EntityTypeShape EntityType="voetbalModel.AspNetUserLogin" Width="1.5" PointX="9.875" PointY="9" />
+        <EntityTypeShape EntityType="voetbalModel.AspNetUser" Width="1.5" PointX="7.625" PointY="9.375" />
+        <AssociationConnector Association="voetbalModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="voetbalModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="voetbalModel.AspNetUserRoles" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
