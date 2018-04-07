@@ -23,7 +23,7 @@ namespace VoetbalTicketStore.Models
         public int Stadionid { get; set; }
         public int id { get; set; }
         public int Vakid { get; set; }
-        public Nullable<bool> bezet { get; set; }
+        public bool bezet { get; set; }
     
         public virtual Stadion Stadion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

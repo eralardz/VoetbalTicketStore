@@ -64,13 +64,13 @@
     <Compile Include="AspNetUserLogin.cs">
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Bezoeker.cs">
+      <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Club.cs">
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>
     <Compile Include="C__MigrationHistory.cs">
-      <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Gebruiker.cs">
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -87,6 +87,9 @@
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Vak.cs">
+      <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VakType.cs">
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>
     <Compile Include="VoetbalTicketStoreModel.Context.cs">

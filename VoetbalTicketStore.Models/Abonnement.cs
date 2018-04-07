@@ -17,9 +17,9 @@ namespace VoetbalTicketStore.Models
         public int id { get; set; }
         public int Gebruikerid { get; set; }
         public int Clubid { get; set; }
-        public Nullable<float> prijs { get; set; }
+        public float prijs { get; set; }
     
-        public virtual Gebruiker Gebruiker { get; set; }
         public virtual Club Club { get; set; }
+        public virtual Bezoeker Bezoeker { get; set; }
     }
 }

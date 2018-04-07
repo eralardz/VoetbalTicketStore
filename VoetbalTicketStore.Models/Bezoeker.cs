@@ -12,25 +12,23 @@ namespace VoetbalTicketStore.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Gebruiker
+    public partial class Bezoeker
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Gebruiker()
+        public Bezoeker()
         {
             this.Abonnements = new HashSet<Abonnement>();
             this.Tickets = new HashSet<Ticket>();
         }
     
         public int id { get; set; }
-        public string gebruikersnaam { get; set; }
         public string email { get; set; }
-        public string adres { get; set; }
-        public string wachtwoord { get; set; }
-        public int Taalid { get; set; }
+        public string naam { get; set; }
+        public string voornaam { get; set; }
+        public string identiteitskaartnummer { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Abonnement> Abonnements { get; set; }
-        public virtual Taal Taal { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Ticket> Tickets { get; set; }
     }

@@ -25,7 +25,7 @@ namespace VoetbalTicketStore.Models
         public int id { get; set; }
         public string naam { get; set; }
         public string adres { get; set; }
-        public Nullable<int> aantalZitplaatsen { get; set; }
+        public int aantalZitplaatsen { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Club> Clubs { get; set; }

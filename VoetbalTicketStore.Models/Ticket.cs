@@ -17,11 +17,11 @@ namespace VoetbalTicketStore.Models
         public int id { get; set; }
         public int Gebruikerid { get; set; }
         public int Zitplaatsid { get; set; }
-        public Nullable<float> prijs { get; set; }
+        public float prijs { get; set; }
         public int Wedstrijdid { get; set; }
     
-        public virtual Gebruiker Gebruiker { get; set; }
         public virtual Wedstrijd Wedstrijd { get; set; }
         public virtual Zitplaat Zitplaat { get; set; }
+        public virtual Bezoeker Bezoeker { get; set; }
     }
 }

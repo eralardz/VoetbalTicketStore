@@ -12,21 +12,19 @@ namespace VoetbalTicketStore.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Vak
+    public partial class VakType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Vak()
+        public VakType()
         {
-            this.Zitplaats = new HashSet<Zitplaat>();
+            this.Vaks = new HashSet<Vak>();
         }
     
         public int id { get; set; }
-        public string naam { get; set; }
-        public int maximumAantalZitplaatsen { get; set; }
-        public int VakTypeid { get; set; }
+        public string beschrijving { get; set; }
+        public Nullable<float> standaardPrijs { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Zitplaat> Zitplaats { get; set; }
-        public virtual VakType VakType { get; set; }
+        public virtual ICollection<Vak> Vaks { get; set; }
     }
 }
