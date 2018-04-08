@@ -50,6 +50,7 @@
     <Compile Include="ClubDAO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StadionDAO.cs" />
+    <Compile Include="WedstrijdDAO.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VoetbalTicketStore.Models\VoetbalTicketStore.Models.csproj">

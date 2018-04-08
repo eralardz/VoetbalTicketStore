@@ -1,0 +1,45 @@
+﻿@model IEnumerable<VoetbalTicketStore.Models.Wedstrijd>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.datum)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.uur)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Club.naam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Club1.naam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Stadion.naam)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.datum)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.uur)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Club.naam)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Club1.naam)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Stadion.naam)
+        </td>  
+    </tr>
+}
+
+</table>

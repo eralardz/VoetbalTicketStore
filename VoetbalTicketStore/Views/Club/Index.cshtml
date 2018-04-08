@@ -18,27 +18,35 @@
         <th>
             @Html.DisplayNameFor(model => model.Stadion.naam)
         </th>
+        <th>
+            Wedstrijdkalender
+        </th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.naam)
-        </td>
-        <td>
-            @{ 
-                var imagePath = "placeholder.png";
-                if(item.logo != null)
-                {
-                    imagePath = item.logo;
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.naam)
+            </td>
+            <td>
+                @{
+                    var imagePath = "/Content/img/clublogo/placeholder.png";
+                    if (item.logo != null)
+                    {
+                        imagePath = item.logo;
+                    }
+                    <img src="@imagePath" alt="logo" />
                 }
-                <img src="@imagePath" alt="logo" />
-            }
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Stadion.naam)
-        </td>
-    </tr>
-}
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Stadion.naam)
+            </td>
+            <td>
+                @*Notice that you specify the controller name without the Controller suffix.*@
+                @Html.ActionLink("Wedstrijdkalender", "WedstrijdKalender", "Wedstrijd", new { item.id }, null)
+            </td>
+        </tr>
+    }
 
 </table>
