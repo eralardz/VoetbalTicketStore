@@ -18,7 +18,7 @@ namespace VoetbalTicketStore.DAO
             // return db.Clubs; 
 
             // eager loading - voert een inner join uit tussen tabellen club en stadion
-            return db.Clubs.Include(s => s.Stadion).Include(c => c.Stadion).ToList();
+            return db.Clubs.Include(s => s.Stadion).ToList();
         }
     }
 }

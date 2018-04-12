@@ -17,6 +17,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Stadion.naam)
         </th>
+        <th>
+            Ticket kopen
+        </th>
     </tr>
 
 @foreach (var item in Model) {
@@ -27,7 +30,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.uur)
         </td>
-        @*<td>
+        <td>
             @Html.DisplayFor(modelItem => item.Club.naam)
         </td>
         <td>
@@ -35,7 +38,11 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Stadion.naam)
-        </td>*@
+        </td>
+        <th>
+            knop om te kopen
+        </th>
+
     </tr>
 }
 

@@ -24,14 +24,14 @@
         <AssociationConnector Association="voetbalModel.Ticket_voor_een_zitplaats" ManuallyRouted="false" />
         <AssociationConnector Association="voetbalModel.Zitplaats_in_een_ring" ManuallyRouted="false" />
         <EntityTypeShape EntityType="voetbalModel.C__MigrationHistory" Width="1.5" PointX="7.375" PointY="0.75" />
-        <EntityTypeShape EntityType="voetbalModel.AspNetRole" Width="1.5" PointX="5.375" PointY="10.5" />
+        <EntityTypeShape EntityType="voetbalModel.AspNetRole" Width="1.5" PointX="5.75" PointY="13.25" />
         <EntityTypeShape EntityType="voetbalModel.AspNetUserClaim" Width="1.5" PointX="9.875" PointY="11.625" />
         <EntityTypeShape EntityType="voetbalModel.AspNetUserLogin" Width="1.5" PointX="9.875" PointY="9" />
         <EntityTypeShape EntityType="voetbalModel.AspNetUser" Width="1.5" PointX="7.625" PointY="9.375" />
         <AssociationConnector Association="voetbalModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="voetbalModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="voetbalModel.AspNetUserRoles" />
-        <EntityTypeShape EntityType="voetbalModel.Bezoeker" Width="1.5" PointX="2.875" PointY="13" />
+        <EntityTypeShape EntityType="voetbalModel.Bezoeker" Width="1.5" PointX="3.375" PointY="10.25" />
         <EntityTypeShape EntityType="voetbalModel.VakType" Width="1.5" PointX="0.75" PointY="12.125" />
         <AssociationConnector Association="voetbalModel.Abonnement_van_gebruker1" />
         <AssociationConnector Association="voetbalModel.Ticket_van_gebruiker1" />

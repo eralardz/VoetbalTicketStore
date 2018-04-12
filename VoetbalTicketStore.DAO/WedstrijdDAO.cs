@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VoetbalTicketStore.Models;
+using System.Data.Entity;
+
 
 namespace VoetbalTicketStore.DAO
 {
@@ -22,7 +24,7 @@ namespace VoetbalTicketStore.DAO
             using (var db = new VoetbalEntities())
             {
                 // standard .NET boolean operators are supported in a where clause
-                return db.Wedstrijds.Where(w => w.Club1id == club.id || w.Club2id == club.id).ToList();
+                return db.Wedstrijds.Where(w => w.Club1id == club.id || w.Club2id == club.id).Include(c => c.Club).Include(c => c.Club1).Include(s => s.Stadion).ToList();
             }
         }
     }

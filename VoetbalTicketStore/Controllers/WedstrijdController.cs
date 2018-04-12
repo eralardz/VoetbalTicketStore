@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -24,6 +25,9 @@ namespace VoetbalTicketStore.Controllers
 
         public ActionResult WedstrijdKalender(Club club)
         {
+            Debug.WriteLine("Club id: " + club.id);
+            Debug.WriteLine("Club naam: " + club.naam);
+
             wedstrijdService = new WedstrijdService();
             var wedstrijden = wedstrijdService.getWedstrijdKalenderVanPloeg(club);
             return View(wedstrijden);
