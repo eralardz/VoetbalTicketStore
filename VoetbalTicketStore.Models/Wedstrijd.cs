@@ -14,12 +14,6 @@ namespace VoetbalTicketStore.Models
     
     public partial class Wedstrijd
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Wedstrijd()
-        {
-            this.Tickets = new HashSet<Ticket>();
-        }
-    
         public int id { get; set; }
         public int Stadionid { get; set; }
         public int Club1id { get; set; }
@@ -30,7 +24,5 @@ namespace VoetbalTicketStore.Models
         public virtual Club Club { get; set; }
         public virtual Club Club1 { get; set; }
         public virtual Stadion Stadion { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Ticket> Tickets { get; set; }
     }
 }

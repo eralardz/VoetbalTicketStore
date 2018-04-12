@@ -4,18 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VoetbalTicketStore.Models;
-using System.Data.Entity;
-
 
 namespace VoetbalTicketStore.DAO
 {
-    public class StadionDAO
+    public class TicketDAO
     {
-        public IEnumerable<Stadion> All()
+        public IEnumerable<Ticket> All()
         {
             var db = new VoetbalEntities();
 
-            return db.Stadions; // lazy-loading
+            return db.Tickets; // lazy-loading
+        }
+
+        public void AddTicket(Ticket ticket)
+        {
+            var db = new VoetbalEntities();
+            db.Tickets.Add(ticket);
         }
     }
 }

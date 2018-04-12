@@ -115,32 +115,30 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="packages.config" />
     <EntityDeploy Include="VoetbalTicketStoreModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>VoetbalTicketStoreModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.Config" />
-    <None Include="packages.config" />
     <None Include="VoetbalTicketStoreModel.edmx.diagram">
       <DependentUpon>VoetbalTicketStoreModel.edmx</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="VoetbalTicketStoreModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>VoetbalTicketStoreModel.Context.cs</LastGenOutput>
       <DependentUpon>VoetbalTicketStoreModel.edmx</DependentUpon>
+      <LastGenOutput>VoetbalTicketStoreModel.Context.cs</LastGenOutput>
     </Content>
     <Content Include="VoetbalTicketStoreModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>VoetbalTicketStoreModel.edmx</DependentUpon>
       <LastGenOutput>VoetbalTicketStoreModel.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

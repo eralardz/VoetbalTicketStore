@@ -25,21 +25,21 @@ namespace VoetbalTicketStore.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
         public virtual DbSet<Abonnement> Abonnements { get; set; }
+        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
+        public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<Bezoeker> Bezoekers { get; set; }
         public virtual DbSet<Club> Clubs { get; set; }
         public virtual DbSet<Stadion> Stadions { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Taal> Taals { get; set; }
         public virtual DbSet<Ticket> Tickets { get; set; }
         public virtual DbSet<Vak> Vaks { get; set; }
+        public virtual DbSet<VakType> VakTypes { get; set; }
         public virtual DbSet<Wedstrijd> Wedstrijds { get; set; }
         public virtual DbSet<Zitplaat> Zitplaats { get; set; }
-        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
-        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
-        public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
-        public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
-        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
-        public virtual DbSet<Bezoeker> Bezoekers { get; set; }
-        public virtual DbSet<VakType> VakTypes { get; set; }
     }
 }

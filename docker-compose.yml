@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  voetbalticketstore:
+    image: voetbalticketstore
+    build:
+      context: .\VoetbalTicketStore
+      dockerfile: Dockerfile

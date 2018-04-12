@@ -43,6 +43,7 @@
     <Compile Include="ClubService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StadionService.cs" />
+    <Compile Include="TicketService.cs" />
     <Compile Include="WedstrijdService.cs" />
   </ItemGroup>
   <ItemGroup>

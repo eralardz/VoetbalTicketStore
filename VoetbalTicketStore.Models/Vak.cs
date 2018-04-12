@@ -25,8 +25,8 @@ namespace VoetbalTicketStore.Models
         public int maximumAantalZitplaatsen { get; set; }
         public int VakTypeid { get; set; }
     
+        public virtual VakType VakType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Zitplaat> Zitplaats { get; set; }
-        public virtual VakType VakType { get; set; }
     }
 }
