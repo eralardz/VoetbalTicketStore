@@ -272,11 +272,11 @@
     <Content Include="Views\Club\Index.cshtml" />
     <Content Include="Views\Wedstrijd\Index.cshtml" />
     <Content Include="Views\Wedstrijd\WedstrijdKalender.cshtml" />
+    <Content Include="Views\Ticket\Buy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\img\clublogo\" />
-    <Folder Include="Views\Ticket\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

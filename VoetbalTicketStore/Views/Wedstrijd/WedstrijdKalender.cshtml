@@ -22,28 +22,31 @@
         </th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.datum)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.uur)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Club.naam)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Club1.naam)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Stadion.naam)
-        </td>
-        <th>
-            knop om te kopen
-        </th>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.datum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.uur)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Club.naam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Club1.naam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Stadion.naam)
+            </td>
+            <th>
+                @*action, controller*@
+                @*https://getbootstrap.com/docs/4.0/components/buttons/*@
+                @Html.ActionLink("Koop ticket", "Buy", "Ticket", new { item.id }, htmlAttributes: new { @class = "btn btn-primary" })
+            </th>
 
-    </tr>
-}
+        </tr>
+    }
 
 </table>

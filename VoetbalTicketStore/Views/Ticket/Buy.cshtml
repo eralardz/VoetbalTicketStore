@@ -1,0 +1,18 @@
+﻿@model VoetbalTicketStore.Models.Ticket
+@*@model Tuple<VoetbalTicketStore.Models.Ticket, VoetbalTicketStore.Models.Wedstrijd>*@
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+
+@Html.TextBox("WedstrijdId")
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
