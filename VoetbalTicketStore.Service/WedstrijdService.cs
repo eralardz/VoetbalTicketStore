@@ -28,5 +28,9 @@ namespace VoetbalTicketStore.Service
             return wedstrijdDAO.getWedstrijdKalenderVanPloeg(club);
         }
 
+        public Wedstrijd getWedstrijdById(int id)
+        {
+            return wedstrijdDAO.getWedstrijdById(id);
+        }
     }
 }

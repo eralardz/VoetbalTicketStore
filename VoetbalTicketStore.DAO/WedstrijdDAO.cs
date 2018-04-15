@@ -27,5 +27,13 @@ namespace VoetbalTicketStore.DAO
                 return db.Wedstrijds.Where(w => w.Club1id == club.id || w.Club2id == club.id).Include(c => c.Club).Include(c => c.Club1).Include(s => s.Stadion).ToList();
             }
         }
+
+        public Wedstrijd getWedstrijdById(int id)
+        {
+            using (var db = new VoetbalEntities())
+            {
+                return db.Wedstrijds.Find(id);
+            }
+        }
     }
 }

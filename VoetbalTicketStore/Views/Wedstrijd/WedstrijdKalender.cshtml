@@ -43,7 +43,8 @@
             <th>
                 @*action, controller*@
                 @*https://getbootstrap.com/docs/4.0/components/buttons/*@
-                @Html.ActionLink("Koop ticket", "Buy", "Ticket", new { item.id }, htmlAttributes: new { @class = "btn btn-primary" })
+                @*Query string's has a limitation on how much data you can pass via those based on the browser.*@
+                @Html.ActionLink("Koop ticket", "Buy", "Ticket", new { id = item.id }, htmlAttributes: new { @class = "btn btn-primary" })
             </th>
 
         </tr>
