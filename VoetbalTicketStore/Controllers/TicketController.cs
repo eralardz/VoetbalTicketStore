@@ -26,14 +26,14 @@ namespace VoetbalTicketStore.Controllers
             wedstrijdService = new WedstrijdService();
             Wedstrijd wedstrijd = wedstrijdService.getWedstrijdById(id);
 
-            ticketWedstrijd.wedstrijd = wedstrijd;
+            ticketWedstrijd.Wedstrijd = wedstrijd;
 
             return View(ticketWedstrijd);
         }
 
         // POST: Ticket
         [HttpPost]
-        public ActionResult Buy(FormCollection collection)
+        public ActionResult Buy(TicketWedstrijd ticketWedstrijd)
         {
             try
             {
@@ -44,9 +44,9 @@ namespace VoetbalTicketStore.Controllers
                 // Niet nodig aangezien het insert statement op een bestaande bezoeker niks doet.
 
                 // EINDE: Bezoeker toevoegen
-
-                Debug.Write(collection["txtInput"]);
-
+                Debug.Write(ticketWedstrijd.Bezoeker.email);
+                Debug.Write(ticketWedstrijd.Bezoeker.naam);
+                Debug.Write(ticketWedstrijd.Bezoeker.voornaam);
 
 
                 return RedirectToAction("Success");

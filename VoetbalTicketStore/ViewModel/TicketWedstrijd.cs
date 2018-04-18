@@ -8,8 +8,8 @@ namespace VoetbalTicketStore.ViewModel
 {
     public class TicketWedstrijd
     {
-        public Wedstrijd wedstrijd { get; set; }
-        public Ticket ticket { get; set; }
-        public Bezoeker bezoeker { get; set; }
+        public Wedstrijd Wedstrijd { get; set; }
+        public Ticket Ticket { get; set; }
+        public Bezoeker Bezoeker { get; set; }
     }
 }

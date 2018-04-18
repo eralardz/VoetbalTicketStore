@@ -4,8 +4,8 @@
 @Scripts.Render("~/bundles/jqueryval")
 
 <p>
-    Hoi! Je wil op @Html.DisplayFor(model => model.wedstrijd.datum) naar de wedstrijd tussen @Html.DisplayFor(model => model.wedstrijd.Club.naam) en @Html.DisplayFor(model => model.wedstrijd.Club1.naam).
-    Deze wedstrijd wordt gespeeld op de deze locatie: @Html.DisplayFor(model => model.wedstrijd.Stadion.naam)
+    Hoi! Je wil op @Html.DisplayFor(model => model.Wedstrijd.datum) naar de wedstrijd tussen @Html.DisplayFor(model => model.Wedstrijd.Club.naam) en @Html.DisplayFor(model => model.Wedstrijd.Club1.naam).
+    Deze wedstrijd wordt gespeeld op de deze locatie: @Html.DisplayFor(model => model.Wedstrijd.Stadion.naam)
 </p>
 
 Koop je tickets hier!
@@ -23,25 +23,25 @@ Koop je tickets hier!
     <div class="form-group">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="col-md-10">
-            @Html.TextBox("bezoekerEmail")
+            E-mail: @Html.TextBoxFor(s => s.Bezoeker.email)
         </div>
     </div>
     <div class="form-group">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="col-md-10">
-            @Html.TextBox("bezoekerNaam")
+            Naam: @Html.TextBoxFor(s => s.Bezoeker.naam)
         </div>
     </div>
     <div class="form-group">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="col-md-10">
-            @Html.TextBox("bezoekerVoornaam")
+            Voornaam: @Html.TextBoxFor(s => s.Bezoeker.voornaam)
         </div>
     </div>
     <div class="form-group">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="col-md-10">
-            @Html.TextBox("bezoekerIdentiteitskaartnummer")
+            Identiteitskaartnummer: @Html.TextBoxFor(s => s.Bezoeker.identiteitskaartnummer)
         </div>
     </div>
     <div class="form-group">
