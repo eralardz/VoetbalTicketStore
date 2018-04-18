@@ -28,11 +28,14 @@ namespace VoetbalTicketStore.DAO
             }
         }
 
+        // Find is a DbSet method that first tries to find the requested entity in the context's cache. Only when it's not found there, the entity is fetched from the database.
+        // Because of this special behavior(of Find), Include and Find can't be mixed.
         public Wedstrijd getWedstrijdById(int id)
         {
             using (var db = new VoetbalEntities())
             {
-                return db.Wedstrijds.Find(id);
+                // FirstOrDefault -> If it can return null (as in ID not found or something)
+                return db.Wedstrijds.Where(w => w.id == id).Include(s => s.Stadion).Include(c => c.Club).Include(c => c.Club1).FirstOrDefault();
             }
         }
     }

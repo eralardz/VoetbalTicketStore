@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using VoetbalTicketStore.Models;
 using VoetbalTicketStore.Service;
+using VoetbalTicketStore.ViewModel;
 
 namespace VoetbalTicketStore.Controllers
 {
@@ -14,17 +15,51 @@ namespace VoetbalTicketStore.Controllers
 
         private TicketService ticketService;
         private WedstrijdService wedstrijdService;
-             
+        private BezoekerService bezoekerService;
+
         // GET: Ticket
         public ActionResult Buy(int id)
         {
+
+            TicketWedstrijd ticketWedstrijd = new TicketWedstrijd();
+
             wedstrijdService = new WedstrijdService();
             Wedstrijd wedstrijd = wedstrijdService.getWedstrijdById(id);
 
-            Debug.WriteLine("Stadion: " + wedstrijd.Stadionid);
-            Debug.WriteLine("Club 1: " + wedstrijd.Club1id);
-            Debug.WriteLine("Club 2: " + wedstrijd.Club2id);
-            return View();
+            ticketWedstrijd.wedstrijd = wedstrijd;
+
+            return View(ticketWedstrijd);
+        }
+
+        // POST: Ticket
+        [HttpPost]
+        public ActionResult Buy(FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add insert logic here
+                ticketService = new TicketService();
+
+                // Bezoeker-id controleren en kijken of dergelijke bezoeker al bestaat.
+                // Niet nodig aangezien het insert statement op een bestaande bezoeker niks doet.
+
+                // EINDE: Bezoeker toevoegen
+
+                Debug.Write(collection["txtInput"]);
+
+
+
+                return RedirectToAction("Success");
+            }
+            catch
+            {
+                return View("Fail");
+            }
+        }
+
+        public ActionResult Success()
+        {
+            return View("Success");
         }
     }
 }

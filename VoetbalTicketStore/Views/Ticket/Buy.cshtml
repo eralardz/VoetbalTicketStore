@@ -1,18 +1,53 @@
-﻿@model VoetbalTicketStore.Models.Ticket
-@*@model Tuple<VoetbalTicketStore.Models.Ticket, VoetbalTicketStore.Models.Wedstrijd>*@
+﻿@model VoetbalTicketStore.ViewModel.TicketWedstrijd
 
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/jqueryval")
 
-@Html.Display("WedstrijdId")
+<p>
+    Hoi! Je wil op @Html.DisplayFor(model => model.wedstrijd.datum) naar de wedstrijd tussen @Html.DisplayFor(model => model.wedstrijd.Club.naam) en @Html.DisplayFor(model => model.wedstrijd.Club1.naam).
+    Deze wedstrijd wordt gespeeld op de deze locatie: @Html.DisplayFor(model => model.wedstrijd.Stadion.naam)
+</p>
 
+Koop je tickets hier!
+- Dit is een ticket voor mezelf / iemand anders.
+- Zitplaats berekenen.
+- Prijs berekenen.
+- Wedstrijd ID hebben we.
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
+<div class="form-horizontal">
+    <h4>Bestel een ticket</h4>
+    <hr />
+    <div class="form-group">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="col-md-10">
+            @Html.TextBox("bezoekerEmail")
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="col-md-10">
+            @Html.TextBox("bezoekerNaam")
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="col-md-10">
+            @Html.TextBox("bezoekerVoornaam")
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="col-md-10">
+            @Html.TextBox("bezoekerIdentiteitskaartnummer")
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
 </div>
+}
