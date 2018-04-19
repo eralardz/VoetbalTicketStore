@@ -4,37 +4,37 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="19629513b6a24f1e8c25419e545f5f4b" Name="Diagram1">
-        <EntityTypeShape EntityType="voetbalModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="9" IsExpanded="true" />
-        <EntityTypeShape EntityType="voetbalModel.Abonnement" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="voetbalModel.AspNetRole" Width="1.5" PointX="3.75" PointY="10.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="voetbalModel.AspNetUserClaim" Width="1.5" PointX="8.25" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="voetbalModel.AspNetUserLogin" Width="1.5" PointX="8.25" PointY="11.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="voetbalModel.AspNetUser" Width="1.5" PointX="6" PointY="9" IsExpanded="true" />
-        <EntityTypeShape EntityType="voetbalModel.Bezoeker" Width="1.5" PointX="11.625" PointY="7.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="voetbalModel.Club" Width="1.5" PointX="3" PointY="4.625" IsExpanded="true" />
+      <Diagram DiagramId="3f3e99c2c6bc4de197f08050680d951a" Name="Diagram1">
+        <EntityTypeShape EntityType="voetbalModel.C__MigrationHistory" Width="1.5" PointX="7.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="voetbalModel.Abonnement" Width="1.5" PointX="5.25" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="voetbalModel.AspNetRole" Width="1.5" PointX="0.75" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="voetbalModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="voetbalModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="17.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="voetbalModel.AspNetUser" Width="1.5" PointX="3" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="voetbalModel.Bezoeker" Width="1.5" PointX="3" PointY="19.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="voetbalModel.Club" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="voetbalModel.Stadion" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="voetbalModel.sysdiagram" Width="1.5" PointX="10.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="voetbalModel.Taal" Width="1.5" PointX="3.75" PointY="8.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="voetbalModel.Ticket" Width="1.5" PointX="8.25" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="voetbalModel.Vak" Width="1.5" PointX="3.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="voetbalModel.VakType" Width="1.5" PointX="1.5" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="voetbalModel.Wedstrijd" Width="1.5" PointX="8.25" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="voetbalModel.Zitplaat" Width="1.5" PointX="6" PointY="2" IsExpanded="true" />
-        <AssociationConnector Association="voetbalModel.Abonnement_van_gebruker" ManuallyRouted="false" />
-        <AssociationConnector Association="voetbalModel.Abonnement_voor_club" ManuallyRouted="false" />
-        <AssociationConnector Association="voetbalModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
-        <AssociationConnector Association="voetbalModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
-        <AssociationConnector Association="voetbalModel.Ticket_gekocht_door_een_gebruiker" ManuallyRouted="false" />
-        <AssociationConnector Association="voetbalModel.Ticket_van_bezoeker" ManuallyRouted="false" />
-        <AssociationConnector Association="voetbalModel.Club_speelt_in_vast_stadion" ManuallyRouted="false" />
-        <AssociationConnector Association="voetbalModel.Ploeg_1" ManuallyRouted="false" />
-        <AssociationConnector Association="voetbalModel.Ploeg_2" ManuallyRouted="false" />
-        <AssociationConnector Association="voetbalModel.Wedstrijd_vindt_plaats_in_een_stadion" ManuallyRouted="false" />
-        <AssociationConnector Association="voetbalModel.Zitplaats_in_een_stadion" ManuallyRouted="false" />
-        <AssociationConnector Association="voetbalModel.Ticket_voor_een_zitplaats" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="voetbalModel.sysdiagram" Width="1.5" PointX="7.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="voetbalModel.Taal" Width="1.5" PointX="7.75" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="voetbalModel.Ticket" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="voetbalModel.Vak" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="voetbalModel.VakType" Width="1.5" PointX="1.5" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="voetbalModel.Wedstrijd" Width="1.5" PointX="5.25" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="voetbalModel.Zitplaat" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
+        <AssociationConnector Association="voetbalModel.FKAbonnement242239" ManuallyRouted="false" />
+        <AssociationConnector Association="voetbalModel.FKAbonnement333068" ManuallyRouted="false" />
+        <AssociationConnector Association="voetbalModel.FKAspNetUser367573" ManuallyRouted="false" />
+        <AssociationConnector Association="voetbalModel.FKAspNetUser755613" ManuallyRouted="false" />
+        <AssociationConnector Association="voetbalModel.FKTicket321208" ManuallyRouted="false" />
+        <AssociationConnector Association="voetbalModel.FKTicket580868" ManuallyRouted="false" />
+        <AssociationConnector Association="voetbalModel.FKClub337706" ManuallyRouted="false" />
+        <AssociationConnector Association="voetbalModel.FKWedstrijd788596" ManuallyRouted="false" />
+        <AssociationConnector Association="voetbalModel.FKWedstrijd789557" ManuallyRouted="false" />
+        <AssociationConnector Association="voetbalModel.FKWedstrijd936734" ManuallyRouted="false" />
+        <AssociationConnector Association="voetbalModel.FKZitplaats311563" ManuallyRouted="false" />
+        <AssociationConnector Association="voetbalModel.FKTicket885166" ManuallyRouted="false" />
         <AssociationConnector Association="voetbalModel.FKVak756945" ManuallyRouted="false" />
-        <AssociationConnector Association="voetbalModel.Zitplaats_in_een_ring" ManuallyRouted="false" />
+        <AssociationConnector Association="voetbalModel.FKZitplaats260694" ManuallyRouted="false" />
         <AssociationConnector Association="voetbalModel.AspNetUserRoles" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>

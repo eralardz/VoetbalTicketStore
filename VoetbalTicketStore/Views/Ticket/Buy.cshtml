@@ -8,11 +8,6 @@
     Deze wedstrijd wordt gespeeld op de deze locatie: @Html.DisplayFor(model => model.Wedstrijd.Stadion.naam)
 </p>
 
-Koop je tickets hier!
-- Dit is een ticket voor mezelf / iemand anders.
-- Zitplaats berekenen.
-- Prijs berekenen.
-- Wedstrijd ID hebben we.
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -41,9 +36,16 @@ Koop je tickets hier!
     <div class="form-group">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="col-md-10">
-            Identiteitskaartnummer: @Html.TextBoxFor(s => s.Bezoeker.identiteitskaartnummer)
+            Rijksregisternummer: @Html.TextBoxFor(s => s.Bezoeker.rijksregisternummer)
         </div>
     </div>
+    <div class="form-group">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="col-md-10">
+            Type plaats: @Html.DropDownListFor(s => s.SelectedVak, Model.Vakken, "--Selecteer vak--")
+        </div>
+    </div>
+
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="Create" class="btn btn-default" />

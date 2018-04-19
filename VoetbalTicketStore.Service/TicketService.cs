@@ -11,21 +11,29 @@ namespace VoetbalTicketStore.Service
     public class TicketService
     {
         private TicketDAO ticketDAO;
+        private ZitplaatsDAO zitplaatsDAO;
 
         public TicketService()
         {
             ticketDAO = new TicketDAO();
         }
 
-        public void addTicket(Ticket ticket)
+        public void BuyTicket(Ticket ticket, int selectedVakType)
         {
+            // Is er plaats in dit vak? (maximaal aantal zitplaatsen - abonnementen - reeds verkochte tickets)
             ticketDAO.AddTicket(ticket);
         }
 
-        private int getFreeSeat()
+        private bool IsVakVrij()
         {
             // iets doen met de ZitPlaatsService
-            return 0;
+
+            // Count van zitplaatsen group by vakID
+
+
+            return false;
         }
+
+
     }
 }

@@ -16,5 +16,18 @@ namespace VoetbalTicketStore.Service
             bezoekerDAO = new BezoekerDAO();
             return null;
         }
+
+
+        public void AddBezoeker(Bezoeker bezoeker)
+        {
+            bezoekerDAO = new BezoekerDAO();
+            bezoekerDAO.AddBezoeker(bezoeker);
+        }
+
+        public Bezoeker FindBezoeker(string rijksregisternummer)
+        {
+            bezoekerDAO = new BezoekerDAO();
+            return bezoekerDAO.FindBezoeker(rijksregisternummer);
+        }
     }
 }

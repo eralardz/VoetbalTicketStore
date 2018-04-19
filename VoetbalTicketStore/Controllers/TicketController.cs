@@ -16,6 +16,7 @@ namespace VoetbalTicketStore.Controllers
         private TicketService ticketService;
         private WedstrijdService wedstrijdService;
         private BezoekerService bezoekerService;
+        private VakTypeService vakTypeService;
 
         // GET: Ticket
         public ActionResult Buy(int id)
@@ -28,6 +29,11 @@ namespace VoetbalTicketStore.Controllers
 
             ticketWedstrijd.Wedstrijd = wedstrijd;
 
+            vakTypeService = new VakTypeService();
+            // id = datavalue (modelwaarde), beschrijving = datatextfield (uitzicht in de view)
+            ticketWedstrijd.Vakken = new SelectList(vakTypeService.All(), "id", "beschrijving");
+
+
             return View(ticketWedstrijd);
         }
 
@@ -39,14 +45,20 @@ namespace VoetbalTicketStore.Controllers
             {
                 // TODO: Add insert logic here
                 ticketService = new TicketService();
+                bezoekerService = new BezoekerService();
 
                 // Bezoeker-id controleren en kijken of dergelijke bezoeker al bestaat.
-                // Niet nodig aangezien het insert statement op een bestaande bezoeker niks doet.
+                // Niet nodig aangezien het insert statement op een bestaande bezoeker niks doet. OF ZO DACHT IK... gooit geen Exception in Java maar wel in MSSQL.
 
-                // EINDE: Bezoeker toevoegen
-                Debug.Write(ticketWedstrijd.Bezoeker.email);
-                Debug.Write(ticketWedstrijd.Bezoeker.naam);
-                Debug.Write(ticketWedstrijd.Bezoeker.voornaam);
+                // Bezoeker toevoegen indien nodig
+                if(bezoekerService.FindBezoeker(ticketWedstrijd.Bezoeker.rijksregisternummer) == null)
+                {
+                    bezoekerService.AddBezoeker(ticketWedstrijd.Bezoeker);
+                }
+
+                // Ticket toevoegen
+                ticketService.BuyTicket(ticketWedstrijd.Ticket, ticketWedstrijd.SelectedVak);
+
 
 
                 return RedirectToAction("Success");

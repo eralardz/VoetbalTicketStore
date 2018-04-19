@@ -21,7 +21,6 @@ namespace VoetbalTicketStore.Models
         }
     
         public int id { get; set; }
-        public string naam { get; set; }
         public int maximumAantalZitplaatsen { get; set; }
         public int VakTypeid { get; set; }
     

@@ -21,11 +21,10 @@ namespace VoetbalTicketStore.Models
             this.Tickets = new HashSet<Ticket>();
         }
     
-        public int id { get; set; }
+        public string rijksregisternummer { get; set; }
         public string email { get; set; }
         public string naam { get; set; }
         public string voornaam { get; set; }
-        public string identiteitskaartnummer { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Abonnement> Abonnements { get; set; }
