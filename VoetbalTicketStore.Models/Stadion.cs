@@ -19,7 +19,7 @@ namespace VoetbalTicketStore.Models
         {
             this.Clubs = new HashSet<Club>();
             this.Wedstrijds = new HashSet<Wedstrijd>();
-            this.Zitplaats = new HashSet<Zitplaat>();
+            this.Vaks = new HashSet<Vak>();
         }
     
         public int id { get; set; }
@@ -32,6 +32,6 @@ namespace VoetbalTicketStore.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Wedstrijd> Wedstrijds { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Zitplaat> Zitplaats { get; set; }
+        public virtual ICollection<Vak> Vaks { get; set; }
     }
 }

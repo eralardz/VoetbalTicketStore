@@ -16,13 +16,13 @@ namespace VoetbalTicketStore.Models
     {
         public int id { get; set; }
         public string gebruikerid { get; set; }
-        public int zitplaatsid { get; set; }
         public Nullable<float> prijs { get; set; }
         public int Wedstrijdid { get; set; }
         public string Bezoekerrijksregisternummer { get; set; }
+        public int Vakid { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual Bezoeker Bezoeker { get; set; }
-        public virtual Zitplaat Zitplaat { get; set; }
+        public virtual Vak Vak { get; set; }
     }
 }

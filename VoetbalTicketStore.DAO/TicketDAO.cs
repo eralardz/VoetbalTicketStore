@@ -21,5 +21,7 @@ namespace VoetbalTicketStore.DAO
             var db = new VoetbalEntities();
             db.Tickets.Add(ticket);
         }
+
+       
     }
 }

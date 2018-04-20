@@ -17,15 +17,17 @@ namespace VoetbalTicketStore.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Vak()
         {
-            this.Zitplaats = new HashSet<Zitplaat>();
+            this.Tickets = new HashSet<Ticket>();
         }
     
         public int id { get; set; }
         public int maximumAantalZitplaatsen { get; set; }
         public int VakTypeid { get; set; }
+        public int Stadionid { get; set; }
     
-        public virtual VakType VakType { get; set; }
+        public virtual Stadion Stadion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Zitplaat> Zitplaats { get; set; }
+        public virtual ICollection<Ticket> Tickets { get; set; }
+        public virtual VakType VakType { get; set; }
     }
 }

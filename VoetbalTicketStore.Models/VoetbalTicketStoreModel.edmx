@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="voetbalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="VoetbalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -108,7 +108,7 @@
           <Key>
             <PropertyRef Name="diagram_id" />
           </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="principal_id" Type="int" Nullable="false" />
           <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="version" Type="int" />
@@ -127,10 +127,10 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="gebruikerid" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="zitplaatsid" Type="int" Nullable="false" />
           <Property Name="prijs" Type="real" />
           <Property Name="Wedstrijdid" Type="int" Nullable="false" />
           <Property Name="Bezoekerrijksregisternummer" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Vakid" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Vak">
           <Key>
@@ -139,6 +139,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="maximumAantalZitplaatsen" Type="int" Nullable="false" />
           <Property Name="VakTypeid" Type="int" Nullable="false" />
+          <Property Name="Stadionid" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="VakType">
           <Key>
@@ -156,17 +157,8 @@
           <Property Name="Stadionid" Type="int" Nullable="false" />
           <Property Name="Club1id" Type="int" Nullable="false" />
           <Property Name="Club2id" Type="int" Nullable="false" />
-          <Property Name="datum" Type="date" Nullable="false" />
-          <Property Name="uur" Type="time" Precision="7" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Zitplaats">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="Stadionid" Type="int" Nullable="false" />
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Vakid" Type="int" Nullable="false" />
-          <Property Name="bezet" Type="bit" Nullable="false" />
+          <Property Name="datum" Type="datetime" Nullable="false" />
+          <Property Name="uur" Type="datetime" Nullable="false" />
         </EntityType>
         <Association Name="FKAbonnement242239">
           <End Role="Bezoeker" Type="Self.Bezoeker" Multiplicity="1" />
@@ -260,18 +252,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FKTicket321208">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
-          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Ticket">
-              <PropertyRef Name="gebruikerid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FKTicket580868">
           <End Role="Bezoeker" Type="Self.Bezoeker" Multiplicity="1" />
           <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
@@ -281,18 +261,6 @@
             </Principal>
             <Dependent Role="Ticket">
               <PropertyRef Name="Bezoekerrijksregisternummer" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKTicket885166">
-          <End Role="Zitplaats" Type="Self.Zitplaats" Multiplicity="1" />
-          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Zitplaats">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Ticket">
-              <PropertyRef Name="zitplaatsid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -344,31 +312,43 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FKZitplaats260694">
+        <Association Name="Ticket besteld door ASP user">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="gebruikerid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Ticket voor een vak">
           <End Role="Vak" Type="Self.Vak" Multiplicity="1" />
-          <End Role="Zitplaats" Type="Self.Zitplaats" Multiplicity="*" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Vak">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Zitplaats">
+            <Dependent Role="Ticket">
               <PropertyRef Name="Vakid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FKZitplaats311563">
+        <Association Name="Vak in een stadion">
           <End Role="Stadion" Type="Self.Stadion" Multiplicity="1" />
-          <End Role="Zitplaats" Type="Self.Zitplaats" Multiplicity="*" />
+          <End Role="Vak" Type="Self.Vak" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Stadion">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Zitplaats">
+            <Dependent Role="Vak">
               <PropertyRef Name="Stadionid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="voetbalModelStoreContainer">
+        <EntityContainer Name="VoetbalModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Abonnement" EntityType="Self.Abonnement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -385,7 +365,6 @@
           <EntitySet Name="Vak" EntityType="Self.Vak" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VakType" EntityType="Self.VakType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Wedstrijd" EntityType="Self.Wedstrijd" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Zitplaats" EntityType="Self.Zitplaats" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FKAbonnement242239" Association="Self.FKAbonnement242239">
             <End Role="Bezoeker" EntitySet="Bezoeker" />
             <End Role="Abonnement" EntitySet="Abonnement" />
@@ -414,16 +393,8 @@
             <End Role="Stadion" EntitySet="Stadion" />
             <End Role="Club" EntitySet="Club" />
           </AssociationSet>
-          <AssociationSet Name="FKTicket321208" Association="Self.FKTicket321208">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="Ticket" EntitySet="Ticket" />
-          </AssociationSet>
           <AssociationSet Name="FKTicket580868" Association="Self.FKTicket580868">
             <End Role="Bezoeker" EntitySet="Bezoeker" />
-            <End Role="Ticket" EntitySet="Ticket" />
-          </AssociationSet>
-          <AssociationSet Name="FKTicket885166" Association="Self.FKTicket885166">
-            <End Role="Zitplaats" EntitySet="Zitplaats" />
             <End Role="Ticket" EntitySet="Ticket" />
           </AssociationSet>
           <AssociationSet Name="FKVak756945" Association="Self.FKVak756945">
@@ -442,19 +413,23 @@
             <End Role="Stadion" EntitySet="Stadion" />
             <End Role="Wedstrijd" EntitySet="Wedstrijd" />
           </AssociationSet>
-          <AssociationSet Name="FKZitplaats260694" Association="Self.FKZitplaats260694">
-            <End Role="Vak" EntitySet="Vak" />
-            <End Role="Zitplaats" EntitySet="Zitplaats" />
+          <AssociationSet Name="Ticket besteld door ASP user" Association="Self.Ticket besteld door ASP user">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Ticket" EntitySet="Ticket" />
           </AssociationSet>
-          <AssociationSet Name="FKZitplaats311563" Association="Self.FKZitplaats311563">
+          <AssociationSet Name="Ticket voor een vak" Association="Self.Ticket voor een vak">
+            <End Role="Vak" EntitySet="Vak" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+          <AssociationSet Name="Vak in een stadion" Association="Self.Vak in een stadion">
             <End Role="Stadion" EntitySet="Stadion" />
-            <End Role="Zitplaats" EntitySet="Zitplaats" />
+            <End Role="Vak" EntitySet="Vak" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="voetbalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="VoetbalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="C__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -523,7 +498,7 @@
           <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FKAspNetUser367573" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
           <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FKAspNetUser755613" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
-          <NavigationProperty Name="Tickets" Relationship="Self.FKTicket321208" FromRole="AspNetUsers" ToRole="Ticket" />
+          <NavigationProperty Name="Tickets" Relationship="Self.Ticket_besteld_door_ASP_user" FromRole="AspNetUsers" ToRole="Ticket" />
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
         </EntityType>
         <EntityType Name="Bezoeker">
@@ -562,13 +537,13 @@
           <Property Name="aantalZitplaatsen" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Clubs" Relationship="Self.FKClub337706" FromRole="Stadion" ToRole="Club" />
           <NavigationProperty Name="Wedstrijds" Relationship="Self.FKWedstrijd936734" FromRole="Stadion" ToRole="Wedstrijd" />
-          <NavigationProperty Name="Zitplaats" Relationship="Self.FKZitplaats311563" FromRole="Stadion" ToRole="Zitplaats" />
+          <NavigationProperty Name="Vaks" Relationship="Self.Vak_in_een_stadion" FromRole="Stadion" ToRole="Vak" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
             <PropertyRef Name="diagram_id" />
           </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="principal_id" Type="Int32" Nullable="false" />
           <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="version" Type="Int32" />
@@ -587,13 +562,13 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="gebruikerid" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="zitplaatsid" Type="Int32" Nullable="false" />
           <Property Name="prijs" Type="Single" />
           <Property Name="Wedstrijdid" Type="Int32" Nullable="false" />
           <Property Name="Bezoekerrijksregisternummer" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.FKTicket321208" FromRole="Ticket" ToRole="AspNetUsers" />
+          <Property Name="Vakid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.Ticket_besteld_door_ASP_user" FromRole="Ticket" ToRole="AspNetUsers" />
           <NavigationProperty Name="Bezoeker" Relationship="Self.FKTicket580868" FromRole="Ticket" ToRole="Bezoeker" />
-          <NavigationProperty Name="Zitplaat" Relationship="Self.FKTicket885166" FromRole="Ticket" ToRole="Zitplaats" />
+          <NavigationProperty Name="Vak" Relationship="Self.Ticket_voor_een_vak" FromRole="Ticket" ToRole="Vak" />
         </EntityType>
         <EntityType Name="Vak">
           <Key>
@@ -602,8 +577,10 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="maximumAantalZitplaatsen" Type="Int32" Nullable="false" />
           <Property Name="VakTypeid" Type="Int32" Nullable="false" />
+          <Property Name="Stadionid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Stadion" Relationship="Self.Vak_in_een_stadion" FromRole="Vak" ToRole="Stadion" />
+          <NavigationProperty Name="Tickets" Relationship="Self.Ticket_voor_een_vak" FromRole="Vak" ToRole="Ticket" />
           <NavigationProperty Name="VakType" Relationship="Self.FKVak756945" FromRole="Vak" ToRole="VakType" />
-          <NavigationProperty Name="Zitplaats" Relationship="Self.FKZitplaats260694" FromRole="Vak" ToRole="Zitplaats" />
         </EntityType>
         <EntityType Name="VakType">
           <Key>
@@ -622,23 +599,11 @@
           <Property Name="Stadionid" Type="Int32" Nullable="false" />
           <Property Name="Club1id" Type="Int32" Nullable="false" />
           <Property Name="Club2id" Type="Int32" Nullable="false" />
-          <Property Name="datum" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="uur" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="datum" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="uur" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Club" Relationship="Self.FKWedstrijd788596" FromRole="Wedstrijd" ToRole="Club" />
           <NavigationProperty Name="Club1" Relationship="Self.FKWedstrijd789557" FromRole="Wedstrijd" ToRole="Club" />
           <NavigationProperty Name="Stadion" Relationship="Self.FKWedstrijd936734" FromRole="Wedstrijd" ToRole="Stadion" />
-        </EntityType>
-        <EntityType Name="Zitplaat">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="Stadionid" Type="Int32" Nullable="false" />
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Vakid" Type="Int32" Nullable="false" />
-          <Property Name="bezet" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Stadion" Relationship="Self.FKZitplaats311563" FromRole="Zitplaats" ToRole="Stadion" />
-          <NavigationProperty Name="Tickets" Relationship="Self.FKTicket885166" FromRole="Zitplaats" ToRole="Ticket" />
-          <NavigationProperty Name="Vak" Relationship="Self.FKZitplaats260694" FromRole="Zitplaats" ToRole="Vak" />
         </EntityType>
         <Association Name="FKAbonnement242239">
           <End Role="Bezoeker" Type="Self.Bezoeker" Multiplicity="1" />
@@ -692,7 +657,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FKTicket321208">
+        <Association Name="Ticket_besteld_door_ASP_user">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
           <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
           <ReferentialConstraint>
@@ -764,27 +729,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FKZitplaats311563">
+        <Association Name="Vak_in_een_stadion">
           <End Role="Stadion" Type="Self.Stadion" Multiplicity="1" />
-          <End Role="Zitplaats" Type="Self.Zitplaat" Multiplicity="*" />
+          <End Role="Vak" Type="Self.Vak" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Stadion">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Zitplaats">
+            <Dependent Role="Vak">
               <PropertyRef Name="Stadionid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FKTicket885166">
-          <End Role="Zitplaats" Type="Self.Zitplaat" Multiplicity="1" />
+        <Association Name="Ticket_voor_een_vak">
+          <End Role="Vak" Type="Self.Vak" Multiplicity="1" />
           <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Zitplaats">
+            <Principal Role="Vak">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Ticket">
-              <PropertyRef Name="zitplaatsid" />
+              <PropertyRef Name="Vakid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -797,18 +762,6 @@
             </Principal>
             <Dependent Role="Vak">
               <PropertyRef Name="VakTypeid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKZitplaats260694">
-          <End Role="Vak" Type="Self.Vak" Multiplicity="1" />
-          <End Role="Zitplaats" Type="Self.Zitplaat" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vak">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Zitplaats">
-              <PropertyRef Name="Vakid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -832,7 +785,6 @@
           <EntitySet Name="Vaks" EntityType="Self.Vak" />
           <EntitySet Name="VakTypes" EntityType="Self.VakType" />
           <EntitySet Name="Wedstrijds" EntityType="Self.Wedstrijd" />
-          <EntitySet Name="Zitplaats" EntityType="Self.Zitplaat" />
           <AssociationSet Name="FKAbonnement242239" Association="Self.FKAbonnement242239">
             <End Role="Bezoeker" EntitySet="Bezoekers" />
             <End Role="Abonnement" EntitySet="Abonnements" />
@@ -849,7 +801,7 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
           </AssociationSet>
-          <AssociationSet Name="FKTicket321208" Association="Self.FKTicket321208">
+          <AssociationSet Name="Ticket_besteld_door_ASP_user" Association="Self.Ticket_besteld_door_ASP_user">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Ticket" EntitySet="Tickets" />
           </AssociationSet>
@@ -873,21 +825,17 @@
             <End Role="Stadion" EntitySet="Stadions" />
             <End Role="Wedstrijd" EntitySet="Wedstrijds" />
           </AssociationSet>
-          <AssociationSet Name="FKZitplaats311563" Association="Self.FKZitplaats311563">
+          <AssociationSet Name="Vak_in_een_stadion" Association="Self.Vak_in_een_stadion">
             <End Role="Stadion" EntitySet="Stadions" />
-            <End Role="Zitplaats" EntitySet="Zitplaats" />
+            <End Role="Vak" EntitySet="Vaks" />
           </AssociationSet>
-          <AssociationSet Name="FKTicket885166" Association="Self.FKTicket885166">
-            <End Role="Zitplaats" EntitySet="Zitplaats" />
+          <AssociationSet Name="Ticket_voor_een_vak" Association="Self.Ticket_voor_een_vak">
+            <End Role="Vak" EntitySet="Vaks" />
             <End Role="Ticket" EntitySet="Tickets" />
           </AssociationSet>
           <AssociationSet Name="FKVak756945" Association="Self.FKVak756945">
             <End Role="VakType" EntitySet="VakTypes" />
             <End Role="Vak" EntitySet="Vaks" />
-          </AssociationSet>
-          <AssociationSet Name="FKZitplaats260694" Association="Self.FKZitplaats260694">
-            <End Role="Vak" EntitySet="Vaks" />
-            <End Role="Zitplaats" EntitySet="Zitplaats" />
           </AssociationSet>
           <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
@@ -899,9 +847,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="voetbalModelStoreContainer" CdmEntityContainer="VoetbalEntities">
+        <EntityContainerMapping StorageEntityContainer="VoetbalModelStoreContainer" CdmEntityContainer="VoetbalEntities">
           <EntitySetMapping Name="C__MigrationHistory">
-            <EntityTypeMapping TypeName="voetbalModel.C__MigrationHistory">
+            <EntityTypeMapping TypeName="VoetbalModel.C__MigrationHistory">
               <MappingFragment StoreEntitySet="__MigrationHistory">
                 <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
                 <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
@@ -911,7 +859,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Abonnements">
-            <EntityTypeMapping TypeName="voetbalModel.Abonnement">
+            <EntityTypeMapping TypeName="VoetbalModel.Abonnement">
               <MappingFragment StoreEntitySet="Abonnement">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="Clubid" ColumnName="Clubid" />
@@ -921,7 +869,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspNetRoles">
-            <EntityTypeMapping TypeName="voetbalModel.AspNetRole">
+            <EntityTypeMapping TypeName="VoetbalModel.AspNetRole">
               <MappingFragment StoreEntitySet="AspNetRoles">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -929,7 +877,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspNetUserClaims">
-            <EntityTypeMapping TypeName="voetbalModel.AspNetUserClaim">
+            <EntityTypeMapping TypeName="VoetbalModel.AspNetUserClaim">
               <MappingFragment StoreEntitySet="AspNetUserClaims">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -939,7 +887,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspNetUserLogins">
-            <EntityTypeMapping TypeName="voetbalModel.AspNetUserLogin">
+            <EntityTypeMapping TypeName="VoetbalModel.AspNetUserLogin">
               <MappingFragment StoreEntitySet="AspNetUserLogins">
                 <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
                 <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
@@ -948,7 +896,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspNetUsers">
-            <EntityTypeMapping TypeName="voetbalModel.AspNetUser">
+            <EntityTypeMapping TypeName="VoetbalModel.AspNetUser">
               <MappingFragment StoreEntitySet="AspNetUsers">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
@@ -966,7 +914,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Bezoekers">
-            <EntityTypeMapping TypeName="voetbalModel.Bezoeker">
+            <EntityTypeMapping TypeName="VoetbalModel.Bezoeker">
               <MappingFragment StoreEntitySet="Bezoeker">
                 <ScalarProperty Name="rijksregisternummer" ColumnName="rijksregisternummer" />
                 <ScalarProperty Name="email" ColumnName="email" />
@@ -976,7 +924,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Clubs">
-            <EntityTypeMapping TypeName="voetbalModel.Club">
+            <EntityTypeMapping TypeName="VoetbalModel.Club">
               <MappingFragment StoreEntitySet="Club">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="naam" ColumnName="naam" />
@@ -988,7 +936,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Stadions">
-            <EntityTypeMapping TypeName="voetbalModel.Stadion">
+            <EntityTypeMapping TypeName="VoetbalModel.Stadion">
               <MappingFragment StoreEntitySet="Stadion">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="naam" ColumnName="naam" />
@@ -998,7 +946,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="voetbalModel.sysdiagram">
+            <EntityTypeMapping TypeName="VoetbalModel.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
@@ -1009,7 +957,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Taals">
-            <EntityTypeMapping TypeName="voetbalModel.Taal">
+            <EntityTypeMapping TypeName="VoetbalModel.Taal">
               <MappingFragment StoreEntitySet="Taal">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="naam" ColumnName="naam" />
@@ -1017,28 +965,29 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tickets">
-            <EntityTypeMapping TypeName="voetbalModel.Ticket">
+            <EntityTypeMapping TypeName="VoetbalModel.Ticket">
               <MappingFragment StoreEntitySet="Ticket">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="gebruikerid" ColumnName="gebruikerid" />
-                <ScalarProperty Name="zitplaatsid" ColumnName="zitplaatsid" />
                 <ScalarProperty Name="prijs" ColumnName="prijs" />
                 <ScalarProperty Name="Wedstrijdid" ColumnName="Wedstrijdid" />
                 <ScalarProperty Name="Bezoekerrijksregisternummer" ColumnName="Bezoekerrijksregisternummer" />
+                <ScalarProperty Name="Vakid" ColumnName="Vakid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Vaks">
-            <EntityTypeMapping TypeName="voetbalModel.Vak">
+            <EntityTypeMapping TypeName="VoetbalModel.Vak">
               <MappingFragment StoreEntitySet="Vak">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="maximumAantalZitplaatsen" ColumnName="maximumAantalZitplaatsen" />
                 <ScalarProperty Name="VakTypeid" ColumnName="VakTypeid" />
+                <ScalarProperty Name="Stadionid" ColumnName="Stadionid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="VakTypes">
-            <EntityTypeMapping TypeName="voetbalModel.VakType">
+            <EntityTypeMapping TypeName="VoetbalModel.VakType">
               <MappingFragment StoreEntitySet="VakType">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="beschrijving" ColumnName="beschrijving" />
@@ -1047,7 +996,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Wedstrijds">
-            <EntityTypeMapping TypeName="voetbalModel.Wedstrijd">
+            <EntityTypeMapping TypeName="VoetbalModel.Wedstrijd">
               <MappingFragment StoreEntitySet="Wedstrijd">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="Stadionid" ColumnName="Stadionid" />
@@ -1058,17 +1007,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Zitplaats">
-            <EntityTypeMapping TypeName="voetbalModel.Zitplaat">
-              <MappingFragment StoreEntitySet="Zitplaats">
-                <ScalarProperty Name="Stadionid" ColumnName="Stadionid" />
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="Vakid" ColumnName="Vakid" />
-                <ScalarProperty Name="bezet" ColumnName="bezet" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <AssociationSetMapping Name="AspNetUserRoles" TypeName="voetbalModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="VoetbalModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
             <EndProperty Name="AspNetRoles">
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>

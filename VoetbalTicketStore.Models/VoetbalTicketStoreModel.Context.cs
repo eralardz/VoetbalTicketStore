@@ -40,6 +40,5 @@ namespace VoetbalTicketStore.Models
         public virtual DbSet<Vak> Vaks { get; set; }
         public virtual DbSet<VakType> VakTypes { get; set; }
         public virtual DbSet<Wedstrijd> Wedstrijds { get; set; }
-        public virtual DbSet<Zitplaat> Zitplaats { get; set; }
     }
 }

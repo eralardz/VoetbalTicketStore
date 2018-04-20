@@ -110,9 +110,6 @@
     <Compile Include="Wedstrijd.cs">
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Zitplaat.cs">
-      <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
