@@ -48,6 +48,7 @@
                     @*Query string's has a limitation on how much data you can pass via those based on the browser.*@
                     @Html.ActionLink("Koop tickets", "Buy", "Ticket", new { id = item.id }, htmlAttributes: new { @class = "btn btn-primary" })
                 }
+                @*Langer dan een maand*@
                 else
                 {
                     <button type="button" class="btn btn-primary" disabled>Nog niet beschikbaar</button>
