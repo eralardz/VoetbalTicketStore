@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using VoetbalTicketStore.DAO;
 using VoetbalTicketStore.Models;
 
@@ -13,14 +8,16 @@ namespace VoetbalTicketStore.Service
     {
         private TicketDAO ticketDAO;
         private VakDAO vakDAO;
+        private VakTypeDAO VakTypeDAO;
 
         public TicketService()
         {
             ticketDAO = new TicketDAO();
             vakDAO = new VakDAO();
+            VakTypeDAO = new VakTypeDAO();
         }
 
-        public void BuyTicket(Ticket ticket, int selectedVakType, Stadion stadion, Wedstrijd wedstrijd)
+        public void BuyTicket(int selectedVakType, int stadionId, int wedstrijdId, string user, string rijksregisternummer)
         {
             // Is er plaats in dit vak? (maximaal aantal zitplaatsen - abonnementen - reeds verkochte tickets)
 
@@ -28,29 +25,35 @@ namespace VoetbalTicketStore.Service
             // Zoeken naar vak in dit stadion
 
             // We kennen het stadion en het vaktype... VIND HET SPECIFIEKE VAK MET ZIJN ID
+            Vak vak = vakDAO.FindVak(selectedVakType, stadionId);
 
-            Debug.WriteLine("BuyTicket");
+            if(IsVakVrij(vak.id, wedstrijdId, vak.maximumAantalZitplaatsen))
+            {
+                Ticket ticket = new Ticket();
+                ticket.gebruikerid = user;
+                ticket.Bezoekerrijksregisternummer = rijksregisternummer;
+                ticket.Wedstrijdid = wedstrijdId;
+                ticket.Vakid = vak.id;
+                ticket.prijs = BepaalPrijs(vak);
 
-            Vak vak = vakDAO.FindVak(selectedVakType, stadion);
 
-            Debug.WriteLine(vak.maximumAantalZitplaatsen);
-
-
-            ticketDAO.AddTicket(ticket);
-
-
-
+            }
         }
 
-        private bool IsVakVrij()
+        private float BepaalPrijs(Vak vak)
         {
-            // iets doen met de ZitPlaatsService
+            // prijs wordt bepaald door vak en club
+            VakType vakType = VakTypeDAO.FindVakType(vak.id);
+            Debug.WriteLine("Standaardprijs voor dit vak: " + vakType.standaardPrijs);
 
-            // Count van zitplaatsen group by vakID
+            return 0;
+        }
 
-
-
-            return false;
+        // Is een vak vrij? 
+        private bool IsVakVrij(int vakId, int wedstrijdId, int maximumAantalZitplaatsen)
+        {
+            int aantalVerkochteTickets = ticketDAO.FindVerkochteTicketsVakPerWedstrijd(vakId, wedstrijdId);
+            return aantalVerkochteTickets < maximumAantalZitplaatsen;
         }
 
 

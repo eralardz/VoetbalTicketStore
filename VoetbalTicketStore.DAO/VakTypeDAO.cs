@@ -15,7 +15,16 @@ namespace VoetbalTicketStore.DAO
             {
                 return db.VakTypes.ToList(); // lazy-loading
             }
-
         }
+
+        public VakType FindVakType(int id)
+        {
+            using (var db = new VoetbalEntities())
+            {
+                return db.VakTypes.Find(id); // lazy-loading
+            }
+        }
+
+
     }
 }

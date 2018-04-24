@@ -18,10 +18,20 @@ namespace VoetbalTicketStore.DAO
 
         public void AddTicket(Ticket ticket)
         {
-            var db = new VoetbalEntities();
-            db.Tickets.Add(ticket);
+            using (var db = new VoetbalEntities())
+            {
+                db.Tickets.Add(ticket);
+                db.SaveChanges();
+            }
+
         }
 
-       
+        public int FindVerkochteTicketsVakPerWedstrijd(int vakId, int wedstrijdId)
+        {
+            using (var db = new VoetbalEntities())
+            {
+                return db.Tickets.Count(t => t.Vakid == vakId && t.Wedstrijdid == wedstrijdId);
+            }
+        }
     }
 }

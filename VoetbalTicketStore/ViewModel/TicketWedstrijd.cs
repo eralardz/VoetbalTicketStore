@@ -13,6 +13,10 @@ namespace VoetbalTicketStore.ViewModel
         public Ticket Ticket { get; set; }
         public Bezoeker Bezoeker { get; set; }
         public Stadion Stadion { get; set; }
+
+        public Club Club1 { get; set; }
+        public Club Club2 { get; set; }
+
         // Vakken en vaktypes
         public SelectList Vakken { get; set; }
         public int SelectedVak { get; set; }

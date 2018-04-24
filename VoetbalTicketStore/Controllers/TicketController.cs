@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -30,6 +32,8 @@ namespace VoetbalTicketStore.Controllers
 
             ticketWedstrijd.Wedstrijd = wedstrijd;
             ticketWedstrijd.Stadion = wedstrijd.Stadion;
+            ticketWedstrijd.Club1 = wedstrijd.Club;
+            ticketWedstrijd.Club2 = wedstrijd.Club1;
 
             vakTypeService = new VakTypeService();
             // id = datavalue (modelwaarde), beschrijving = datatextfield (uitzicht in de view)
@@ -45,12 +49,12 @@ namespace VoetbalTicketStore.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
+                //: Add insert logic here
                 ticketService = new TicketService();
                 bezoekerService = new BezoekerService();
 
                 // Bezoeker toevoegen indien nodig
-                if(bezoekerService.FindBezoeker(ticketWedstrijd.Bezoeker.rijksregisternummer) == null)
+                if (bezoekerService.FindBezoeker(ticketWedstrijd.Bezoeker.rijksregisternummer) == null)
                 {
                     bezoekerService.AddBezoeker(ticketWedstrijd.Bezoeker);
                 }
@@ -60,7 +64,9 @@ namespace VoetbalTicketStore.Controllers
 
 
                 // Ticket toevoegen
-                ticketService.BuyTicket(ticketWedstrijd.Ticket, ticketWedstrijd.SelectedVak, ticketWedstrijd.Stadion, ticketWedstrijd.Wedstrijd);
+                ticketService.BuyTicket(ticketWedstrijd.SelectedVak, ticketWedstrijd.Stadion.id, ticketWedstrijd.Wedstrijd.id, User.Identity.GetUserId(), ticketWedstrijd.Bezoeker.rijksregisternummer);
+
+
 
                 return RedirectToAction("Success");
             }
