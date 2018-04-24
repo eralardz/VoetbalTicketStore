@@ -12,29 +12,24 @@ namespace VoetbalTicketStore.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Club
+    public partial class Bestelling
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Club()
+        public Bestelling()
         {
-            this.Abonnements = new HashSet<Abonnement>();
-            this.Wedstrijds = new HashSet<Wedstrijd>();
-            this.Wedstrijds1 = new HashSet<Wedstrijd>();
+            this.ShoppingCartDatas = new HashSet<ShoppingCartData>();
+            this.Tickets = new HashSet<Ticket>();
         }
     
         public int id { get; set; }
-        public string naam { get; set; }
-        public string logo { get; set; }
-        public int Stadionid { get; set; }
-        public decimal ticketPrijsCoefficient { get; set; }
-        public decimal abonnementPrijs { get; set; }
+        public bool Bevestigd { get; set; }
+        public decimal TotaalPrijs { get; set; }
+        public string AspNetUsersId { get; set; }
     
+        public virtual AspNetUser AspNetUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Abonnement> Abonnements { get; set; }
-        public virtual Stadion Stadion { get; set; }
+        public virtual ICollection<ShoppingCartData> ShoppingCartDatas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Wedstrijd> Wedstrijds { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Wedstrijd> Wedstrijds1 { get; set; }
+        public virtual ICollection<Ticket> Tickets { get; set; }
     }
 }

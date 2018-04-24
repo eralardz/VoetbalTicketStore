@@ -14,15 +14,26 @@ namespace VoetbalTicketStore.Models
     
     public partial class Ticket
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Ticket()
+        {
+            this.ShoppingCartDatas = new HashSet<ShoppingCartData>();
+        }
+    
         public int id { get; set; }
         public string gebruikerid { get; set; }
-        public Nullable<float> prijs { get; set; }
+        public decimal prijs { get; set; }
         public int Wedstrijdid { get; set; }
         public string Bezoekerrijksregisternummer { get; set; }
         public int Vakid { get; set; }
+        public bool bevestigd { get; set; }
+        public int BestellingId { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
+        public virtual Bestelling Bestelling { get; set; }
         public virtual Bezoeker Bezoeker { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ShoppingCartData> ShoppingCartDatas { get; set; }
         public virtual Vak Vak { get; set; }
     }
 }

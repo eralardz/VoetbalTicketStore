@@ -42,20 +42,19 @@ namespace VoetbalTicketStore.Service
 
         }
 
-        private float BepaalPrijs(Vak vak, int wedstrijdId)
+        private decimal BepaalPrijs(Vak vak, int wedstrijdId)
         {
             // prijs wordt bepaald door vaktype en club
             VakType vakType = VakTypeDAO.FindVakType(vak.VakTypeid);
 
-            float standaardPrijs = vakType.standaardPrijs ?? 0;
-            float coefficient;
+            decimal standaardPrijs = vakType.standaardPrijs;
 
             // null-coalescing operator -> It returns the left-hand operand if the operand is not null; otherwise it returns the right hand operand.
             // Want bool is nullable... TODO eventueel Nullable afzetten, dan komen we dit probleem niet tegen.
             Wedstrijd wedstrijd = wedstrijdDAO.getWedstrijdById(wedstrijdId);
 
             // 'Club' is altijd de thuisploeg
-            coefficient = wedstrijd.Club.ticketPrijsCoefficient ?? 0;
+            decimal coefficient = wedstrijd.Club.ticketPrijsCoefficient;
 
             return standaardPrijs * coefficient;
         }

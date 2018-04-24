@@ -12,14 +12,14 @@ namespace VoetbalTicketStore.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Abonnement
+    public partial class ShoppingCartData
     {
         public int id { get; set; }
-        public int Clubid { get; set; }
+        public int BestellingId { get; set; }
+        public int Ticketid { get; set; }
         public decimal prijs { get; set; }
-        public string Bezoekerrijksregisternummer { get; set; }
     
-        public virtual Bezoeker Bezoeker { get; set; }
-        public virtual Club Club { get; set; }
+        public virtual Bestelling Bestelling { get; set; }
+        public virtual Ticket Ticket { get; set; }
     }
 }
