@@ -23,6 +23,7 @@ namespace VoetbalTicketStore.Models
         public int id { get; set; }
         public string beschrijving { get; set; }
         public Nullable<float> standaardPrijs { get; set; }
+        public Nullable<bool> thuisVak { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Vak> Vaks { get; set; }

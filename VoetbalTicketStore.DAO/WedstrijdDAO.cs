@@ -35,7 +35,7 @@ namespace VoetbalTicketStore.DAO
             using (var db = new VoetbalEntities())
             {
                 // FirstOrDefault -> If it can return null (as in ID not found or something)
-                return db.Wedstrijds.Where(w => w.id == id).Include(s => s.Stadion).Include(c => c.Club).Include(c => c.Club1).FirstOrDefault();
+                return db.Wedstrijds.Where(w => w.id == id).Include(s => s.Stadion).Include(c => c.Club).Include(c => c.Club1).FirstOrDefault(); //eager
             }
         }
     }

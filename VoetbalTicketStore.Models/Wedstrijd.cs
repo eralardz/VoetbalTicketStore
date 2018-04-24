@@ -18,8 +18,7 @@ namespace VoetbalTicketStore.Models
         public int Stadionid { get; set; }
         public int Club1id { get; set; }
         public int Club2id { get; set; }
-        public System.DateTime datum { get; set; }
-        public System.DateTime uur { get; set; }
+        public System.DateTime DatumEnTijd { get; set; }
     
         public virtual Club Club { get; set; }
         public virtual Club Club1 { get; set; }

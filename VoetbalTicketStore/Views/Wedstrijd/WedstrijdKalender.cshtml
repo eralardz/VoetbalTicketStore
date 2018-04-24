@@ -3,10 +3,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.datum)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.uur)
+            @Html.DisplayNameFor(model => model.DatumEnTijd)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Club.naam)
@@ -26,10 +23,7 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.datum)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.uur)
+                @Html.DisplayFor(modelItem => item.DatumEnTijd)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Club.naam)
@@ -40,14 +34,26 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Stadion.naam)
             </td>
-            <th>
-                @*action, controller*@
-                @*https://getbootstrap.com/docs/4.0/components/buttons/*@
-                @*Query string's has a limitation on how much data you can pass via those based on the browser.*@
-                @Html.ActionLink("Koop ticket", "Buy", "Ticket", new { id = item.id }, htmlAttributes: new { @class = "btn btn-primary" })
-            </th>
+            <td>
+                @*Verleden*@
+                @if (DateTime.Now > item.DatumEnTijd)
+                {
+                    <button type="button" class="btn btn-primary" disabled>Te laat!</button>
+                }
+                @*Binnen de maand*@
+                else if (DateTime.Now > item.DatumEnTijd - TimeSpan.FromDays(30))
+                {
+                    @*action, controller*@
+                    @*https://getbootstrap.com/docs/4.0/components/buttons/*@
+                    @*Query string's has a limitation on how much data you can pass via those based on the browser.*@
+                    @Html.ActionLink("Koop tickets", "Buy", "Ticket", new { id = item.id }, htmlAttributes: new { @class = "btn btn-primary" })
+                }
+                else
+                {
+                    <button type="button" class="btn btn-primary" disabled>Nog niet beschikbaar</button>
 
+                }
+            </td>
         </tr>
     }
-
 </table>

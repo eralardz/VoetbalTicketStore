@@ -77,9 +77,6 @@
     <Compile Include="Stadion.cs">
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="sysdiagram.cs">
-      <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Taal.cs">
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>

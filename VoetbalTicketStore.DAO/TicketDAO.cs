@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,8 +22,15 @@ namespace VoetbalTicketStore.DAO
             using (var db = new VoetbalEntities())
             {
                 db.Tickets.Add(ticket);
+                try { 
                 db.SaveChanges();
-            }
+                }
+                
+                catch(Exception ex)
+                {
+                    Debug.WriteLine(ex.InnerException);
+                }
+                }
 
         }
 
