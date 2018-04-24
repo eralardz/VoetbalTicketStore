@@ -19,6 +19,7 @@ namespace VoetbalTicketStore.Controllers
         private WedstrijdService wedstrijdService;
         private BezoekerService bezoekerService;
         private VakTypeService vakTypeService;
+        private BestellingService bestellingService;
 
         // GET: Ticket
         public ActionResult Buy(int id)
@@ -51,6 +52,24 @@ namespace VoetbalTicketStore.Controllers
             {
                 ticketService = new TicketService();
                 bezoekerService = new BezoekerService();
+                bestellingService = new BestellingService();
+
+                string user = User.Identity.GetUserId();
+
+                // Bestelling toevoegen indien nodig
+                Bestelling bestelling = bestellingService.FindOpenstaandeBestellingDoorUser(user);
+                if (bestelling != null)
+                {
+                    // toevoegen aan bestaande bestelling
+                    //TODO
+                }
+                else
+                {
+                    // nieuwe bestelling aanmaken
+                    bestellingService.CreateNieuweBestelling(0, user);
+                }
+
+                // lijn toevoegen aan bestelling
 
                 // Bezoeker toevoegen indien nodig
                 if (bezoekerService.FindBezoeker(ticketWedstrijd.Bezoeker.rijksregisternummer) == null)
@@ -59,7 +78,7 @@ namespace VoetbalTicketStore.Controllers
                 }
 
                 // Ticket toevoegen
-                ticketService.BuyTicket(ticketWedstrijd.SelectedVak, ticketWedstrijd.Stadion.id, ticketWedstrijd.Wedstrijd.id, User.Identity.GetUserId(), ticketWedstrijd.Bezoeker.rijksregisternummer);
+                ticketService.BuyTicket(ticketWedstrijd.SelectedVak, ticketWedstrijd.Stadion.id, ticketWedstrijd.Wedstrijd.id, user, ticketWedstrijd.Bezoeker.rijksregisternummer);
 
 
 

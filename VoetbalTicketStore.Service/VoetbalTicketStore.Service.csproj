@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BestellingService.cs" />
     <Compile Include="BezoekerService.cs" />
     <Compile Include="ClubService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
