@@ -17,21 +17,14 @@ namespace VoetbalTicketStore.DAO
             return db.Tickets; // lazy-loading
         }
 
-        public void AddTicket(Ticket ticket)
+        public Ticket AddTicket(Ticket ticket)
         {
             using (var db = new VoetbalEntities())
             {
                 db.Tickets.Add(ticket);
-                try { 
                 db.SaveChanges();
-                }
-                
-                catch(Exception ex)
-                {
-                    Debug.WriteLine(ex.InnerException);
-                }
-                }
-
+                return ticket;
+            }
         }
 
         public int FindVerkochteTicketsVakPerWedstrijd(int vakId, int wedstrijdId)
@@ -39,6 +32,14 @@ namespace VoetbalTicketStore.DAO
             using (var db = new VoetbalEntities())
             {
                 return db.Tickets.Count(t => t.Vakid == vakId && t.Wedstrijdid == wedstrijdId);
+            }
+        }
+
+        public int GetHoeveelheidTickets(string user, int wedstrijdId)
+        {
+            using (var db = new VoetbalEntities())
+            {
+                return db.Tickets.Count(t => t.gebruikerid.Equals(user) && t.Wedstrijdid == wedstrijdId);
             }
         }
     }

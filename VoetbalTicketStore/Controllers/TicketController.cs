@@ -20,6 +20,7 @@ namespace VoetbalTicketStore.Controllers
         private BezoekerService bezoekerService;
         private VakTypeService vakTypeService;
         private BestellingService bestellingService;
+        private ShoppingCartDataService shoppingCartDataService;
 
         // GET: Ticket
         public ActionResult Buy(int id)
@@ -53,23 +54,24 @@ namespace VoetbalTicketStore.Controllers
                 ticketService = new TicketService();
                 bezoekerService = new BezoekerService();
                 bestellingService = new BestellingService();
+                shoppingCartDataService = new ShoppingCartDataService();
 
                 string user = User.Identity.GetUserId();
 
                 // Bestelling toevoegen indien nodig
                 Bestelling bestelling = bestellingService.FindOpenstaandeBestellingDoorUser(user);
+                int bestellingId;
+
                 if (bestelling != null)
                 {
                     // toevoegen aan bestaande bestelling
-                    //TODO
+                    bestellingId = bestelling.id;
                 }
                 else
                 {
                     // nieuwe bestelling aanmaken
-                    bestellingService.CreateNieuweBestelling(0, user);
+                    bestellingId = bestellingService.CreateNieuweBestelling(0, user);
                 }
-
-                // lijn toevoegen aan bestelling
 
                 // Bezoeker toevoegen indien nodig
                 if (bezoekerService.FindBezoeker(ticketWedstrijd.Bezoeker.rijksregisternummer) == null)
@@ -78,9 +80,13 @@ namespace VoetbalTicketStore.Controllers
                 }
 
                 // Ticket toevoegen
-                ticketService.BuyTicket(ticketWedstrijd.SelectedVak, ticketWedstrijd.Stadion.id, ticketWedstrijd.Wedstrijd.id, user, ticketWedstrijd.Bezoeker.rijksregisternummer);
+                Ticket ticket = ticketService.BuyTicket(bestellingId, ticketWedstrijd.SelectedVak, ticketWedstrijd.Stadion.id, ticketWedstrijd.Wedstrijd.id, user, ticketWedstrijd.Bezoeker.rijksregisternummer);
 
 
+                // nieuwe ShoppingCartData toevoegen indien mogelijk
+                shoppingCartDataService.AddShoppingCartData(user, ticket, bestellingId, ticketWedstrijd.Wedstrijd.id);
+
+                
 
                 return RedirectToAction("Success");
             }

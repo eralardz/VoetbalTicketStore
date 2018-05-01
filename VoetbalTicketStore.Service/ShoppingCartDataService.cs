@@ -1,0 +1,41 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using VoetbalTicketStore.DAO;
+using VoetbalTicketStore.Models;
+
+namespace VoetbalTicketStore.Service
+{
+    public class ShoppingCartDataService
+    {
+
+        private ShoppingCartDataDAO shoppingCartDataDAO;
+        private TicketDAO ticketDAO;
+
+        public void AddShoppingCartData(string user, Ticket ticket, int bestellingId, int wedstrijdId)
+        {
+            if (MagGebruikerNogEenTicketToevoegen(user, wedstrijdId)) { 
+            ShoppingCartData shoppingCartData = new ShoppingCartData();
+            shoppingCartData.Ticketid = ticket.id;
+            shoppingCartData.BestellingId = bestellingId;
+            shoppingCartData.prijs = ticket.prijs;
+
+            shoppingCartDataDAO = new ShoppingCartDataDAO();
+            shoppingCartDataDAO.AddShoppingCartData(shoppingCartData);
+            }
+            else
+            {
+                throw new TeveelTicketsException("Er mogen slechts 4 tickets per wedstrijd besteld worden!");
+            }
+        }
+
+        private bool MagGebruikerNogEenTicketToevoegen(string user, int wedstrijdId)
+        {
+            // Een gebruiker mag maximaal 4 tickets bestellen per wedstrijd. Dit wordt gecontroleerd in de TicketDAO.
+            ticketDAO = new TicketDAO();
+            return (ticketDAO.GetHoeveelheidTickets(user, wedstrijdId) <= 4);
+        }
+    }
+}

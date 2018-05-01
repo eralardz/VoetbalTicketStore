@@ -19,7 +19,7 @@ namespace VoetbalTicketStore.Service
             wedstrijdDAO = new WedstrijdDAO();
         }
 
-        public void BuyTicket(int selectedVakType, int stadionId, int wedstrijdId, string user, string rijksregisternummer)
+        public Ticket BuyTicket(int bestellingId, int selectedVakType, int stadionId, int wedstrijdId, string user, string rijksregisternummer)
         {
             // Is er plaats in dit vak? (maximaal aantal zitplaatsen - abonnementen - reeds verkochte tickets)
 
@@ -29,17 +29,18 @@ namespace VoetbalTicketStore.Service
             // We kennen het stadion en het vaktype... VIND HET SPECIFIEKE VAK MET ZIJN ID
             Vak vak = vakDAO.FindVak(selectedVakType, stadionId);
 
+            Ticket ticket = new Ticket();
+
             if (IsVakVrij(vak.id, wedstrijdId, vak.maximumAantalZitplaatsen))
             {
-                Ticket ticket = new Ticket();
                 ticket.gebruikerid = user;
                 ticket.Bezoekerrijksregisternummer = rijksregisternummer;
                 ticket.Wedstrijdid = wedstrijdId;
                 ticket.Vakid = vak.id;
                 ticket.prijs = BepaalPrijs(vak, wedstrijdId);
-                ticketDAO.AddTicket(ticket);
+                ticket.BestellingId = bestellingId;
             }
-
+            return ticketDAO.AddTicket(ticket);
         }
 
         private decimal BepaalPrijs(Vak vak, int wedstrijdId)

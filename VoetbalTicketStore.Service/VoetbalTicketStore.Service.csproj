@@ -44,7 +44,9 @@
     <Compile Include="BezoekerService.cs" />
     <Compile Include="ClubService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShoppingCartDataService.cs" />
     <Compile Include="StadionService.cs" />
+    <Compile Include="TeveelTicketsException.cs" />
     <Compile Include="TicketService.cs" />
     <Compile Include="VakTypeService.cs" />
     <Compile Include="WedstrijdService.cs" />

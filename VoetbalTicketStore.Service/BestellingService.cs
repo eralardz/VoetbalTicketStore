@@ -1,6 +1,7 @@
 ﻿using System;
 using VoetbalTicketStore.DAO;
 using VoetbalTicketStore.Models;
+using VoetbalTicketStore.Service;
 
 namespace VoetbalTicketStore.Controllers
 {
@@ -8,6 +9,8 @@ namespace VoetbalTicketStore.Controllers
     {
 
         private BestellingDAO bestellingDAO;
+        private TicketService ticketService;
+
 
         public Bestelling FindOpenstaandeBestellingDoorUser(string user)
         {
@@ -15,7 +18,7 @@ namespace VoetbalTicketStore.Controllers
             return bestellingDAO.FindOpenstaandeBestellingDoorUser(user);
         }
 
-        public void CreateNieuweBestelling(decimal totaalPrijs, string user)
+        public int CreateNieuweBestelling(decimal totaalPrijs, string user)
         {
             bestellingDAO = new BestellingDAO();
 
@@ -23,7 +26,8 @@ namespace VoetbalTicketStore.Controllers
             bestelling.TotaalPrijs = 0;
             bestelling.AspNetUsersId = user;
 
-            bestellingDAO.CreateNieuweBestelling(bestelling);
+            return bestellingDAO.CreateNieuweBestelling(bestelling);
         }
+
     }
 }

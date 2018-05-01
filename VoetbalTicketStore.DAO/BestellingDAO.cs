@@ -20,17 +20,13 @@ namespace VoetbalTicketStore.DAO
 
         }
 
-        public void CreateNieuweBestelling(Bestelling bestelling)
+        public int CreateNieuweBestelling(Bestelling bestelling)
         {
             using (var db = new VoetbalEntities())
             {
-                try { 
                 db.Bestellings.Add(bestelling);
                 db.SaveChanges();
-                } catch(Exception ex)
-                {
-                    Debug.WriteLine(ex);
-                }
+                return bestelling.id;
             }
         }
     }
