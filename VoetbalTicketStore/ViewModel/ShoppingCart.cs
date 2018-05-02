@@ -8,7 +8,12 @@ namespace VoetbalTicketStore.ViewModel
 {
     public class ShoppingCart
     {
-        public Bestelling bestelling { get; set; }
-        public decimal totaalPrijs { get; set; }
+        public Bestelling Bestelling { get; set; }
+
+        public IEnumerable<Ticket> Tickets {get; set;}
+
+        public IEnumerable<ShoppingCartData> ShoppingCartItems{ get; set; }
+
+        public decimal TotaalPrijs { get; set; }
     }
 }

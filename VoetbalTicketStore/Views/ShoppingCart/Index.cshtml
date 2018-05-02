@@ -1,4 +1,4 @@
-﻿@model VoetbalTicketStore.Models.Bestelling
+﻿@model VoetbalTicketStore.ViewModel.ShoppingCart
 
 @if (Model == null)
 {
@@ -10,15 +10,20 @@ else
         <tr>
             <th>ticket id</th>
             <th>prijs</th>
+            <th>bezoeker</th>
+            <th></th>
         </tr>
-        @foreach (var item in Model.ShoppingCartDatas)
+        @foreach (var item in Model.ShoppingCartItems)
         {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Ticketid)
                 </td>
                 <td>
-                    Ticket voor @Html.DisplayFor(modelItem => item.prijs) euro
+                    @Html.DisplayFor(modelItem => item.prijs) euro
+                </td>
+                <td>
+                    @*TODO: bezoeker en wedstrijd opzoeken*@
                 </td>
                 <td>
                     @*The whole point of ajax is that it stays to the same page. It does not redirect.*@
@@ -32,7 +37,7 @@ else
             </tr>
         }
     </table>
-    <p>Totaalprijs: </p>
+    <p>Totaalprijs: @Html.DisplayFor(model => model.TotaalPrijs)</p>
     <button>Mandje leegmaken</button>
     <button>Bevestigen</button>
 

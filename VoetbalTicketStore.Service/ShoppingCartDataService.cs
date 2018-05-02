@@ -32,6 +32,17 @@ namespace VoetbalTicketStore.Service
             }
         }
 
+        public decimal berekenTotaalPrijs(Bestelling bestelling)
+        {
+            decimal totaalprijs = 0;
+            foreach(ShoppingCartData s in bestelling.ShoppingCartDatas)
+            {
+                totaalprijs += s.prijs;
+            }
+
+            return totaalprijs;
+        }
+
         public void RemoveShoppingCartData(int shoppingCartDataId)
         {
             // vind ticket gelinkt aan shoppingcart

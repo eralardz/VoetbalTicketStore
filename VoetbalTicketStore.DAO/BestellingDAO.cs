@@ -37,6 +37,9 @@ namespace VoetbalTicketStore.DAO
             using (var db = new VoetbalEntities())
             {
                 // eager
+                // If you know you need related data for every entity retrieved, eager loading often offers the best performance, because a single query sent to the database is typically more efficient than separate queries for each entity retrieved.
+                // https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/reading-related-data-with-the-entity-framework-in-an-asp-net-mvc-application
+
                 return db.Bestellings.Where(b => b.Bevestigd == false && b.AspNetUsersId.Equals(user)).Include(t => t.Tickets).Include(s => s.ShoppingCartDatas).FirstOrDefault();
             }
         }

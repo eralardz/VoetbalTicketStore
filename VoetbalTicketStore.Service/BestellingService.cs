@@ -35,5 +35,6 @@ namespace VoetbalTicketStore.Controllers
             bestellingDAO = new BestellingDAO();
             return bestellingDAO.GetBestellingMetTicketsByUser(user);
         }
+
     }
 }

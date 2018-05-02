@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using VoetbalTicketStore.Models;
 using VoetbalTicketStore.Service;
+using VoetbalTicketStore.ViewModel;
 
 namespace VoetbalTicketStore.Controllers
 {
@@ -18,9 +19,18 @@ namespace VoetbalTicketStore.Controllers
         // GET: ShoppingCart
         public ActionResult Index()
         {
+            shoppingCartDataService = new ShoppingCartDataService();
             bestellingService = new BestellingService();
             Bestelling bestelling = bestellingService.GetBestellingMetTicketsByUser(User.Identity.GetUserId());
-            return View(bestelling);
+
+            // ViewModel opvullen
+            ShoppingCart shoppingCart = new ShoppingCart();
+            shoppingCart.Bestelling = bestelling;
+            shoppingCart.ShoppingCartItems = bestelling.ShoppingCartDatas;
+            shoppingCart.Tickets = bestelling.Tickets;
+            shoppingCart.TotaalPrijs = shoppingCartDataService.berekenTotaalPrijs(bestelling);
+
+            return View(shoppingCart);
         }
 
          //In general, you don’t want to perform an HTTP GET operation when invoking an action that modifies the state of your web application.When performing a delete, you want to perform an HTTP POST, or better yet, an HTTP DELETE operation.
