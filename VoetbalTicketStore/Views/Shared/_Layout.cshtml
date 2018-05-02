@@ -24,6 +24,9 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Clubs", "Index", "Club")</li>
+                    <li>@Html.ActionLink("Shopping Cart", "Index", "ShoppingCart")</li>
+
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -39,6 +42,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
     @RenderSection("scripts", required: false)
 </body>
 </html>

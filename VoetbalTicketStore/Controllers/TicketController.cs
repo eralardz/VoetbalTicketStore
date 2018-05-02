@@ -79,14 +79,20 @@ namespace VoetbalTicketStore.Controllers
                     bezoekerService.AddBezoeker(ticketWedstrijd.Bezoeker);
                 }
 
-                // Ticket toevoegen
-                Ticket ticket = ticketService.BuyTicket(bestellingId, ticketWedstrijd.SelectedVak, ticketWedstrijd.Stadion.id, ticketWedstrijd.Wedstrijd.id, user, ticketWedstrijd.Bezoeker.rijksregisternummer);
+                try
+                {
+                    // Ticket toevoegen
+                    Ticket ticket = ticketService.BuyTicket(bestellingId, ticketWedstrijd.SelectedVak, ticketWedstrijd.Stadion.id, ticketWedstrijd.Wedstrijd.id, user, ticketWedstrijd.Bezoeker.rijksregisternummer);
+
+                    // nieuwe ShoppingCartData toevoegen indien mogelijk
+                    shoppingCartDataService.AddShoppingCartData(user, ticket, bestellingId, ticketWedstrijd.Wedstrijd.id);
+                }
+                catch (TeveelTicketsException ex)
+                {
+                    return View("TeveelTickets");
+                }
 
 
-                // nieuwe ShoppingCartData toevoegen indien mogelijk
-                shoppingCartDataService.AddShoppingCartData(user, ticket, bestellingId, ticketWedstrijd.Wedstrijd.id);
-
-                
 
                 return RedirectToAction("Success");
             }

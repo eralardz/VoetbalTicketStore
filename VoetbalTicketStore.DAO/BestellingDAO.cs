@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VoetbalTicketStore.Models;
+using System.Data.Entity;
 
 namespace VoetbalTicketStore.DAO
 {
@@ -15,7 +16,8 @@ namespace VoetbalTicketStore.DAO
         {
             using (var db = new VoetbalEntities())
             {
-               return db.Bestellings.Where(b => b.Bevestigd == false && b.AspNetUsersId.Equals(user)).FirstOrDefault();
+                // lazy
+                return db.Bestellings.Where(b => b.Bevestigd == false && b.AspNetUsersId.Equals(user)).FirstOrDefault();
             }
 
         }
@@ -27,6 +29,15 @@ namespace VoetbalTicketStore.DAO
                 db.Bestellings.Add(bestelling);
                 db.SaveChanges();
                 return bestelling.id;
+            }
+        }
+
+        public Bestelling GetBestellingMetTicketsByUser(string user)
+        {
+            using (var db = new VoetbalEntities())
+            {
+                // eager
+                return db.Bestellings.Where(b => b.Bevestigd == false && b.AspNetUsersId.Equals(user)).Include(t => t.Tickets).Include(s => s.ShoppingCartDatas).FirstOrDefault();
             }
         }
     }

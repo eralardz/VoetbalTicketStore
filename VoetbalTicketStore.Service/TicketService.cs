@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using VoetbalTicketStore.DAO;
 using VoetbalTicketStore.Models;
 
@@ -6,10 +7,15 @@ namespace VoetbalTicketStore.Service
 {
     public class TicketService
     {
+        // DAO's
         private TicketDAO ticketDAO;
         private VakDAO vakDAO;
         private VakTypeDAO VakTypeDAO;
         private WedstrijdDAO wedstrijdDAO;
+        private ShoppingCartDataDAO shoppingCartDataDAO;
+
+        // constanten
+        public const int MaximumAantalTicketsPerGebruikerPerWedstrijd = 4;
 
         public TicketService()
         {
@@ -17,30 +23,47 @@ namespace VoetbalTicketStore.Service
             vakDAO = new VakDAO();
             VakTypeDAO = new VakTypeDAO();
             wedstrijdDAO = new WedstrijdDAO();
+            shoppingCartDataDAO = new ShoppingCartDataDAO();
         }
 
         public Ticket BuyTicket(int bestellingId, int selectedVakType, int stadionId, int wedstrijdId, string user, string rijksregisternummer)
         {
-            // Is er plaats in dit vak? (maximaal aantal zitplaatsen - abonnementen - reeds verkochte tickets)
 
-            // Hoe ziet dit vaktype eruit in dit stadion?
-            // Zoeken naar vak in dit stadion
-
-            // We kennen het stadion en het vaktype... VIND HET SPECIFIEKE VAK MET ZIJN ID
-            Vak vak = vakDAO.FindVak(selectedVakType, stadionId);
-
-            Ticket ticket = new Ticket();
-
-            if (IsVakVrij(vak.id, wedstrijdId, vak.maximumAantalZitplaatsen))
+            // Mag gebruiker nog een ticket toevoegen?
+            if (MagGebruikerNogEenTicketToevoegen(user, wedstrijdId))
             {
-                ticket.gebruikerid = user;
-                ticket.Bezoekerrijksregisternummer = rijksregisternummer;
-                ticket.Wedstrijdid = wedstrijdId;
-                ticket.Vakid = vak.id;
-                ticket.prijs = BepaalPrijs(vak, wedstrijdId);
-                ticket.BestellingId = bestellingId;
+                // Is er plaats in dit vak? (maximaal aantal zitplaatsen - abonnementen - reeds verkochte tickets)
+
+                Vak vak = vakDAO.FindVak(selectedVakType, stadionId);
+
+                Ticket ticket = new Ticket();
+
+                if (IsVakVrij(vak.id, wedstrijdId, vak.maximumAantalZitplaatsen))
+                {
+                    ticket.gebruikerid = user;
+                    ticket.Bezoekerrijksregisternummer = rijksregisternummer;
+                    ticket.Wedstrijdid = wedstrijdId;
+                    ticket.Vakid = vak.id;
+                    ticket.prijs = BepaalPrijs(vak, wedstrijdId);
+                    ticket.BestellingId = bestellingId;
+                }
+                return ticketDAO.AddTicket(ticket);
             }
-            return ticketDAO.AddTicket(ticket);
+            else
+            {
+                throw new TeveelTicketsException("Er mogen slechts 4 tickets per wedstrijd besteld worden!");
+            }
+        }
+
+        public void RemoveTicket(int ticketId)
+        {
+            ticketDAO.RemoveTicket(ticketId);
+        }
+
+        public int FindTicketBasedOnShoppingCartId(int shoppingCartDataId)
+        {
+            ShoppingCartData shoppingCartData = shoppingCartDataDAO.FindShoppingCartData(shoppingCartDataId);
+            return shoppingCartData.Ticketid;
         }
 
         private decimal BepaalPrijs(Vak vak, int wedstrijdId)
@@ -67,6 +90,11 @@ namespace VoetbalTicketStore.Service
             return aantalVerkochteTickets < maximumAantalZitplaatsen;
         }
 
-
+        private bool MagGebruikerNogEenTicketToevoegen(string user, int wedstrijdId)
+        {
+            // Een gebruiker mag maximaal 4 tickets bestellen per wedstrijd. Dit wordt gecontroleerd in de TicketDAO.
+            ticketDAO = new TicketDAO();
+            return (ticketDAO.GetHoeveelheidTickets(user, wedstrijdId) < MaximumAantalTicketsPerGebruikerPerWedstrijd);
+        }
     }
 }

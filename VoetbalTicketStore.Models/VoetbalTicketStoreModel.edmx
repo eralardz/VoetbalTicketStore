@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="voetbalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="voetbalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -83,6 +83,7 @@
           <Property Name="Bevestigd" Type="bit" Nullable="false" />
           <Property Name="TotaalPrijs" Type="money" Nullable="false" />
           <Property Name="AspNetUsersId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="BestelDatum" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Bezoeker">
           <Key>
@@ -179,18 +180,6 @@
             </Principal>
             <Dependent Role="ShoppingCartData">
               <PropertyRef Name="BestellingId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="Bestelling door gebruiker">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
-          <End Role="Bestelling" Type="Self.Bestelling" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Bestelling">
-              <PropertyRef Name="AspNetUsersId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -428,10 +417,6 @@
             <End Role="Bestelling" EntitySet="Bestelling" />
             <End Role="ShoppingCartData" EntitySet="ShoppingCartData" />
           </AssociationSet>
-          <AssociationSet Name="Bestelling door gebruiker" Association="Self.Bestelling door gebruiker">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="Bestelling" EntitySet="Bestelling" />
-          </AssociationSet>
           <AssociationSet Name="Bestelling van tickets" Association="Self.Bestelling van tickets">
             <End Role="Bestelling" EntitySet="Bestelling" />
             <End Role="Ticket" EntitySet="Ticket" />
@@ -501,8 +486,7 @@
             <End Role="Vak" EntitySet="Vak" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="voetbalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -589,6 +573,7 @@
           <NavigationProperty Name="AspNetUser" Relationship="Self.Bestelling_door_gebruiker" FromRole="Bestelling" ToRole="AspNetUsers" />
           <NavigationProperty Name="ShoppingCartDatas" Relationship="Self.Bestelling_bestaat_uit_verschillende_lijnen" FromRole="Bestelling" ToRole="ShoppingCartData" />
           <NavigationProperty Name="Tickets" Relationship="Self.Bestelling_van_tickets" FromRole="Bestelling" ToRole="Ticket" />
+          <Property Name="BestelDatum" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="Bezoeker">
           <Key>
@@ -1075,6 +1060,7 @@
           <EntitySetMapping Name="Bestellings">
             <EntityTypeMapping TypeName="voetbalModel.Bestelling">
               <MappingFragment StoreEntitySet="Bestelling">
+                <ScalarProperty Name="BestelDatum" ColumnName="BestelDatum" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="Bevestigd" ColumnName="Bevestigd" />
                 <ScalarProperty Name="TotaalPrijs" ColumnName="TotaalPrijs" />

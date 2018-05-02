@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace VoetbalTicketStore.Service
 {
     [Serializable]
-    internal class TeveelTicketsException : Exception
+    public class TeveelTicketsException : Exception
     {
         public TeveelTicketsException()
         {

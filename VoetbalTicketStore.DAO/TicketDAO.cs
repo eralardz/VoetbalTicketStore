@@ -42,5 +42,15 @@ namespace VoetbalTicketStore.DAO
                 return db.Tickets.Count(t => t.gebruikerid.Equals(user) && t.Wedstrijdid == wedstrijdId);
             }
         }
+
+        public void RemoveTicket(int ticketid)
+        {
+            using (var db = new VoetbalEntities())
+            {
+                Ticket toRemove = new Ticket { id = ticketid };
+                db.Entry(toRemove).State = System.Data.Entity.EntityState.Deleted;
+                db.SaveChanges();
+            }
+        }
     }
 }

@@ -11,10 +11,28 @@ namespace VoetbalTicketStore.DAO
     {
         public void AddShoppingCartData(ShoppingCartData shoppingCartData)
         {
-            using(var db = new VoetbalEntities())
+            using (var db = new VoetbalEntities())
             {
                 db.ShoppingCartDatas.Add(shoppingCartData);
                 db.SaveChanges();
+            }
+        }
+
+        public void RemoveShoppingCartData(int shoppingCartDataId)
+        {
+            using (var db = new VoetbalEntities())
+            {
+                ShoppingCartData toRemove = new ShoppingCartData { id = shoppingCartDataId };
+                db.Entry(toRemove).State = System.Data.Entity.EntityState.Deleted;
+                db.SaveChanges();
+            }
+        }
+
+        public ShoppingCartData FindShoppingCartData(int shoppingCartDataId)
+        {
+            using (var db = new VoetbalEntities())
+            {
+                return db.ShoppingCartDatas.Find(shoppingCartDataId);
             }
         }
     }

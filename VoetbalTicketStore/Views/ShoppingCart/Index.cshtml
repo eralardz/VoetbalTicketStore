@@ -1,0 +1,40 @@
+﻿@model VoetbalTicketStore.Models.Bestelling
+
+@if (Model == null)
+{
+    <p>Winkelwagentje is leeg!</p>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>ticket id</th>
+            <th>prijs</th>
+        </tr>
+        @foreach (var item in Model.ShoppingCartDatas)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ticketid)
+                </td>
+                <td>
+                    Ticket voor @Html.DisplayFor(modelItem => item.prijs) euro
+                </td>
+                <td>
+                    @*The whole point of ajax is that it stays to the same page. It does not redirect.*@
+                    @*@Ajax.ActionLink("X", "Remove", "ShoppingCart", new { id = item.id }, new AjaxOptions { HttpMethod = "Post" }, htmlAttributes: new { @class = "btn btn-outline-danger" })*@
+
+                    @*Oplossing: gewone form met helpers.*@
+                    @{Html.BeginForm("Remove", "ShoppingCart", new { id = item.id }, FormMethod.Post);}
+                    <input type="submit" value="X" class="btn btn-outline-danger" />
+                    @{Html.EndForm();}
+                </td>
+            </tr>
+        }
+    </table>
+    <p>Totaalprijs: </p>
+    <button>Mandje leegmaken</button>
+    <button>Bevestigen</button>
+
+}
+

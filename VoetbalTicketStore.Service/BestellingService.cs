@@ -25,9 +25,15 @@ namespace VoetbalTicketStore.Controllers
             Bestelling bestelling = new Bestelling();
             bestelling.TotaalPrijs = 0;
             bestelling.AspNetUsersId = user;
+            bestelling.BestelDatum = DateTime.Now;
 
             return bestellingDAO.CreateNieuweBestelling(bestelling);
         }
 
+        public Bestelling GetBestellingMetTicketsByUser(string user)
+        {
+            bestellingDAO = new BestellingDAO();
+            return bestellingDAO.GetBestellingMetTicketsByUser(user);
+        }
     }
 }

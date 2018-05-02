@@ -10,6 +10,7 @@ namespace VoetbalTicketStore.Service
 {
     public class ShoppingCartDataService
     {
+        private TicketService ticketService;
 
         private ShoppingCartDataDAO shoppingCartDataDAO;
         private TicketDAO ticketDAO;
@@ -31,11 +32,28 @@ namespace VoetbalTicketStore.Service
             }
         }
 
+        public void RemoveShoppingCartData(int shoppingCartDataId)
+        {
+            // vind ticket gelinkt aan shoppingcart
+            ticketService = new TicketService();
+
+            // TODO: database hit vermijden door gebruik te maken van hidden field
+            int ticketId = ticketService.FindTicketBasedOnShoppingCartId(shoppingCartDataId);
+
+            // verwijderen shoppingcartdata
+            shoppingCartDataDAO = new ShoppingCartDataDAO();
+            shoppingCartDataDAO.RemoveShoppingCartData(shoppingCartDataId);
+
+            // verwijderen ticket
+            ticketService.RemoveTicket(ticketId);
+
+        }
+
         private bool MagGebruikerNogEenTicketToevoegen(string user, int wedstrijdId)
         {
             // Een gebruiker mag maximaal 4 tickets bestellen per wedstrijd. Dit wordt gecontroleerd in de TicketDAO.
             ticketDAO = new TicketDAO();
-            return (ticketDAO.GetHoeveelheidTickets(user, wedstrijdId) <= 4);
+            return (ticketDAO.GetHoeveelheidTickets(user, wedstrijdId) <= TicketService.MaximumAantalTicketsPerGebruikerPerWedstrijd);
         }
     }
 }

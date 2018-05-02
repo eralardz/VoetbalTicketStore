@@ -25,6 +25,7 @@ namespace VoetbalTicketStore.Models
         public bool Bevestigd { get; set; }
         public decimal TotaalPrijs { get; set; }
         public string AspNetUsersId { get; set; }
+        public System.DateTime BestelDatum { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
