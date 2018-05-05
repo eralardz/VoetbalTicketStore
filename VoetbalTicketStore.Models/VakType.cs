@@ -12,27 +12,20 @@ namespace VoetbalTicketStore.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Wedstrijd
+    public partial class VakType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Wedstrijd()
+        public VakType()
         {
-            this.dbo_ShoppingCartData = new HashSet<dbo_ShoppingCartData>();
-            this.Tickets = new HashSet<Ticket>();
+            this.Vaks = new HashSet<Vak>();
         }
     
         public int Id { get; set; }
-        public int Stadionid { get; set; }
-        public int Club1id { get; set; }
-        public int Club2id { get; set; }
-        public System.DateTime DatumEnTijd { get; set; }
+        public string Beschrijving { get; set; }
+        public float StandaardPrijs { get; set; }
+        public bool ThuisVak { get; set; }
     
-        public virtual Club Club { get; set; }
-        public virtual Club Club1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<dbo_ShoppingCartData> dbo_ShoppingCartData { get; set; }
-        public virtual Stadion Stadion { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Ticket> Tickets { get; set; }
+        public virtual ICollection<Vak> Vaks { get; set; }
     }
 }

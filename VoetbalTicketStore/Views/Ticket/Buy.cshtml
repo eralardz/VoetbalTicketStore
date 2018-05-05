@@ -1,0 +1,51 @@
+﻿@model VoetbalTicketStore.ViewModel.TicketWedstrijd
+@{
+    ViewBag.Title = "Tickets kopen";
+}
+<div>
+    @{
+        var LogoThuisploeg = "/Content/img/clublogo/placeholder.png";
+        var LogoBezoekers = "/Content/img/clublogo/placeholder.png";
+
+        if (Model.Thuisploeg.Logo != null && Model.Tegenstanders.Logo != null)
+        {
+            LogoThuisploeg = Model.Thuisploeg.Logo;
+            LogoBezoekers = Model.Tegenstanders.Logo;
+        }
+    }
+    <img src="@LogoThuisploeg" alt="logo thuisploeg" />
+    VS
+    <img src="@LogoBezoekers" alt="logo bezoekers" />
+    <br />
+    Stadion: @Model.Stadion.Naam
+    <br />
+    <br />
+
+
+    <table class="table">
+        <tr>
+            <th>Vak</th>
+            <th>Prijs</th>
+        </tr>
+        @foreach (var item in Model.VakkenList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VakType.Beschrijving)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VakType.StandaardPrijs) euro
+                </td>
+            </tr>
+        }
+    </table>
+
+
+
+</div>
+@*Deze velden moeten bewaard blijven:*@
+@Html.HiddenFor(s => s.Stadion.Id)
+@Html.HiddenFor(w => w.Wedstrijd.Id)
+@Html.HiddenFor(c => c.Thuisploeg.Id)
+@Html.HiddenFor(c => c.Tegenstanders.Id)
+

@@ -22,17 +22,19 @@ namespace VoetbalTicketStore.Models
             this.Wedstrijds1 = new HashSet<Wedstrijd>();
         }
     
-        public int id { get; set; }
-        public string naam { get; set; }
+        public int Id { get; set; }
+        public string Naam { get; set; }
+        public string Logo { get; set; }
         public int Stadionid { get; set; }
-        public string logo { get; set; }
+        public float TicketPrijsCoefficient { get; set; }
+        public decimal AbonnementPrijs { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Abonnement> Abonnements { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Wedstrijd> Wedstrijds { get; set; }
+        public virtual Stadion Stadion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Wedstrijd> Wedstrijds1 { get; set; }
-        public virtual Stadion Stadion { get; set; }
     }
 }

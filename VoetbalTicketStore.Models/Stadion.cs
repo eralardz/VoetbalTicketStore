@@ -18,20 +18,20 @@ namespace VoetbalTicketStore.Models
         public Stadion()
         {
             this.Clubs = new HashSet<Club>();
+            this.Vaks = new HashSet<Vak>();
             this.Wedstrijds = new HashSet<Wedstrijd>();
-            this.Zitplaats = new HashSet<Zitplaat>();
         }
     
-        public int id { get; set; }
-        public string naam { get; set; }
-        public string adres { get; set; }
-        public Nullable<int> aantalZitplaatsen { get; set; }
+        public int Id { get; set; }
+        public string Naam { get; set; }
+        public string Adres { get; set; }
+        public int AantalZitplaatsen { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Club> Clubs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Wedstrijd> Wedstrijds { get; set; }
+        public virtual ICollection<Vak> Vaks { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Zitplaat> Zitplaats { get; set; }
+        public virtual ICollection<Wedstrijd> Wedstrijds { get; set; }
     }
 }

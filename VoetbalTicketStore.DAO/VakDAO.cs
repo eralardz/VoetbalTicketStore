@@ -4,16 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VoetbalTicketStore.Models;
+using System.Data.Entity;
 
 namespace VoetbalTicketStore.DAO
 {
-    public class StadionDAO
+    public class VakDAO
     {
-        public IEnumerable<Stadion> All()
+
+        public IEnumerable<Vak> GetVakkenInStadion(int stadionId)
         {
             var db = new VoetbalstoreEntities();
 
-            return db.Stadions; // lazy-loading
+            // eager
+            return db.Vaks.Where(v => v.Stadionid == stadionId).Include(v => v.VakType);
         }
+
     }
 }

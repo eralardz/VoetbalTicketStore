@@ -14,12 +14,12 @@ namespace VoetbalTicketStore.Models
     
     public partial class Abonnement
     {
-        public int id { get; set; }
-        public int Gebruikerid { get; set; }
+        public int Id { get; set; }
         public int Clubid { get; set; }
-        public Nullable<float> prijs { get; set; }
+        public decimal Prijs { get; set; }
+        public string Bezoekerrijksregisternummer { get; set; }
     
-        public virtual Gebruiker Gebruiker { get; set; }
+        public virtual Bezoeker Bezoeker { get; set; }
         public virtual Club Club { get; set; }
     }
 }

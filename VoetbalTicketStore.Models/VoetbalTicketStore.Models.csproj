@@ -52,17 +52,35 @@
     <Compile Include="Abonnement.cs">
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="AspNetRole.cs">
+      <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUser.cs">
+      <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUserClaim.cs">
+      <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUserLogin.cs">
+      <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Bezoeker.cs">
+      <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Club.cs">
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Gebruiker.cs">
+    <Compile Include="C__MigrationHistory.cs">
+      <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="dbo_Bestelling.cs">
+      <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="dbo_ShoppingCartData.cs">
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stadion.cs">
-      <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sysdiagram.cs">
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Taal.cs">
@@ -72,6 +90,9 @@
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Vak.cs">
+      <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VakType.cs">
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>
     <Compile Include="VoetbalTicketStoreModel.Context.cs">
@@ -92,37 +113,32 @@
     <Compile Include="Wedstrijd.cs">
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Zitplaat.cs">
-      <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EntityDeploy Include="VoetbalTicketStoreModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>VoetbalTicketStoreModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
     <None Include="packages.config" />
+    <EntityDeploy Include="VoetbalTicketStoreModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>VoetbalTicketStoreModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
     <None Include="VoetbalTicketStoreModel.edmx.diagram">
       <DependentUpon>VoetbalTicketStoreModel.edmx</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="VoetbalTicketStoreModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>VoetbalTicketStoreModel.Context.cs</LastGenOutput>
       <DependentUpon>VoetbalTicketStoreModel.edmx</DependentUpon>
+      <LastGenOutput>VoetbalTicketStoreModel.Context.cs</LastGenOutput>
     </Content>
     <Content Include="VoetbalTicketStoreModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>VoetbalTicketStoreModel.edmx</DependentUpon>
       <LastGenOutput>VoetbalTicketStoreModel.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

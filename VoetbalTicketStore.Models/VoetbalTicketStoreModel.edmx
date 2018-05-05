@@ -4,628 +4,1075 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="voetbalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="VoetbalStoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
         <EntityType Name="Abonnement">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Gebruikerid" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Clubid" Type="int" Nullable="false" />
-          <Property Name="prijs" Type="real" />
+          <Property Name="Prijs" Type="money" Nullable="false" />
+          <Property Name="Bezoekerrijksregisternummer" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Bezoeker">
+          <Key>
+            <PropertyRef Name="Rijksregisternummer" />
+          </Key>
+          <Property Name="Rijksregisternummer" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Naam" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Voornaam" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="Club">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="naam" Type="varchar" MaxLength="255" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Naam" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Logo" Type="varchar" MaxLength="255" />
           <Property Name="Stadionid" Type="int" Nullable="false" />
-          <Property Name="logo" Type="varchar" MaxLength="255" />
+          <Property Name="TicketPrijsCoefficient" Type="real" Nullable="false" />
+          <Property Name="AbonnementPrijs" Type="money" Nullable="false" />
         </EntityType>
-        <EntityType Name="Gebruiker">
+        <EntityType Name="dbo_Bestelling">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="gebruikersnaam" Type="varchar" MaxLength="255" />
-          <Property Name="email" Type="varchar" MaxLength="255" />
-          <Property Name="adres" Type="varchar" MaxLength="255" />
-          <Property Name="wachtwoord" Type="varchar" MaxLength="255" />
-          <Property Name="Taalid" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Bevestigd" Type="bit" Nullable="false" />
+          <Property Name="TotaalPrijs" Type="money" Nullable="false" />
+          <Property Name="AspNetUsersId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="BestelDatum" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="dbo_ShoppingCartData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BestellingId" Type="int" Nullable="false" />
+          <Property Name="Ticketid" Type="int" Nullable="false" />
+          <Property Name="Prijs" Type="money" Nullable="false" />
+          <Property Name="WedstrijdId" Type="int" Nullable="false" />
+          <Property Name="Hoeveelheid" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Stadion">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="naam" Type="varchar" MaxLength="255" />
-          <Property Name="adres" Type="varchar" MaxLength="255" />
-          <Property Name="aantalZitplaatsen" Type="int" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Naam" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Adres" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="AantalZitplaatsen" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Taal">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="naam" Type="varchar" MaxLength="255" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Naam" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="Ticket">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Gebruikerid" Type="int" Nullable="false" />
-          <Property Name="Zitplaatsid" Type="int" Nullable="false" />
-          <Property Name="prijs" Type="real" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Gebruikerid" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Prijs" Type="money" Nullable="false" />
+          <Property Name="Bezoekerrijksregisternummer" Type="varchar" MaxLength="255" />
+          <Property Name="Vakid" Type="int" Nullable="false" />
+          <Property Name="Bevestigd" Type="bit" Nullable="false" />
+          <Property Name="BestellingId" Type="int" Nullable="false" />
           <Property Name="Wedstrijdid" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Vak">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="naam" Type="varchar" MaxLength="255" />
-          <Property Name="maximumAantalZitplaatsen" Type="int" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaximumAantalZitplaatsen" Type="int" Nullable="false" />
+          <Property Name="VakTypeid" Type="int" Nullable="false" />
+          <Property Name="Stadionid" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VakType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Beschrijving" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="StandaardPrijs" Type="real" Nullable="false" />
+          <Property Name="ThuisVak" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Wedstrijd">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Stadionid" Type="int" Nullable="false" />
           <Property Name="Club1id" Type="int" Nullable="false" />
           <Property Name="Club2id" Type="int" Nullable="false" />
-          <Property Name="datum" Type="date" />
-          <Property Name="uur" Type="time" Precision="7" />
+          <Property Name="DatumEnTijd" Type="datetime" Nullable="false" />
         </EntityType>
-        <EntityType Name="Zitplaats">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="Stadionid" Type="int" Nullable="false" />
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Vakid" Type="int" Nullable="false" />
-          <Property Name="bezet" Type="bit" />
-        </EntityType>
-        <Association Name="Abonnement van gebruker">
-          <End Role="Gebruiker" Type="Self.Gebruiker" Multiplicity="1" />
+        <Association Name="Abonnement van een bezoeker">
+          <End Role="Bezoeker" Type="Self.Bezoeker" Multiplicity="1" />
           <End Role="Abonnement" Type="Self.Abonnement" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Gebruiker">
-              <PropertyRef Name="id" />
+            <Principal Role="Bezoeker">
+              <PropertyRef Name="Rijksregisternummer" />
             </Principal>
             <Dependent Role="Abonnement">
-              <PropertyRef Name="Gebruikerid" />
+              <PropertyRef Name="Bezoekerrijksregisternummer" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Abonnement voor club">
+        <Association Name="Abonnement voor een club">
           <End Role="Club" Type="Self.Club" Multiplicity="1" />
           <End Role="Abonnement" Type="Self.Abonnement" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Club">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Abonnement">
               <PropertyRef Name="Clubid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FKTicket491371">
-          <End Role="Wedstrijd" Type="Self.Wedstrijd" Multiplicity="1" />
+        <Association Name="Bestelling bestaat uit verschillende lijnen">
+          <End Role="dbo_Bestelling" Type="Self.dbo_Bestelling" Multiplicity="1" />
+          <End Role="dbo_ShoppingCartData" Type="Self.dbo_ShoppingCartData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="dbo_Bestelling">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="dbo_ShoppingCartData">
+              <PropertyRef Name="BestellingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Bestelling door gebruiker">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="dbo_Bestelling" Type="Self.dbo_Bestelling" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="dbo_Bestelling">
+              <PropertyRef Name="AspNetUsersId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Bestelling van tickets">
+          <End Role="dbo_Bestelling" Type="Self.dbo_Bestelling" Multiplicity="1" />
           <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Wedstrijd">
-              <PropertyRef Name="id" />
+            <Principal Role="dbo_Bestelling">
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Ticket">
-              <PropertyRef Name="Wedstrijdid" />
+              <PropertyRef Name="BestellingId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FKWedstrijd936734">
-          <End Role="Stadion" Type="Self.Stadion" Multiplicity="1" />
-          <End Role="Wedstrijd" Type="Self.Wedstrijd" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Stadion">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Wedstrijd">
-              <PropertyRef Name="Stadionid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="Gebruiker spreekt">
-          <End Role="Taal" Type="Self.Taal" Multiplicity="1" />
-          <End Role="Gebruiker" Type="Self.Gebruiker" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Taal">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Gebruiker">
-              <PropertyRef Name="Taalid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="Ploeg 1">
+        <Association Name="Bezoekers">
           <End Role="Club" Type="Self.Club" Multiplicity="1" />
           <End Role="Wedstrijd" Type="Self.Wedstrijd" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Club">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Wedstrijd">
               <PropertyRef Name="Club1id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Ploeg 2">
-          <End Role="Club" Type="Self.Club" Multiplicity="1" />
-          <End Role="Wedstrijd" Type="Self.Wedstrijd" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Club">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Wedstrijd">
-              <PropertyRef Name="Club2id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="Stadion behoort toe aan een club">
+        <Association Name="Club speelt in een stadion">
           <End Role="Stadion" Type="Self.Stadion" Multiplicity="1" />
           <End Role="Club" Type="Self.Club" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Stadion">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Club">
               <PropertyRef Name="Stadionid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Ticket van gebruiker">
-          <End Role="Gebruiker" Type="Self.Gebruiker" Multiplicity="1" />
+        <Association Name="FKAspNetUser206039">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKAspNetUser367573">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKAspNetUser475027">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKAspNetUser755613">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Thuisploeg">
+          <End Role="Club" Type="Self.Club" Multiplicity="1" />
+          <End Role="Wedstrijd" Type="Self.Wedstrijd" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Club">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Wedstrijd">
+              <PropertyRef Name="Club2id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Ticket besteld door ASP user">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
           <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Gebruiker">
-              <PropertyRef Name="id" />
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Ticket">
               <PropertyRef Name="Gebruikerid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Ticket voor een zitplaats">
-          <End Role="Zitplaats" Type="Self.Zitplaats" Multiplicity="1" />
-          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+        <Association Name="Ticket in een shopping cart">
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="1" />
+          <End Role="dbo_ShoppingCartData" Type="Self.dbo_ShoppingCartData" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Zitplaats">
-              <PropertyRef Name="id" />
+            <Principal Role="Ticket">
+              <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Ticket">
-              <PropertyRef Name="Zitplaatsid" />
+            <Dependent Role="dbo_ShoppingCartData">
+              <PropertyRef Name="Ticketid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Zitplaats in een ring">
+        <Association Name="Ticket van een bezoeker">
+          <End Role="Bezoeker" Type="Self.Bezoeker" Multiplicity="0..1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bezoeker">
+              <PropertyRef Name="Rijksregisternummer" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="Bezoekerrijksregisternummer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Ticket voor een vak">
           <End Role="Vak" Type="Self.Vak" Multiplicity="1" />
-          <End Role="Zitplaats" Type="Self.Zitplaats" Multiplicity="*" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Vak">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Zitplaats">
+            <Dependent Role="Ticket">
               <PropertyRef Name="Vakid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Zitplaats in een stadion">
+        <Association Name="Ticket voor wedstrijd">
+          <End Role="Wedstrijd" Type="Self.Wedstrijd" Multiplicity="1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wedstrijd">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="Wedstrijdid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Vak heeft een type">
+          <End Role="VakType" Type="Self.VakType" Multiplicity="1" />
+          <End Role="Vak" Type="Self.Vak" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VakType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vak">
+              <PropertyRef Name="VakTypeid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Vak in een stadion">
           <End Role="Stadion" Type="Self.Stadion" Multiplicity="1" />
-          <End Role="Zitplaats" Type="Self.Zitplaats" Multiplicity="*" />
+          <End Role="Vak" Type="Self.Vak" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Stadion">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Zitplaats">
+            <Dependent Role="Vak">
               <PropertyRef Name="Stadionid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="voetbalModelStoreContainer">
+        <Association Name="Wedstrijd wordt gespeeld in een stadion">
+          <End Role="Stadion" Type="Self.Stadion" Multiplicity="1" />
+          <End Role="Wedstrijd" Type="Self.Wedstrijd" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stadion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Wedstrijd">
+              <PropertyRef Name="Stadionid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Winkelwagentje voor wedstrijd">
+          <End Role="Wedstrijd" Type="Self.Wedstrijd" Multiplicity="1" />
+          <End Role="dbo_ShoppingCartData" Type="Self.dbo_ShoppingCartData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wedstrijd">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="dbo_ShoppingCartData">
+              <PropertyRef Name="WedstrijdId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="VoetbalStoreModelStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Abonnement" EntityType="Self.Abonnement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Bezoeker" EntityType="Self.Bezoeker" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Club" EntityType="Self.Club" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Gebruiker" EntityType="Self.Gebruiker" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="dbo_Bestelling" EntityType="Self.dbo_Bestelling" Schema="dbo" Table="dbo.Bestelling" store:Type="Tables" />
+          <EntitySet Name="dbo_ShoppingCartData" EntityType="Self.dbo_ShoppingCartData" Schema="dbo" Table="dbo.ShoppingCartData" store:Type="Tables" />
           <EntitySet Name="Stadion" EntityType="Self.Stadion" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Taal" EntityType="Self.Taal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ticket" EntityType="Self.Ticket" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vak" EntityType="Self.Vak" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VakType" EntityType="Self.VakType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Wedstrijd" EntityType="Self.Wedstrijd" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Zitplaats" EntityType="Self.Zitplaats" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="Abonnement van gebruker" Association="Self.Abonnement van gebruker">
-            <End Role="Gebruiker" EntitySet="Gebruiker" />
+          <AssociationSet Name="Abonnement van een bezoeker" Association="Self.Abonnement van een bezoeker">
+            <End Role="Bezoeker" EntitySet="Bezoeker" />
             <End Role="Abonnement" EntitySet="Abonnement" />
           </AssociationSet>
-          <AssociationSet Name="Abonnement voor club" Association="Self.Abonnement voor club">
+          <AssociationSet Name="Abonnement voor een club" Association="Self.Abonnement voor een club">
             <End Role="Club" EntitySet="Club" />
             <End Role="Abonnement" EntitySet="Abonnement" />
           </AssociationSet>
-          <AssociationSet Name="FKTicket491371" Association="Self.FKTicket491371">
-            <End Role="Wedstrijd" EntitySet="Wedstrijd" />
+          <AssociationSet Name="Bestelling bestaat uit verschillende lijnen" Association="Self.Bestelling bestaat uit verschillende lijnen">
+            <End Role="dbo_Bestelling" EntitySet="dbo_Bestelling" />
+            <End Role="dbo_ShoppingCartData" EntitySet="dbo_ShoppingCartData" />
+          </AssociationSet>
+          <AssociationSet Name="Bestelling door gebruiker" Association="Self.Bestelling door gebruiker">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="dbo_Bestelling" EntitySet="dbo_Bestelling" />
+          </AssociationSet>
+          <AssociationSet Name="Bestelling van tickets" Association="Self.Bestelling van tickets">
+            <End Role="dbo_Bestelling" EntitySet="dbo_Bestelling" />
             <End Role="Ticket" EntitySet="Ticket" />
           </AssociationSet>
-          <AssociationSet Name="FKWedstrijd936734" Association="Self.FKWedstrijd936734">
-            <End Role="Stadion" EntitySet="Stadion" />
-            <End Role="Wedstrijd" EntitySet="Wedstrijd" />
-          </AssociationSet>
-          <AssociationSet Name="Gebruiker spreekt" Association="Self.Gebruiker spreekt">
-            <End Role="Taal" EntitySet="Taal" />
-            <End Role="Gebruiker" EntitySet="Gebruiker" />
-          </AssociationSet>
-          <AssociationSet Name="Ploeg 1" Association="Self.Ploeg 1">
+          <AssociationSet Name="Bezoekers" Association="Self.Bezoekers">
             <End Role="Club" EntitySet="Club" />
             <End Role="Wedstrijd" EntitySet="Wedstrijd" />
           </AssociationSet>
-          <AssociationSet Name="Ploeg 2" Association="Self.Ploeg 2">
-            <End Role="Club" EntitySet="Club" />
-            <End Role="Wedstrijd" EntitySet="Wedstrijd" />
-          </AssociationSet>
-          <AssociationSet Name="Stadion behoort toe aan een club" Association="Self.Stadion behoort toe aan een club">
+          <AssociationSet Name="Club speelt in een stadion" Association="Self.Club speelt in een stadion">
             <End Role="Stadion" EntitySet="Stadion" />
             <End Role="Club" EntitySet="Club" />
           </AssociationSet>
-          <AssociationSet Name="Ticket van gebruiker" Association="Self.Ticket van gebruiker">
-            <End Role="Gebruiker" EntitySet="Gebruiker" />
+          <AssociationSet Name="FKAspNetUser206039" Association="Self.FKAspNetUser206039">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FKAspNetUser367573" Association="Self.FKAspNetUser367573">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FKAspNetUser475027" Association="Self.FKAspNetUser475027">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FKAspNetUser755613" Association="Self.FKAspNetUser755613">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="Thuisploeg" Association="Self.Thuisploeg">
+            <End Role="Club" EntitySet="Club" />
+            <End Role="Wedstrijd" EntitySet="Wedstrijd" />
+          </AssociationSet>
+          <AssociationSet Name="Ticket besteld door ASP user" Association="Self.Ticket besteld door ASP user">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Ticket" EntitySet="Ticket" />
           </AssociationSet>
-          <AssociationSet Name="Ticket voor een zitplaats" Association="Self.Ticket voor een zitplaats">
-            <End Role="Zitplaats" EntitySet="Zitplaats" />
+          <AssociationSet Name="Ticket in een shopping cart" Association="Self.Ticket in een shopping cart">
+            <End Role="Ticket" EntitySet="Ticket" />
+            <End Role="dbo_ShoppingCartData" EntitySet="dbo_ShoppingCartData" />
+          </AssociationSet>
+          <AssociationSet Name="Ticket van een bezoeker" Association="Self.Ticket van een bezoeker">
+            <End Role="Bezoeker" EntitySet="Bezoeker" />
             <End Role="Ticket" EntitySet="Ticket" />
           </AssociationSet>
-          <AssociationSet Name="Zitplaats in een ring" Association="Self.Zitplaats in een ring">
+          <AssociationSet Name="Ticket voor een vak" Association="Self.Ticket voor een vak">
             <End Role="Vak" EntitySet="Vak" />
-            <End Role="Zitplaats" EntitySet="Zitplaats" />
+            <End Role="Ticket" EntitySet="Ticket" />
           </AssociationSet>
-          <AssociationSet Name="Zitplaats in een stadion" Association="Self.Zitplaats in een stadion">
+          <AssociationSet Name="Ticket voor wedstrijd" Association="Self.Ticket voor wedstrijd">
+            <End Role="Wedstrijd" EntitySet="Wedstrijd" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+          <AssociationSet Name="Vak heeft een type" Association="Self.Vak heeft een type">
+            <End Role="VakType" EntitySet="VakType" />
+            <End Role="Vak" EntitySet="Vak" />
+          </AssociationSet>
+          <AssociationSet Name="Vak in een stadion" Association="Self.Vak in een stadion">
             <End Role="Stadion" EntitySet="Stadion" />
-            <End Role="Zitplaats" EntitySet="Zitplaats" />
+            <End Role="Vak" EntitySet="Vak" />
+          </AssociationSet>
+          <AssociationSet Name="Wedstrijd wordt gespeeld in een stadion" Association="Self.Wedstrijd wordt gespeeld in een stadion">
+            <End Role="Stadion" EntitySet="Stadion" />
+            <End Role="Wedstrijd" EntitySet="Wedstrijd" />
+          </AssociationSet>
+          <AssociationSet Name="Winkelwagentje voor wedstrijd" Association="Self.Winkelwagentje voor wedstrijd">
+            <End Role="Wedstrijd" EntitySet="Wedstrijd" />
+            <End Role="dbo_ShoppingCartData" EntitySet="dbo_ShoppingCartData" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="voetbalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="VoetbalStoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
         <EntityType Name="Abonnement">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Gebruikerid" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Clubid" Type="Int32" Nullable="false" />
-          <Property Name="prijs" Type="Single" />
-          <NavigationProperty Name="Gebruiker" Relationship="Self.Abonnement_van_gebruker" FromRole="Abonnement" ToRole="Gebruiker" />
-          <NavigationProperty Name="Club" Relationship="Self.Abonnement_voor_club" FromRole="Abonnement" ToRole="Club" />
+          <Property Name="Prijs" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Bezoekerrijksregisternummer" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Bezoeker" Relationship="Self.Abonnement_van_een_bezoeker" FromRole="Abonnement" ToRole="Bezoeker" />
+          <NavigationProperty Name="Club" Relationship="Self.Abonnement_voor_een_club" FromRole="Abonnement" ToRole="Club" />
+        </EntityType>
+        <EntityType Name="AspNetRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FKAspNetUser367573" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogin">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FKAspNetUser755613" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FKAspNetUser367573" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FKAspNetUser755613" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+          <NavigationProperty Name="dbo_Bestelling" Relationship="Self.Bestelling_door_gebruiker" FromRole="AspNetUsers" ToRole="dbo_Bestelling" />
+          <NavigationProperty Name="Tickets" Relationship="Self.Ticket_besteld_door_ASP_user" FromRole="AspNetUsers" ToRole="Ticket" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+        </EntityType>
+        <EntityType Name="Bezoeker">
+          <Key>
+            <PropertyRef Name="Rijksregisternummer" />
+          </Key>
+          <Property Name="Rijksregisternummer" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Naam" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Voornaam" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Abonnements" Relationship="Self.Abonnement_van_een_bezoeker" FromRole="Bezoeker" ToRole="Abonnement" />
+          <NavigationProperty Name="Tickets" Relationship="Self.Ticket_van_een_bezoeker" FromRole="Bezoeker" ToRole="Ticket" />
         </EntityType>
         <EntityType Name="Club">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="naam" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Naam" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Logo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Stadionid" Type="Int32" Nullable="false" />
-          <Property Name="logo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Abonnements" Relationship="Self.Abonnement_voor_club" FromRole="Club" ToRole="Abonnement" />
-          <NavigationProperty Name="Wedstrijds" Relationship="Self.Ploeg_1" FromRole="Club" ToRole="Wedstrijd" />
-          <NavigationProperty Name="Wedstrijds1" Relationship="Self.Ploeg_2" FromRole="Club" ToRole="Wedstrijd" />
-          <NavigationProperty Name="Stadion" Relationship="Self.Stadion_behoort_toe_aan_een_club" FromRole="Club" ToRole="Stadion" />
+          <Property Name="TicketPrijsCoefficient" Type="Single" Nullable="false" />
+          <Property Name="AbonnementPrijs" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="Abonnements" Relationship="Self.Abonnement_voor_een_club" FromRole="Club" ToRole="Abonnement" />
+          <NavigationProperty Name="Wedstrijds" Relationship="Self.Bezoekers" FromRole="Club" ToRole="Wedstrijd" />
+          <NavigationProperty Name="Stadion" Relationship="Self.Club_speelt_in_een_stadion" FromRole="Club" ToRole="Stadion" />
+          <NavigationProperty Name="Wedstrijds1" Relationship="Self.Thuisploeg" FromRole="Club" ToRole="Wedstrijd" />
         </EntityType>
-        <EntityType Name="Gebruiker">
+        <EntityType Name="dbo_Bestelling">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="gebruikersnaam" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="adres" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="wachtwoord" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Taalid" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Abonnements" Relationship="Self.Abonnement_van_gebruker" FromRole="Gebruiker" ToRole="Abonnement" />
-          <NavigationProperty Name="Taal" Relationship="Self.Gebruiker_spreekt" FromRole="Gebruiker" ToRole="Taal" />
-          <NavigationProperty Name="Tickets" Relationship="Self.Ticket_van_gebruiker" FromRole="Gebruiker" ToRole="Ticket" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Bevestigd" Type="Boolean" Nullable="false" />
+          <Property Name="TotaalPrijs" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="AspNetUsersId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BestelDatum" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.Bestelling_door_gebruiker" FromRole="dbo_Bestelling" ToRole="AspNetUsers" />
+          <NavigationProperty Name="dbo_ShoppingCartData" Relationship="Self.Bestelling_bestaat_uit_verschillende_lijnen" FromRole="dbo_Bestelling" ToRole="dbo_ShoppingCartData" />
+          <NavigationProperty Name="Tickets" Relationship="Self.Bestelling_van_tickets" FromRole="dbo_Bestelling" ToRole="Ticket" />
+        </EntityType>
+        <EntityType Name="dbo_ShoppingCartData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BestellingId" Type="Int32" Nullable="false" />
+          <Property Name="Ticketid" Type="Int32" Nullable="false" />
+          <Property Name="Prijs" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="WedstrijdId" Type="Int32" Nullable="false" />
+          <Property Name="Hoeveelheid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="dbo_Bestelling" Relationship="Self.Bestelling_bestaat_uit_verschillende_lijnen" FromRole="dbo_ShoppingCartData" ToRole="dbo_Bestelling" />
+          <NavigationProperty Name="Ticket" Relationship="Self.Ticket_in_een_shopping_cart" FromRole="dbo_ShoppingCartData" ToRole="Ticket" />
+          <NavigationProperty Name="Wedstrijd" Relationship="Self.Winkelwagentje_voor_wedstrijd" FromRole="dbo_ShoppingCartData" ToRole="Wedstrijd" />
         </EntityType>
         <EntityType Name="Stadion">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="naam" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="adres" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="aantalZitplaatsen" Type="Int32" />
-          <NavigationProperty Name="Clubs" Relationship="Self.Stadion_behoort_toe_aan_een_club" FromRole="Stadion" ToRole="Club" />
-          <NavigationProperty Name="Wedstrijds" Relationship="Self.FKWedstrijd936734" FromRole="Stadion" ToRole="Wedstrijd" />
-          <NavigationProperty Name="Zitplaats" Relationship="Self.Zitplaats_in_een_stadion" FromRole="Stadion" ToRole="Zitplaats" />
-        </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Naam" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Adres" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AantalZitplaatsen" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Clubs" Relationship="Self.Club_speelt_in_een_stadion" FromRole="Stadion" ToRole="Club" />
+          <NavigationProperty Name="Vaks" Relationship="Self.Vak_in_een_stadion" FromRole="Stadion" ToRole="Vak" />
+          <NavigationProperty Name="Wedstrijds" Relationship="Self.Wedstrijd_wordt_gespeeld_in_een_stadion" FromRole="Stadion" ToRole="Wedstrijd" />
         </EntityType>
         <EntityType Name="Taal">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="naam" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Gebruikers" Relationship="Self.Gebruiker_spreekt" FromRole="Taal" ToRole="Gebruiker" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Naam" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
         <EntityType Name="Ticket">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Gebruikerid" Type="Int32" Nullable="false" />
-          <Property Name="Zitplaatsid" Type="Int32" Nullable="false" />
-          <Property Name="prijs" Type="Single" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Gebruikerid" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Prijs" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Bezoekerrijksregisternummer" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Vakid" Type="Int32" Nullable="false" />
+          <Property Name="Bevestigd" Type="Boolean" Nullable="false" />
+          <Property Name="BestellingId" Type="Int32" Nullable="false" />
           <Property Name="Wedstrijdid" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Gebruiker" Relationship="Self.Ticket_van_gebruiker" FromRole="Ticket" ToRole="Gebruiker" />
-          <NavigationProperty Name="Wedstrijd" Relationship="Self.FKTicket491371" FromRole="Ticket" ToRole="Wedstrijd" />
-          <NavigationProperty Name="Zitplaat" Relationship="Self.Ticket_voor_een_zitplaats" FromRole="Ticket" ToRole="Zitplaats" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.Ticket_besteld_door_ASP_user" FromRole="Ticket" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Bezoeker" Relationship="Self.Ticket_van_een_bezoeker" FromRole="Ticket" ToRole="Bezoeker" />
+          <NavigationProperty Name="dbo_Bestelling" Relationship="Self.Bestelling_van_tickets" FromRole="Ticket" ToRole="dbo_Bestelling" />
+          <NavigationProperty Name="dbo_ShoppingCartData" Relationship="Self.Ticket_in_een_shopping_cart" FromRole="Ticket" ToRole="dbo_ShoppingCartData" />
+          <NavigationProperty Name="Vak" Relationship="Self.Ticket_voor_een_vak" FromRole="Ticket" ToRole="Vak" />
+          <NavigationProperty Name="Wedstrijd" Relationship="Self.Ticket_voor_wedstrijd" FromRole="Ticket" ToRole="Wedstrijd" />
         </EntityType>
         <EntityType Name="Vak">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="naam" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="maximumAantalZitplaatsen" Type="Int32" />
-          <NavigationProperty Name="Zitplaats" Relationship="Self.Zitplaats_in_een_ring" FromRole="Vak" ToRole="Zitplaats" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaximumAantalZitplaatsen" Type="Int32" Nullable="false" />
+          <Property Name="VakTypeid" Type="Int32" Nullable="false" />
+          <Property Name="Stadionid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Stadion" Relationship="Self.Vak_in_een_stadion" FromRole="Vak" ToRole="Stadion" />
+          <NavigationProperty Name="Tickets" Relationship="Self.Ticket_voor_een_vak" FromRole="Vak" ToRole="Ticket" />
+          <NavigationProperty Name="VakType" Relationship="Self.Vak_heeft_een_type" FromRole="Vak" ToRole="VakType" />
+        </EntityType>
+        <EntityType Name="VakType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Beschrijving" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="StandaardPrijs" Type="Single" Nullable="false" />
+          <Property Name="ThuisVak" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Vaks" Relationship="Self.Vak_heeft_een_type" FromRole="VakType" ToRole="Vak" />
         </EntityType>
         <EntityType Name="Wedstrijd">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Stadionid" Type="Int32" Nullable="false" />
           <Property Name="Club1id" Type="Int32" Nullable="false" />
           <Property Name="Club2id" Type="Int32" Nullable="false" />
-          <Property Name="datum" Type="DateTime" Precision="0" />
-          <Property Name="uur" Type="Time" Precision="7" />
-          <NavigationProperty Name="Club" Relationship="Self.Ploeg_1" FromRole="Wedstrijd" ToRole="Club" />
-          <NavigationProperty Name="Club1" Relationship="Self.Ploeg_2" FromRole="Wedstrijd" ToRole="Club" />
-          <NavigationProperty Name="Stadion" Relationship="Self.FKWedstrijd936734" FromRole="Wedstrijd" ToRole="Stadion" />
-          <NavigationProperty Name="Tickets" Relationship="Self.FKTicket491371" FromRole="Wedstrijd" ToRole="Ticket" />
+          <Property Name="DatumEnTijd" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Club" Relationship="Self.Bezoekers" FromRole="Wedstrijd" ToRole="Club" />
+          <NavigationProperty Name="Club1" Relationship="Self.Thuisploeg" FromRole="Wedstrijd" ToRole="Club" />
+          <NavigationProperty Name="dbo_ShoppingCartData" Relationship="Self.Winkelwagentje_voor_wedstrijd" FromRole="Wedstrijd" ToRole="dbo_ShoppingCartData" />
+          <NavigationProperty Name="Stadion" Relationship="Self.Wedstrijd_wordt_gespeeld_in_een_stadion" FromRole="Wedstrijd" ToRole="Stadion" />
+          <NavigationProperty Name="Tickets" Relationship="Self.Ticket_voor_wedstrijd" FromRole="Wedstrijd" ToRole="Ticket" />
         </EntityType>
-        <EntityType Name="Zitplaat">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="Stadionid" Type="Int32" Nullable="false" />
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Vakid" Type="Int32" Nullable="false" />
-          <Property Name="bezet" Type="Boolean" />
-          <NavigationProperty Name="Stadion" Relationship="Self.Zitplaats_in_een_stadion" FromRole="Zitplaats" ToRole="Stadion" />
-          <NavigationProperty Name="Tickets" Relationship="Self.Ticket_voor_een_zitplaats" FromRole="Zitplaats" ToRole="Ticket" />
-          <NavigationProperty Name="Vak" Relationship="Self.Zitplaats_in_een_ring" FromRole="Zitplaats" ToRole="Vak" />
-        </EntityType>
-        <Association Name="Abonnement_van_gebruker">
-          <End Role="Gebruiker" Type="Self.Gebruiker" Multiplicity="1" />
+        <Association Name="Abonnement_van_een_bezoeker">
+          <End Role="Bezoeker" Type="Self.Bezoeker" Multiplicity="1" />
           <End Role="Abonnement" Type="Self.Abonnement" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Gebruiker">
-              <PropertyRef Name="id" />
+            <Principal Role="Bezoeker">
+              <PropertyRef Name="Rijksregisternummer" />
             </Principal>
             <Dependent Role="Abonnement">
-              <PropertyRef Name="Gebruikerid" />
+              <PropertyRef Name="Bezoekerrijksregisternummer" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Abonnement_voor_club">
+        <Association Name="Abonnement_voor_een_club">
           <End Role="Club" Type="Self.Club" Multiplicity="1" />
           <End Role="Abonnement" Type="Self.Abonnement" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Club">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Abonnement">
               <PropertyRef Name="Clubid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Ploeg_1">
-          <End Role="Club" Type="Self.Club" Multiplicity="1" />
-          <End Role="Wedstrijd" Type="Self.Wedstrijd" Multiplicity="*" />
+        <Association Name="FKAspNetUser367573">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaim" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Club">
-              <PropertyRef Name="id" />
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Wedstrijd">
-              <PropertyRef Name="Club1id" />
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Ploeg_2">
-          <End Role="Club" Type="Self.Club" Multiplicity="1" />
-          <End Role="Wedstrijd" Type="Self.Wedstrijd" Multiplicity="*" />
+        <Association Name="FKAspNetUser755613">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogin" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Club">
-              <PropertyRef Name="id" />
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Wedstrijd">
-              <PropertyRef Name="Club2id" />
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Stadion_behoort_toe_aan_een_club">
-          <End Role="Stadion" Type="Self.Stadion" Multiplicity="1" />
-          <End Role="Club" Type="Self.Club" Multiplicity="*" />
+        <Association Name="Bestelling_door_gebruiker">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+          <End Role="dbo_Bestelling" Type="Self.dbo_Bestelling" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Stadion">
-              <PropertyRef Name="id" />
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Club">
-              <PropertyRef Name="Stadionid" />
+            <Dependent Role="dbo_Bestelling">
+              <PropertyRef Name="AspNetUsersId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Gebruiker_spreekt">
-          <End Role="Taal" Type="Self.Taal" Multiplicity="1" />
-          <End Role="Gebruiker" Type="Self.Gebruiker" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Taal">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Gebruiker">
-              <PropertyRef Name="Taalid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="Ticket_van_gebruiker">
-          <End Role="Gebruiker" Type="Self.Gebruiker" Multiplicity="1" />
+        <Association Name="Ticket_besteld_door_ASP_user">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
           <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Gebruiker">
-              <PropertyRef Name="id" />
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Ticket">
               <PropertyRef Name="Gebruikerid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FKWedstrijd936734">
+        <Association Name="Ticket_van_een_bezoeker">
+          <End Role="Bezoeker" Type="Self.Bezoeker" Multiplicity="0..1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bezoeker">
+              <PropertyRef Name="Rijksregisternummer" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="Bezoekerrijksregisternummer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Bezoekers">
+          <End Role="Club" Type="Self.Club" Multiplicity="1" />
+          <End Role="Wedstrijd" Type="Self.Wedstrijd" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Club">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Wedstrijd">
+              <PropertyRef Name="Club1id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Club_speelt_in_een_stadion">
+          <End Role="Stadion" Type="Self.Stadion" Multiplicity="1" />
+          <End Role="Club" Type="Self.Club" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stadion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Club">
+              <PropertyRef Name="Stadionid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Thuisploeg">
+          <End Role="Club" Type="Self.Club" Multiplicity="1" />
+          <End Role="Wedstrijd" Type="Self.Wedstrijd" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Club">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Wedstrijd">
+              <PropertyRef Name="Club2id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Bestelling_bestaat_uit_verschillende_lijnen">
+          <End Role="dbo_Bestelling" Type="Self.dbo_Bestelling" Multiplicity="1" />
+          <End Role="dbo_ShoppingCartData" Type="Self.dbo_ShoppingCartData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="dbo_Bestelling">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="dbo_ShoppingCartData">
+              <PropertyRef Name="BestellingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Bestelling_van_tickets">
+          <End Role="dbo_Bestelling" Type="Self.dbo_Bestelling" Multiplicity="1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="dbo_Bestelling">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="BestellingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Ticket_in_een_shopping_cart">
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="1" />
+          <End Role="dbo_ShoppingCartData" Type="Self.dbo_ShoppingCartData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ticket">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="dbo_ShoppingCartData">
+              <PropertyRef Name="Ticketid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Winkelwagentje_voor_wedstrijd">
+          <End Role="Wedstrijd" Type="Self.Wedstrijd" Multiplicity="1" />
+          <End Role="dbo_ShoppingCartData" Type="Self.dbo_ShoppingCartData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wedstrijd">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="dbo_ShoppingCartData">
+              <PropertyRef Name="WedstrijdId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Vak_in_een_stadion">
+          <End Role="Stadion" Type="Self.Stadion" Multiplicity="1" />
+          <End Role="Vak" Type="Self.Vak" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stadion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vak">
+              <PropertyRef Name="Stadionid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Wedstrijd_wordt_gespeeld_in_een_stadion">
           <End Role="Stadion" Type="Self.Stadion" Multiplicity="1" />
           <End Role="Wedstrijd" Type="Self.Wedstrijd" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Stadion">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Wedstrijd">
               <PropertyRef Name="Stadionid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Zitplaats_in_een_stadion">
-          <End Role="Stadion" Type="Self.Stadion" Multiplicity="1" />
-          <End Role="Zitplaats" Type="Self.Zitplaat" Multiplicity="*" />
+        <Association Name="Ticket_voor_een_vak">
+          <End Role="Vak" Type="Self.Vak" Multiplicity="1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Stadion">
-              <PropertyRef Name="id" />
+            <Principal Role="Vak">
+              <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Zitplaats">
-              <PropertyRef Name="Stadionid" />
+            <Dependent Role="Ticket">
+              <PropertyRef Name="Vakid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FKTicket491371">
+        <Association Name="Ticket_voor_wedstrijd">
           <End Role="Wedstrijd" Type="Self.Wedstrijd" Multiplicity="1" />
           <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Wedstrijd">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Ticket">
               <PropertyRef Name="Wedstrijdid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Ticket_voor_een_zitplaats">
-          <End Role="Zitplaats" Type="Self.Zitplaat" Multiplicity="1" />
-          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+        <Association Name="Vak_heeft_een_type">
+          <End Role="VakType" Type="Self.VakType" Multiplicity="1" />
+          <End Role="Vak" Type="Self.Vak" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Zitplaats">
-              <PropertyRef Name="id" />
+            <Principal Role="VakType">
+              <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Ticket">
-              <PropertyRef Name="Zitplaatsid" />
+            <Dependent Role="Vak">
+              <PropertyRef Name="VakTypeid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Zitplaats_in_een_ring">
-          <End Role="Vak" Type="Self.Vak" Multiplicity="1" />
-          <End Role="Zitplaats" Type="Self.Zitplaat" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vak">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Zitplaats">
-              <PropertyRef Name="Vakid" />
-            </Dependent>
-          </ReferentialConstraint>
+        <Association Name="AspNetUserRoles">
+          <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="VoetbalEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="VoetbalstoreEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
           <EntitySet Name="Abonnements" EntityType="Self.Abonnement" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+          <EntitySet Name="Bezoekers" EntityType="Self.Bezoeker" />
           <EntitySet Name="Clubs" EntityType="Self.Club" />
-          <EntitySet Name="Gebruikers" EntityType="Self.Gebruiker" />
+          <EntitySet Name="dbo_Bestelling" EntityType="Self.dbo_Bestelling" />
+          <EntitySet Name="dbo_ShoppingCartData" EntityType="Self.dbo_ShoppingCartData" />
           <EntitySet Name="Stadions" EntityType="Self.Stadion" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="Taals" EntityType="Self.Taal" />
           <EntitySet Name="Tickets" EntityType="Self.Ticket" />
           <EntitySet Name="Vaks" EntityType="Self.Vak" />
+          <EntitySet Name="VakTypes" EntityType="Self.VakType" />
           <EntitySet Name="Wedstrijds" EntityType="Self.Wedstrijd" />
-          <EntitySet Name="Zitplaats" EntityType="Self.Zitplaat" />
-          <AssociationSet Name="Abonnement_van_gebruker" Association="Self.Abonnement_van_gebruker">
-            <End Role="Gebruiker" EntitySet="Gebruikers" />
+          <AssociationSet Name="Abonnement_van_een_bezoeker" Association="Self.Abonnement_van_een_bezoeker">
+            <End Role="Bezoeker" EntitySet="Bezoekers" />
             <End Role="Abonnement" EntitySet="Abonnements" />
           </AssociationSet>
-          <AssociationSet Name="Abonnement_voor_club" Association="Self.Abonnement_voor_club">
+          <AssociationSet Name="Abonnement_voor_een_club" Association="Self.Abonnement_voor_een_club">
             <End Role="Club" EntitySet="Clubs" />
             <End Role="Abonnement" EntitySet="Abonnements" />
           </AssociationSet>
-          <AssociationSet Name="Ploeg_1" Association="Self.Ploeg_1">
+          <AssociationSet Name="FKAspNetUser367573" Association="Self.FKAspNetUser367573">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FKAspNetUser755613" Association="Self.FKAspNetUser755613">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="Bestelling_door_gebruiker" Association="Self.Bestelling_door_gebruiker">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="dbo_Bestelling" EntitySet="dbo_Bestelling" />
+          </AssociationSet>
+          <AssociationSet Name="Ticket_besteld_door_ASP_user" Association="Self.Ticket_besteld_door_ASP_user">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Ticket" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="Ticket_van_een_bezoeker" Association="Self.Ticket_van_een_bezoeker">
+            <End Role="Bezoeker" EntitySet="Bezoekers" />
+            <End Role="Ticket" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="Bezoekers1" Association="Self.Bezoekers">
             <End Role="Club" EntitySet="Clubs" />
             <End Role="Wedstrijd" EntitySet="Wedstrijds" />
           </AssociationSet>
-          <AssociationSet Name="Ploeg_2" Association="Self.Ploeg_2">
-            <End Role="Club" EntitySet="Clubs" />
-            <End Role="Wedstrijd" EntitySet="Wedstrijds" />
-          </AssociationSet>
-          <AssociationSet Name="Stadion_behoort_toe_aan_een_club" Association="Self.Stadion_behoort_toe_aan_een_club">
+          <AssociationSet Name="Club_speelt_in_een_stadion" Association="Self.Club_speelt_in_een_stadion">
             <End Role="Stadion" EntitySet="Stadions" />
             <End Role="Club" EntitySet="Clubs" />
           </AssociationSet>
-          <AssociationSet Name="Gebruiker_spreekt" Association="Self.Gebruiker_spreekt">
-            <End Role="Taal" EntitySet="Taals" />
-            <End Role="Gebruiker" EntitySet="Gebruikers" />
-          </AssociationSet>
-          <AssociationSet Name="Ticket_van_gebruiker" Association="Self.Ticket_van_gebruiker">
-            <End Role="Gebruiker" EntitySet="Gebruikers" />
-            <End Role="Ticket" EntitySet="Tickets" />
-          </AssociationSet>
-          <AssociationSet Name="FKWedstrijd936734" Association="Self.FKWedstrijd936734">
-            <End Role="Stadion" EntitySet="Stadions" />
+          <AssociationSet Name="Thuisploeg" Association="Self.Thuisploeg">
+            <End Role="Club" EntitySet="Clubs" />
             <End Role="Wedstrijd" EntitySet="Wedstrijds" />
           </AssociationSet>
-          <AssociationSet Name="Zitplaats_in_een_stadion" Association="Self.Zitplaats_in_een_stadion">
-            <End Role="Stadion" EntitySet="Stadions" />
-            <End Role="Zitplaats" EntitySet="Zitplaats" />
+          <AssociationSet Name="Bestelling_bestaat_uit_verschillende_lijnen" Association="Self.Bestelling_bestaat_uit_verschillende_lijnen">
+            <End Role="dbo_Bestelling" EntitySet="dbo_Bestelling" />
+            <End Role="dbo_ShoppingCartData" EntitySet="dbo_ShoppingCartData" />
           </AssociationSet>
-          <AssociationSet Name="FKTicket491371" Association="Self.FKTicket491371">
+          <AssociationSet Name="Bestelling_van_tickets" Association="Self.Bestelling_van_tickets">
+            <End Role="dbo_Bestelling" EntitySet="dbo_Bestelling" />
+            <End Role="Ticket" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="Ticket_in_een_shopping_cart" Association="Self.Ticket_in_een_shopping_cart">
+            <End Role="Ticket" EntitySet="Tickets" />
+            <End Role="dbo_ShoppingCartData" EntitySet="dbo_ShoppingCartData" />
+          </AssociationSet>
+          <AssociationSet Name="Winkelwagentje_voor_wedstrijd" Association="Self.Winkelwagentje_voor_wedstrijd">
             <End Role="Wedstrijd" EntitySet="Wedstrijds" />
-            <End Role="Ticket" EntitySet="Tickets" />
+            <End Role="dbo_ShoppingCartData" EntitySet="dbo_ShoppingCartData" />
           </AssociationSet>
-          <AssociationSet Name="Ticket_voor_een_zitplaats" Association="Self.Ticket_voor_een_zitplaats">
-            <End Role="Zitplaats" EntitySet="Zitplaats" />
-            <End Role="Ticket" EntitySet="Tickets" />
-          </AssociationSet>
-          <AssociationSet Name="Zitplaats_in_een_ring" Association="Self.Zitplaats_in_een_ring">
+          <AssociationSet Name="Vak_in_een_stadion" Association="Self.Vak_in_een_stadion">
+            <End Role="Stadion" EntitySet="Stadions" />
             <End Role="Vak" EntitySet="Vaks" />
-            <End Role="Zitplaats" EntitySet="Zitplaats" />
+          </AssociationSet>
+          <AssociationSet Name="Wedstrijd_wordt_gespeeld_in_een_stadion" Association="Self.Wedstrijd_wordt_gespeeld_in_een_stadion">
+            <End Role="Stadion" EntitySet="Stadions" />
+            <End Role="Wedstrijd" EntitySet="Wedstrijds" />
+          </AssociationSet>
+          <AssociationSet Name="Ticket_voor_een_vak" Association="Self.Ticket_voor_een_vak">
+            <End Role="Vak" EntitySet="Vaks" />
+            <End Role="Ticket" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="Ticket_voor_wedstrijd" Association="Self.Ticket_voor_wedstrijd">
+            <End Role="Wedstrijd" EntitySet="Wedstrijds" />
+            <End Role="Ticket" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="Vak_heeft_een_type" Association="Self.Vak_heeft_een_type">
+            <End Role="VakType" EntitySet="VakTypes" />
+            <End Role="Vak" EntitySet="Vaks" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -633,110 +1080,188 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="voetbalModelStoreContainer" CdmEntityContainer="VoetbalEntities">
+        <EntityContainerMapping StorageEntityContainer="VoetbalStoreModelStoreContainer" CdmEntityContainer="VoetbalstoreEntities">
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="VoetbalStoreModel.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Abonnements">
-            <EntityTypeMapping TypeName="voetbalModel.Abonnement">
+            <EntityTypeMapping TypeName="VoetbalStoreModel.Abonnement">
               <MappingFragment StoreEntitySet="Abonnement">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="Gebruikerid" ColumnName="Gebruikerid" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Clubid" ColumnName="Clubid" />
-                <ScalarProperty Name="prijs" ColumnName="prijs" />
+                <ScalarProperty Name="Prijs" ColumnName="Prijs" />
+                <ScalarProperty Name="Bezoekerrijksregisternummer" ColumnName="Bezoekerrijksregisternummer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="VoetbalStoreModel.AspNetRole">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="VoetbalStoreModel.AspNetUserClaim">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="VoetbalStoreModel.AspNetUserLogin">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="VoetbalStoreModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bezoekers">
+            <EntityTypeMapping TypeName="VoetbalStoreModel.Bezoeker">
+              <MappingFragment StoreEntitySet="Bezoeker">
+                <ScalarProperty Name="Rijksregisternummer" ColumnName="Rijksregisternummer" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Naam" ColumnName="Naam" />
+                <ScalarProperty Name="Voornaam" ColumnName="Voornaam" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Clubs">
-            <EntityTypeMapping TypeName="voetbalModel.Club">
+            <EntityTypeMapping TypeName="VoetbalStoreModel.Club">
               <MappingFragment StoreEntitySet="Club">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="naam" ColumnName="naam" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Naam" ColumnName="Naam" />
+                <ScalarProperty Name="Logo" ColumnName="Logo" />
                 <ScalarProperty Name="Stadionid" ColumnName="Stadionid" />
-                <ScalarProperty Name="logo" ColumnName="logo" />
+                <ScalarProperty Name="TicketPrijsCoefficient" ColumnName="TicketPrijsCoefficient" />
+                <ScalarProperty Name="AbonnementPrijs" ColumnName="AbonnementPrijs" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Gebruikers">
-            <EntityTypeMapping TypeName="voetbalModel.Gebruiker">
-              <MappingFragment StoreEntitySet="Gebruiker">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="gebruikersnaam" ColumnName="gebruikersnaam" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="adres" ColumnName="adres" />
-                <ScalarProperty Name="wachtwoord" ColumnName="wachtwoord" />
-                <ScalarProperty Name="Taalid" ColumnName="Taalid" />
+          <EntitySetMapping Name="dbo_Bestelling">
+            <EntityTypeMapping TypeName="VoetbalStoreModel.dbo_Bestelling">
+              <MappingFragment StoreEntitySet="dbo_Bestelling">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Bevestigd" ColumnName="Bevestigd" />
+                <ScalarProperty Name="TotaalPrijs" ColumnName="TotaalPrijs" />
+                <ScalarProperty Name="AspNetUsersId" ColumnName="AspNetUsersId" />
+                <ScalarProperty Name="BestelDatum" ColumnName="BestelDatum" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dbo_ShoppingCartData">
+            <EntityTypeMapping TypeName="VoetbalStoreModel.dbo_ShoppingCartData">
+              <MappingFragment StoreEntitySet="dbo_ShoppingCartData">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="BestellingId" ColumnName="BestellingId" />
+                <ScalarProperty Name="Ticketid" ColumnName="Ticketid" />
+                <ScalarProperty Name="Prijs" ColumnName="Prijs" />
+                <ScalarProperty Name="WedstrijdId" ColumnName="WedstrijdId" />
+                <ScalarProperty Name="Hoeveelheid" ColumnName="Hoeveelheid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Stadions">
-            <EntityTypeMapping TypeName="voetbalModel.Stadion">
+            <EntityTypeMapping TypeName="VoetbalStoreModel.Stadion">
               <MappingFragment StoreEntitySet="Stadion">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="naam" ColumnName="naam" />
-                <ScalarProperty Name="adres" ColumnName="adres" />
-                <ScalarProperty Name="aantalZitplaatsen" ColumnName="aantalZitplaatsen" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="voetbalModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Naam" ColumnName="Naam" />
+                <ScalarProperty Name="Adres" ColumnName="Adres" />
+                <ScalarProperty Name="AantalZitplaatsen" ColumnName="AantalZitplaatsen" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Taals">
-            <EntityTypeMapping TypeName="voetbalModel.Taal">
+            <EntityTypeMapping TypeName="VoetbalStoreModel.Taal">
               <MappingFragment StoreEntitySet="Taal">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="naam" ColumnName="naam" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Naam" ColumnName="Naam" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tickets">
-            <EntityTypeMapping TypeName="voetbalModel.Ticket">
+            <EntityTypeMapping TypeName="VoetbalStoreModel.Ticket">
               <MappingFragment StoreEntitySet="Ticket">
-                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Gebruikerid" ColumnName="Gebruikerid" />
-                <ScalarProperty Name="Zitplaatsid" ColumnName="Zitplaatsid" />
-                <ScalarProperty Name="prijs" ColumnName="prijs" />
+                <ScalarProperty Name="Prijs" ColumnName="Prijs" />
+                <ScalarProperty Name="Bezoekerrijksregisternummer" ColumnName="Bezoekerrijksregisternummer" />
+                <ScalarProperty Name="Vakid" ColumnName="Vakid" />
+                <ScalarProperty Name="Bevestigd" ColumnName="Bevestigd" />
+                <ScalarProperty Name="BestellingId" ColumnName="BestellingId" />
                 <ScalarProperty Name="Wedstrijdid" ColumnName="Wedstrijdid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Vaks">
-            <EntityTypeMapping TypeName="voetbalModel.Vak">
+            <EntityTypeMapping TypeName="VoetbalStoreModel.Vak">
               <MappingFragment StoreEntitySet="Vak">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="naam" ColumnName="naam" />
-                <ScalarProperty Name="maximumAantalZitplaatsen" ColumnName="maximumAantalZitplaatsen" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="MaximumAantalZitplaatsen" ColumnName="MaximumAantalZitplaatsen" />
+                <ScalarProperty Name="VakTypeid" ColumnName="VakTypeid" />
+                <ScalarProperty Name="Stadionid" ColumnName="Stadionid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VakTypes">
+            <EntityTypeMapping TypeName="VoetbalStoreModel.VakType">
+              <MappingFragment StoreEntitySet="VakType">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Beschrijving" ColumnName="Beschrijving" />
+                <ScalarProperty Name="StandaardPrijs" ColumnName="StandaardPrijs" />
+                <ScalarProperty Name="ThuisVak" ColumnName="ThuisVak" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Wedstrijds">
-            <EntityTypeMapping TypeName="voetbalModel.Wedstrijd">
+            <EntityTypeMapping TypeName="VoetbalStoreModel.Wedstrijd">
               <MappingFragment StoreEntitySet="Wedstrijd">
-                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Stadionid" ColumnName="Stadionid" />
                 <ScalarProperty Name="Club1id" ColumnName="Club1id" />
                 <ScalarProperty Name="Club2id" ColumnName="Club2id" />
-                <ScalarProperty Name="datum" ColumnName="datum" />
-                <ScalarProperty Name="uur" ColumnName="uur" />
+                <ScalarProperty Name="DatumEnTijd" ColumnName="DatumEnTijd" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Zitplaats">
-            <EntityTypeMapping TypeName="voetbalModel.Zitplaat">
-              <MappingFragment StoreEntitySet="Zitplaats">
-                <ScalarProperty Name="Stadionid" ColumnName="Stadionid" />
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="Vakid" ColumnName="Vakid" />
-                <ScalarProperty Name="bezet" ColumnName="bezet" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="VoetbalStoreModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetRoles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

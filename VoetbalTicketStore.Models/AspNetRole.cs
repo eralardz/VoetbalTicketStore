@@ -12,22 +12,18 @@ namespace VoetbalTicketStore.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Vak
+    public partial class AspNetRole
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Vak()
+        public AspNetRole()
         {
-            this.Tickets = new HashSet<Ticket>();
+            this.AspNetUsers = new HashSet<AspNetUser>();
         }
     
-        public int Id { get; set; }
-        public int MaximumAantalZitplaatsen { get; set; }
-        public int VakTypeid { get; set; }
-        public int Stadionid { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
     
-        public virtual Stadion Stadion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Ticket> Tickets { get; set; }
-        public virtual VakType VakType { get; set; }
+        public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
     }
 }
