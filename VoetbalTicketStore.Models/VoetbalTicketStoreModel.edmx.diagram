@@ -4,43 +4,45 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="415e0252404d43d2a9e1daa6639b1780" Name="Diagram1">
-        <EntityTypeShape EntityType="VoetbalStoreModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VoetbalStoreModel.Abonnement" Width="1.5" PointX="5.25" PointY="7" IsExpanded="true" />
-        <EntityTypeShape EntityType="VoetbalStoreModel.AspNetRole" Width="1.5" PointX="6" PointY="12.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="VoetbalStoreModel.AspNetUserClaim" Width="1.5" PointX="10.5" PointY="10.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="VoetbalStoreModel.AspNetUserLogin" Width="1.5" PointX="10.5" PointY="13.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="VoetbalStoreModel.AspNetUser" Width="1.5" PointX="8.25" PointY="10.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VoetbalStoreModel.Bezoeker" Width="1.5" PointX="3" PointY="11" IsExpanded="true" />
-        <EntityTypeShape EntityType="VoetbalStoreModel.Club" Width="1.5" PointX="3" PointY="6.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="VoetbalStoreModel.dbo_Bestelling" Width="1.5" PointX="8.25" PointY="15.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="VoetbalStoreModel.dbo_ShoppingCartData" Width="1.5" PointX="10.5" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VoetbalStoreModel.Stadion" Width="1.5" PointX="0.75" PointY="6.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="VoetbalStoreModel.Taal" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VoetbalStoreModel.Ticket" Width="1.5" PointX="10.5" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="VoetbalStoreModel.Vak" Width="1.5" PointX="6" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="VoetbalStoreModel.VakType" Width="1.5" PointX="3.75" PointY="3.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="VoetbalStoreModel.Wedstrijd" Width="1.5" PointX="8.25" PointY="6.625" IsExpanded="true" />
-        <AssociationConnector Association="VoetbalStoreModel.Abonnement_van_een_bezoeker" ManuallyRouted="false" />
-        <AssociationConnector Association="VoetbalStoreModel.Abonnement_voor_een_club" ManuallyRouted="false" />
-        <AssociationConnector Association="VoetbalStoreModel.FKAspNetUser367573" ManuallyRouted="false" />
-        <AssociationConnector Association="VoetbalStoreModel.FKAspNetUser755613" ManuallyRouted="false" />
-        <AssociationConnector Association="VoetbalStoreModel.Bestelling_door_gebruiker" ManuallyRouted="false" />
-        <AssociationConnector Association="VoetbalStoreModel.Ticket_besteld_door_ASP_user" ManuallyRouted="false" />
-        <AssociationConnector Association="VoetbalStoreModel.Ticket_van_een_bezoeker" ManuallyRouted="false" />
-        <AssociationConnector Association="VoetbalStoreModel.Bezoekers" ManuallyRouted="false" />
-        <AssociationConnector Association="VoetbalStoreModel.Club_speelt_in_een_stadion" ManuallyRouted="false" />
-        <AssociationConnector Association="VoetbalStoreModel.Thuisploeg" ManuallyRouted="false" />
-        <AssociationConnector Association="VoetbalStoreModel.Bestelling_bestaat_uit_verschillende_lijnen" ManuallyRouted="false" />
-        <AssociationConnector Association="VoetbalStoreModel.Bestelling_van_tickets" ManuallyRouted="false" />
-        <AssociationConnector Association="VoetbalStoreModel.Ticket_in_een_shopping_cart" ManuallyRouted="false" />
-        <AssociationConnector Association="VoetbalStoreModel.Winkelwagentje_voor_wedstrijd" ManuallyRouted="false" />
-        <AssociationConnector Association="VoetbalStoreModel.Vak_in_een_stadion" ManuallyRouted="false" />
-        <AssociationConnector Association="VoetbalStoreModel.Wedstrijd_wordt_gespeeld_in_een_stadion" ManuallyRouted="false" />
-        <AssociationConnector Association="VoetbalStoreModel.Ticket_voor_een_vak" ManuallyRouted="false" />
-        <AssociationConnector Association="VoetbalStoreModel.Ticket_voor_wedstrijd" ManuallyRouted="false" />
-        <AssociationConnector Association="VoetbalStoreModel.Vak_heeft_een_type" ManuallyRouted="false" />
-        <AssociationConnector Association="VoetbalStoreModel.AspNetUserRoles" ManuallyRouted="false" />
+      <Diagram DiagramId="b8a1ac40571a433d94953c22e6f547ab" Name="Diagram1">
+        <EntityTypeShape EntityType="VoetbalstoreModel.C__MigrationHistory" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VoetbalstoreModel.Abonnement" Width="1.5" PointX="5.25" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="VoetbalstoreModel.AspNetRole" Width="1.5" PointX="6" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="VoetbalstoreModel.AspNetUserClaim" Width="1.5" PointX="10.5" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="VoetbalstoreModel.AspNetUserLogin" Width="1.5" PointX="10.5" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="VoetbalstoreModel.AspNetUser" Width="1.5" PointX="8.25" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="VoetbalstoreModel.Bezoeker" Width="1.5" PointX="3" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="VoetbalstoreModel.Club" Width="1.5" PointX="3" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="VoetbalstoreModel.dbo_Bestelling" Width="1.5" PointX="8.25" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="VoetbalstoreModel.dbo_ShoppingCartData" Width="1.5" PointX="10.5" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="VoetbalstoreModel.Stadion" Width="1.5" PointX="0.75" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="VoetbalstoreModel.sysdiagram" Width="1.5" PointX="5.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VoetbalstoreModel.Taal" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VoetbalstoreModel.Ticket" Width="1.5" PointX="10.5" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VoetbalstoreModel.Vak" Width="1.5" PointX="3" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="VoetbalstoreModel.VakType" Width="1.5" PointX="0.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="VoetbalstoreModel.Wedstrijd" Width="1.5" PointX="8.25" PointY="7" IsExpanded="true" />
+        <AssociationConnector Association="VoetbalstoreModel.Abonnement_van_een_bezoeker" ManuallyRouted="false" />
+        <AssociationConnector Association="VoetbalstoreModel.Abonnement_voor_een_club" ManuallyRouted="false" />
+        <AssociationConnector Association="VoetbalstoreModel.Abonnement_voor_type_vak" ManuallyRouted="false" />
+        <AssociationConnector Association="VoetbalstoreModel.FKAspNetUser367573" ManuallyRouted="false" />
+        <AssociationConnector Association="VoetbalstoreModel.FKAspNetUser755613" ManuallyRouted="false" />
+        <AssociationConnector Association="VoetbalstoreModel.Bestelling_door_gebruiker" ManuallyRouted="false" />
+        <AssociationConnector Association="VoetbalstoreModel.Ticket_besteld_door_ASP_user" ManuallyRouted="false" />
+        <AssociationConnector Association="VoetbalstoreModel.Ticket_van_een_bezoeker" ManuallyRouted="false" />
+        <AssociationConnector Association="VoetbalstoreModel.Bezoekers" ManuallyRouted="false" />
+        <AssociationConnector Association="VoetbalstoreModel.Club_speelt_in_een_stadion" ManuallyRouted="false" />
+        <AssociationConnector Association="VoetbalstoreModel.Thuisploeg" ManuallyRouted="false" />
+        <AssociationConnector Association="VoetbalstoreModel.Bestelling_bestaat_uit_verschillende_lijnen" ManuallyRouted="false" />
+        <AssociationConnector Association="VoetbalstoreModel.Bestelling_van_tickets" ManuallyRouted="false" />
+        <AssociationConnector Association="VoetbalstoreModel.Ticket_in_een_shopping_cart" ManuallyRouted="false" />
+        <AssociationConnector Association="VoetbalstoreModel.Winkelwagentje_voor_wedstrijd" ManuallyRouted="false" />
+        <AssociationConnector Association="VoetbalstoreModel.Vak_in_een_stadion" ManuallyRouted="false" />
+        <AssociationConnector Association="VoetbalstoreModel.Wedstrijd_wordt_gespeeld_in_een_stadion" ManuallyRouted="false" />
+        <AssociationConnector Association="VoetbalstoreModel.Ticket_voor_een_vak" ManuallyRouted="false" />
+        <AssociationConnector Association="VoetbalstoreModel.Ticket_voor_wedstrijd" ManuallyRouted="false" />
+        <AssociationConnector Association="VoetbalstoreModel.Vak_heeft_een_type" ManuallyRouted="false" />
+        <AssociationConnector Association="VoetbalstoreModel.AspNetUserRoles" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

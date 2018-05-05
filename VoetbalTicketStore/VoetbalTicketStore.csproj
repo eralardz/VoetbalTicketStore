@@ -265,6 +265,7 @@
     <Content Include="Views\Club\Index.cshtml" />
     <Content Include="Views\Wedstrijd\WedstrijdKalender.cshtml" />
     <Content Include="Views\Ticket\Buy.cshtml" />
+    <Content Include="Views\Ticket\Confirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

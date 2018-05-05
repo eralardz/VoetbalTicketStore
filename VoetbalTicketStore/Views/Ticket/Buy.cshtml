@@ -18,6 +18,7 @@
     <img src="@LogoBezoekers" alt="logo bezoekers" />
     <br />
     Stadion: @Model.Stadion.Naam
+    Datum: @Model.Wedstrijd.DatumEnTijd
     <br />
     <br />
 
@@ -26,6 +27,8 @@
         <tr>
             <th>Vak</th>
             <th>Prijs</th>
+            <th>Plaatsen</th>
+            <th></th>
         </tr>
         @foreach (var item in Model.VakkenList)
         {
@@ -34,18 +37,22 @@
                     @Html.DisplayFor(modelItem => item.VakType.Beschrijving)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.VakType.StandaardPrijs) euro
+                    @Html.DisplayFor(modelItem => item.BerekendePrijs) euro
+                </td>
+                <td>
+                    Nog @Html.DisplayFor(modelItem => item.AantalVrijePlaatsen) van de @Html.DisplayFor(modelItem => item.MaximumAantalZitplaatsen) plaatsen vrij!
+                </td>
+                <td>
+                    TODO: DIT MOET EEN POST WORDEN ?
+                    @Html.ActionLink("Koop tickets!", "Confirm", "Ticket", new { vakId = item.Id, stadionId = item.Stadionid, wedstrijdId = Model.Wedstrijd.Id, thuisploegId = Model.Thuisploeg.Id, tegenstandersId = Model.Tegenstanders.Id, naamThuisploeg = Model.Thuisploeg.Naam }, htmlAttributes: new { @class = "btn btn-primary" })
                 </td>
             </tr>
         }
     </table>
-
-
-
 </div>
 @*Deze velden moeten bewaard blijven:*@
-@Html.HiddenFor(s => s.Stadion.Id)
-@Html.HiddenFor(w => w.Wedstrijd.Id)
-@Html.HiddenFor(c => c.Thuisploeg.Id)
-@Html.HiddenFor(c => c.Tegenstanders.Id)
+@*@Html.HiddenFor(s => s.Stadion.Id)
+    @Html.HiddenFor(w => w.Wedstrijd.Id)
+    @Html.HiddenFor(c => c.Thuisploeg.Id)
+    @Html.HiddenFor(c => c.Tegenstanders.Id)*@
 

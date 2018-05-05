@@ -27,10 +27,11 @@ namespace VoetbalTicketStore.Controllers
             vakService = new VakService();
             IEnumerable<Vak> vakken = vakService.GetVakkenInStadion(wedstrijd.Stadionid);
 
-            // Prijzen bepalen per vak
-            
+            // Prijzen bepalen per vak (thuisploeg)
+            vakService.BerekenPrijzenBijVakken(vakken, wedstrijd.Club);
 
             // Vrije plaatsen bepalen per vak
+            vakService.BerekenAantalVrijePlaatsen(vakken, wedstrijd, wedstrijd.Club);
 
             // ViewModel maken en opvullen
             TicketWedstrijd ticketWedstrijd = new TicketWedstrijd
@@ -42,8 +43,15 @@ namespace VoetbalTicketStore.Controllers
                 VakkenList = vakken
             };
 
-
             return View(ticketWedstrijd);
         }
+
+        // GET: Ticket
+        public ActionResult Confirm(int vakId, int stadionId, int wedstrijdId, int thuisploegId, int tegenstandersId, string naamThuisploeg)
+        {
+            ViewBag.NaamThuisPloeg = naamThuisploeg;
+            return View("Confirm");
+        }
+
     }
 }

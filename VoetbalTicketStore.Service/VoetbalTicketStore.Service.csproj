@@ -40,9 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbonnementService.cs" />
     <Compile Include="ClubService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StadionService.cs" />
+    <Compile Include="TicketService.cs" />
     <Compile Include="VakService.cs" />
     <Compile Include="VakTypeService.cs" />
     <Compile Include="WedstrijdService.cs" />

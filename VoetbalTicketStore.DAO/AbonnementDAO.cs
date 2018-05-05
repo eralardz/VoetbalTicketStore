@@ -4,20 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VoetbalTicketStore.Models;
-using System.Data.Entity;
 
 namespace VoetbalTicketStore.DAO
 {
-    public class VakDAO
+    public class AbonnementDAO
     {
-
-        public IEnumerable<Vak> GetVakkenInStadion(int stadionId)
+        public int GetAantalAbonnementenPerVakVoorThuisPloeg(Club thuisploeg, Vak vak)
         {
             using (var db = new VoetbalstoreEntities())
             {
-                // eager
-                return db.Vaks.Where(v => v.Stadionid == stadionId).Include(v => v.VakType).ToList();
-            } 
+                return db.Abonnements.Count(a => a.Clubid == thuisploeg.Id && a.VakTypeId == vak.VakTypeid);
+            }
         }
     }
 }

@@ -36,6 +36,7 @@ namespace VoetbalTicketStore.Models
         public virtual DbSet<dbo_Bestelling> dbo_Bestelling { get; set; }
         public virtual DbSet<dbo_ShoppingCartData> dbo_ShoppingCartData { get; set; }
         public virtual DbSet<Stadion> Stadions { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Taal> Taals { get; set; }
         public virtual DbSet<Ticket> Tickets { get; set; }
         public virtual DbSet<Vak> Vaks { get; set; }

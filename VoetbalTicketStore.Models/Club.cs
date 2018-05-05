@@ -26,8 +26,8 @@ namespace VoetbalTicketStore.Models
         public string Naam { get; set; }
         public string Logo { get; set; }
         public int Stadionid { get; set; }
-        public float TicketPrijsCoefficient { get; set; }
-        public decimal AbonnementPrijs { get; set; }
+        public decimal TicketPrijsCoefficient { get; set; }
+        public decimal AbonnementPrijsCoefficient { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Abonnement> Abonnements { get; set; }

@@ -12,16 +12,12 @@ namespace VoetbalTicketStore.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Abonnement
+    public partial class sysdiagram
     {
-        public int Id { get; set; }
-        public int Clubid { get; set; }
-        public decimal Prijs { get; set; }
-        public string Bezoekerrijksregisternummer { get; set; }
-        public int VakTypeId { get; set; }
-    
-        public virtual Bezoeker Bezoeker { get; set; }
-        public virtual Club Club { get; set; }
-        public virtual VakType VakType { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

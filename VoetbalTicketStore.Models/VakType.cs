@@ -17,14 +17,17 @@ namespace VoetbalTicketStore.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public VakType()
         {
+            this.Abonnements = new HashSet<Abonnement>();
             this.Vaks = new HashSet<Vak>();
         }
     
         public int Id { get; set; }
         public string Beschrijving { get; set; }
-        public float StandaardPrijs { get; set; }
+        public decimal StandaardPrijs { get; set; }
         public bool ThuisVak { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Abonnement> Abonnements { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Vak> Vaks { get; set; }
     }

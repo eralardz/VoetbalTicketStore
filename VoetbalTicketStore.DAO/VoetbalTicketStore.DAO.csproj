@@ -47,9 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbonnementDAO.cs" />
     <Compile Include="ClubDAO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StadionDAO.cs" />
+    <Compile Include="TicketDAO.cs" />
     <Compile Include="VakDAO.cs" />
     <Compile Include="VakTypeDAO.cs" />
     <Compile Include="VoetbalTicketStoreDAO.cs" />

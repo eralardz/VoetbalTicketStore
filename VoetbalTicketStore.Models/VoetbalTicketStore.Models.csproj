@@ -83,6 +83,9 @@
     <Compile Include="Stadion.cs">
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sysdiagram.cs">
+      <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Taal.cs">
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>
@@ -92,6 +95,7 @@
     <Compile Include="Vak.cs">
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="VakPartial.cs" />
     <Compile Include="VakType.cs">
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>
