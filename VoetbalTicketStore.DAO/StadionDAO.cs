@@ -13,7 +13,7 @@ namespace VoetbalTicketStore.DAO
         {
             var db = new VoetbalEntities();
 
-            return db.Stadions; // lazy-loading
+            return db.Stadions; // lazy-loadingg
         }
     }
 }
