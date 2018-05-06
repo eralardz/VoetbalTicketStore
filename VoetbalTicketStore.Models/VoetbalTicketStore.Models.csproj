@@ -64,6 +64,9 @@
     <Compile Include="AspNetUserLogin.cs">
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Bestelling.cs">
+      <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Bezoeker.cs">
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>
@@ -73,13 +76,10 @@
     <Compile Include="C__MigrationHistory.cs">
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="dbo_Bestelling.cs">
-      <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="dbo_ShoppingCartData.cs">
-      <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShoppingCartData.cs">
+      <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Stadion.cs">
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>

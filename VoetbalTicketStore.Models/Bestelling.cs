@@ -12,12 +12,12 @@ namespace VoetbalTicketStore.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class dbo_Bestelling
+    public partial class Bestelling
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public dbo_Bestelling()
+        public Bestelling()
         {
-            this.dbo_ShoppingCartData = new HashSet<dbo_ShoppingCartData>();
+            this.ShoppingCartDatas = new HashSet<ShoppingCartData>();
             this.Tickets = new HashSet<Ticket>();
         }
     
@@ -29,7 +29,7 @@ namespace VoetbalTicketStore.Models
     
         public virtual AspNetUser AspNetUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<dbo_ShoppingCartData> dbo_ShoppingCartData { get; set; }
+        public virtual ICollection<ShoppingCartData> ShoppingCartDatas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Ticket> Tickets { get; set; }
     }

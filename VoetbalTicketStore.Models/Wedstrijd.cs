@@ -17,7 +17,7 @@ namespace VoetbalTicketStore.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Wedstrijd()
         {
-            this.dbo_ShoppingCartData = new HashSet<dbo_ShoppingCartData>();
+            this.ShoppingCartDatas = new HashSet<ShoppingCartData>();
             this.Tickets = new HashSet<Ticket>();
         }
     
@@ -30,7 +30,7 @@ namespace VoetbalTicketStore.Models
         public virtual Club Club { get; set; }
         public virtual Club Club1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<dbo_ShoppingCartData> dbo_ShoppingCartData { get; set; }
+        public virtual ICollection<ShoppingCartData> ShoppingCartDatas { get; set; }
         public virtual Stadion Stadion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Ticket> Tickets { get; set; }

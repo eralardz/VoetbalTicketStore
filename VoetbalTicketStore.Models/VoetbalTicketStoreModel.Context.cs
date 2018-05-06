@@ -31,10 +31,10 @@ namespace VoetbalTicketStore.Models
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<Bestelling> Bestellings { get; set; }
         public virtual DbSet<Bezoeker> Bezoekers { get; set; }
         public virtual DbSet<Club> Clubs { get; set; }
-        public virtual DbSet<dbo_Bestelling> dbo_Bestelling { get; set; }
-        public virtual DbSet<dbo_ShoppingCartData> dbo_ShoppingCartData { get; set; }
+        public virtual DbSet<ShoppingCartData> ShoppingCartDatas { get; set; }
         public virtual DbSet<Stadion> Stadions { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Taal> Taals { get; set; }

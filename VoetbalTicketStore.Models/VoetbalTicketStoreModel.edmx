@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="VoetbalstoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="VoetbalstoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -76,6 +76,16 @@
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
+        <EntityType Name="Bestelling">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Bevestigd" Type="bit" Nullable="false" />
+          <Property Name="TotaalPrijs" Type="money" Nullable="false" />
+          <Property Name="AspNetUsersId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="BestelDatum" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="Bezoeker">
           <Key>
             <PropertyRef Name="Rijksregisternummer" />
@@ -96,17 +106,7 @@
           <Property Name="TicketPrijsCoefficient" Type="money" Nullable="false" />
           <Property Name="AbonnementPrijsCoefficient" Type="money" Nullable="false" />
         </EntityType>
-        <EntityType Name="dbo_Bestelling">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Bevestigd" Type="bit" Nullable="false" />
-          <Property Name="TotaalPrijs" Type="money" Nullable="false" />
-          <Property Name="AspNetUsersId" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="BestelDatum" Type="datetime" Nullable="false" />
-        </EntityType>
-        <EntityType Name="dbo_ShoppingCartData">
+        <EntityType Name="ShoppingCartData">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -221,34 +221,34 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="Bestelling bestaat uit verschillende lijnen">
-          <End Role="dbo_Bestelling" Type="Self.dbo_Bestelling" Multiplicity="1" />
-          <End Role="dbo_ShoppingCartData" Type="Self.dbo_ShoppingCartData" Multiplicity="*" />
+          <End Role="Bestelling" Type="Self.Bestelling" Multiplicity="1" />
+          <End Role="ShoppingCartData" Type="Self.ShoppingCartData" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="dbo_Bestelling">
+            <Principal Role="Bestelling">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="dbo_ShoppingCartData">
+            <Dependent Role="ShoppingCartData">
               <PropertyRef Name="BestellingId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="Bestelling door gebruiker">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
-          <End Role="dbo_Bestelling" Type="Self.dbo_Bestelling" Multiplicity="*" />
+          <End Role="Bestelling" Type="Self.Bestelling" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="dbo_Bestelling">
+            <Dependent Role="Bestelling">
               <PropertyRef Name="AspNetUsersId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="Bestelling van tickets">
-          <End Role="dbo_Bestelling" Type="Self.dbo_Bestelling" Multiplicity="1" />
+          <End Role="Bestelling" Type="Self.Bestelling" Multiplicity="1" />
           <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="dbo_Bestelling">
+            <Principal Role="Bestelling">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Ticket">
@@ -362,12 +362,12 @@
         </Association>
         <Association Name="Ticket in een shopping cart">
           <End Role="Ticket" Type="Self.Ticket" Multiplicity="1" />
-          <End Role="dbo_ShoppingCartData" Type="Self.dbo_ShoppingCartData" Multiplicity="*" />
+          <End Role="ShoppingCartData" Type="Self.ShoppingCartData" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Ticket">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="dbo_ShoppingCartData">
+            <Dependent Role="ShoppingCartData">
               <PropertyRef Name="Ticketid" />
             </Dependent>
           </ReferentialConstraint>
@@ -446,12 +446,12 @@
         </Association>
         <Association Name="Winkelwagentje voor wedstrijd">
           <End Role="Wedstrijd" Type="Self.Wedstrijd" Multiplicity="1" />
-          <End Role="dbo_ShoppingCartData" Type="Self.dbo_ShoppingCartData" Multiplicity="*" />
+          <End Role="ShoppingCartData" Type="Self.ShoppingCartData" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Wedstrijd">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="dbo_ShoppingCartData">
+            <Dependent Role="ShoppingCartData">
               <PropertyRef Name="WedstrijdId" />
             </Dependent>
           </ReferentialConstraint>
@@ -464,10 +464,10 @@
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Bestelling" EntityType="Self.Bestelling" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Bezoeker" EntityType="Self.Bezoeker" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Club" EntityType="Self.Club" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="dbo_Bestelling" EntityType="Self.dbo_Bestelling" Schema="dbo" Table="dbo.Bestelling" store:Type="Tables" />
-          <EntitySet Name="dbo_ShoppingCartData" EntityType="Self.dbo_ShoppingCartData" Schema="dbo" Table="dbo.ShoppingCartData" store:Type="Tables" />
+          <EntitySet Name="ShoppingCartData" EntityType="Self.ShoppingCartData" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Stadion" EntityType="Self.Stadion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Taal" EntityType="Self.Taal" Schema="dbo" store:Type="Tables" />
@@ -488,15 +488,15 @@
             <End Role="Abonnement" EntitySet="Abonnement" />
           </AssociationSet>
           <AssociationSet Name="Bestelling bestaat uit verschillende lijnen" Association="Self.Bestelling bestaat uit verschillende lijnen">
-            <End Role="dbo_Bestelling" EntitySet="dbo_Bestelling" />
-            <End Role="dbo_ShoppingCartData" EntitySet="dbo_ShoppingCartData" />
+            <End Role="Bestelling" EntitySet="Bestelling" />
+            <End Role="ShoppingCartData" EntitySet="ShoppingCartData" />
           </AssociationSet>
           <AssociationSet Name="Bestelling door gebruiker" Association="Self.Bestelling door gebruiker">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="dbo_Bestelling" EntitySet="dbo_Bestelling" />
+            <End Role="Bestelling" EntitySet="Bestelling" />
           </AssociationSet>
           <AssociationSet Name="Bestelling van tickets" Association="Self.Bestelling van tickets">
-            <End Role="dbo_Bestelling" EntitySet="dbo_Bestelling" />
+            <End Role="Bestelling" EntitySet="Bestelling" />
             <End Role="Ticket" EntitySet="Ticket" />
           </AssociationSet>
           <AssociationSet Name="Bezoekers" Association="Self.Bezoekers">
@@ -533,7 +533,7 @@
           </AssociationSet>
           <AssociationSet Name="Ticket in een shopping cart" Association="Self.Ticket in een shopping cart">
             <End Role="Ticket" EntitySet="Ticket" />
-            <End Role="dbo_ShoppingCartData" EntitySet="dbo_ShoppingCartData" />
+            <End Role="ShoppingCartData" EntitySet="ShoppingCartData" />
           </AssociationSet>
           <AssociationSet Name="Ticket van een bezoeker" Association="Self.Ticket van een bezoeker">
             <End Role="Bezoeker" EntitySet="Bezoeker" />
@@ -561,10 +561,11 @@
           </AssociationSet>
           <AssociationSet Name="Winkelwagentje voor wedstrijd" Association="Self.Winkelwagentje voor wedstrijd">
             <End Role="Wedstrijd" EntitySet="Wedstrijd" />
-            <End Role="dbo_ShoppingCartData" EntitySet="dbo_ShoppingCartData" />
+            <End Role="ShoppingCartData" EntitySet="ShoppingCartData" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="VoetbalstoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -638,9 +639,22 @@
           <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FKAspNetUser367573" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
           <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FKAspNetUser755613" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
-          <NavigationProperty Name="dbo_Bestelling" Relationship="Self.Bestelling_door_gebruiker" FromRole="AspNetUsers" ToRole="dbo_Bestelling" />
+          <NavigationProperty Name="Bestellings" Relationship="Self.Bestelling_door_gebruiker" FromRole="AspNetUsers" ToRole="Bestelling" />
           <NavigationProperty Name="Tickets" Relationship="Self.Ticket_besteld_door_ASP_user" FromRole="AspNetUsers" ToRole="Ticket" />
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+        </EntityType>
+        <EntityType Name="Bestelling">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Bevestigd" Type="Boolean" Nullable="false" />
+          <Property Name="TotaalPrijs" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="AspNetUsersId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BestelDatum" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.Bestelling_door_gebruiker" FromRole="Bestelling" ToRole="AspNetUsers" />
+          <NavigationProperty Name="ShoppingCartDatas" Relationship="Self.Bestelling_bestaat_uit_verschillende_lijnen" FromRole="Bestelling" ToRole="ShoppingCartData" />
+          <NavigationProperty Name="Tickets" Relationship="Self.Bestelling_van_tickets" FromRole="Bestelling" ToRole="Ticket" />
         </EntityType>
         <EntityType Name="Bezoeker">
           <Key>
@@ -668,20 +682,7 @@
           <NavigationProperty Name="Stadion" Relationship="Self.Club_speelt_in_een_stadion" FromRole="Club" ToRole="Stadion" />
           <NavigationProperty Name="Wedstrijds1" Relationship="Self.Thuisploeg" FromRole="Club" ToRole="Wedstrijd" />
         </EntityType>
-        <EntityType Name="dbo_Bestelling">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Bevestigd" Type="Boolean" Nullable="false" />
-          <Property Name="TotaalPrijs" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="AspNetUsersId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="BestelDatum" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.Bestelling_door_gebruiker" FromRole="dbo_Bestelling" ToRole="AspNetUsers" />
-          <NavigationProperty Name="dbo_ShoppingCartData" Relationship="Self.Bestelling_bestaat_uit_verschillende_lijnen" FromRole="dbo_Bestelling" ToRole="dbo_ShoppingCartData" />
-          <NavigationProperty Name="Tickets" Relationship="Self.Bestelling_van_tickets" FromRole="dbo_Bestelling" ToRole="Ticket" />
-        </EntityType>
-        <EntityType Name="dbo_ShoppingCartData">
+        <EntityType Name="ShoppingCartData">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -691,9 +692,9 @@
           <Property Name="Prijs" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="WedstrijdId" Type="Int32" Nullable="false" />
           <Property Name="Hoeveelheid" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="dbo_Bestelling" Relationship="Self.Bestelling_bestaat_uit_verschillende_lijnen" FromRole="dbo_ShoppingCartData" ToRole="dbo_Bestelling" />
-          <NavigationProperty Name="Ticket" Relationship="Self.Ticket_in_een_shopping_cart" FromRole="dbo_ShoppingCartData" ToRole="Ticket" />
-          <NavigationProperty Name="Wedstrijd" Relationship="Self.Winkelwagentje_voor_wedstrijd" FromRole="dbo_ShoppingCartData" ToRole="Wedstrijd" />
+          <NavigationProperty Name="Bestelling" Relationship="Self.Bestelling_bestaat_uit_verschillende_lijnen" FromRole="ShoppingCartData" ToRole="Bestelling" />
+          <NavigationProperty Name="Ticket" Relationship="Self.Ticket_in_een_shopping_cart" FromRole="ShoppingCartData" ToRole="Ticket" />
+          <NavigationProperty Name="Wedstrijd" Relationship="Self.Winkelwagentje_voor_wedstrijd" FromRole="ShoppingCartData" ToRole="Wedstrijd" />
         </EntityType>
         <EntityType Name="Stadion">
           <Key>
@@ -737,9 +738,9 @@
           <Property Name="BestellingId" Type="Int32" Nullable="false" />
           <Property Name="Wedstrijdid" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AspNetUser" Relationship="Self.Ticket_besteld_door_ASP_user" FromRole="Ticket" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Bestelling" Relationship="Self.Bestelling_van_tickets" FromRole="Ticket" ToRole="Bestelling" />
           <NavigationProperty Name="Bezoeker" Relationship="Self.Ticket_van_een_bezoeker" FromRole="Ticket" ToRole="Bezoeker" />
-          <NavigationProperty Name="dbo_Bestelling" Relationship="Self.Bestelling_van_tickets" FromRole="Ticket" ToRole="dbo_Bestelling" />
-          <NavigationProperty Name="dbo_ShoppingCartData" Relationship="Self.Ticket_in_een_shopping_cart" FromRole="Ticket" ToRole="dbo_ShoppingCartData" />
+          <NavigationProperty Name="ShoppingCartDatas" Relationship="Self.Ticket_in_een_shopping_cart" FromRole="Ticket" ToRole="ShoppingCartData" />
           <NavigationProperty Name="Vak" Relationship="Self.Ticket_voor_een_vak" FromRole="Ticket" ToRole="Vak" />
           <NavigationProperty Name="Wedstrijd" Relationship="Self.Ticket_voor_wedstrijd" FromRole="Ticket" ToRole="Wedstrijd" />
         </EntityType>
@@ -777,7 +778,7 @@
           <Property Name="DatumEnTijd" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Club" Relationship="Self.Bezoekers" FromRole="Wedstrijd" ToRole="Club" />
           <NavigationProperty Name="Club1" Relationship="Self.Thuisploeg" FromRole="Wedstrijd" ToRole="Club" />
-          <NavigationProperty Name="dbo_ShoppingCartData" Relationship="Self.Winkelwagentje_voor_wedstrijd" FromRole="Wedstrijd" ToRole="dbo_ShoppingCartData" />
+          <NavigationProperty Name="ShoppingCartDatas" Relationship="Self.Winkelwagentje_voor_wedstrijd" FromRole="Wedstrijd" ToRole="ShoppingCartData" />
           <NavigationProperty Name="Stadion" Relationship="Self.Wedstrijd_wordt_gespeeld_in_een_stadion" FromRole="Wedstrijd" ToRole="Stadion" />
           <NavigationProperty Name="Tickets" Relationship="Self.Ticket_voor_wedstrijd" FromRole="Wedstrijd" ToRole="Ticket" />
         </EntityType>
@@ -847,12 +848,12 @@
         </Association>
         <Association Name="Bestelling_door_gebruiker">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
-          <End Role="dbo_Bestelling" Type="Self.dbo_Bestelling" Multiplicity="*" />
+          <End Role="Bestelling" Type="Self.Bestelling" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="dbo_Bestelling">
+            <Dependent Role="Bestelling">
               <PropertyRef Name="AspNetUsersId" />
             </Dependent>
           </ReferentialConstraint>
@@ -866,6 +867,30 @@
             </Principal>
             <Dependent Role="Ticket">
               <PropertyRef Name="Gebruikerid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Bestelling_bestaat_uit_verschillende_lijnen">
+          <End Role="Bestelling" Type="Self.Bestelling" Multiplicity="1" />
+          <End Role="ShoppingCartData" Type="Self.ShoppingCartData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bestelling">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ShoppingCartData">
+              <PropertyRef Name="BestellingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Bestelling_van_tickets">
+          <End Role="Bestelling" Type="Self.Bestelling" Multiplicity="1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bestelling">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="BestellingId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -917,50 +942,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Bestelling_bestaat_uit_verschillende_lijnen">
-          <End Role="dbo_Bestelling" Type="Self.dbo_Bestelling" Multiplicity="1" />
-          <End Role="dbo_ShoppingCartData" Type="Self.dbo_ShoppingCartData" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="dbo_Bestelling">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="dbo_ShoppingCartData">
-              <PropertyRef Name="BestellingId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="Bestelling_van_tickets">
-          <End Role="dbo_Bestelling" Type="Self.dbo_Bestelling" Multiplicity="1" />
-          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="dbo_Bestelling">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Ticket">
-              <PropertyRef Name="BestellingId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="Ticket_in_een_shopping_cart">
           <End Role="Ticket" Type="Self.Ticket" Multiplicity="1" />
-          <End Role="dbo_ShoppingCartData" Type="Self.dbo_ShoppingCartData" Multiplicity="*" />
+          <End Role="ShoppingCartData" Type="Self.ShoppingCartData" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Ticket">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="dbo_ShoppingCartData">
+            <Dependent Role="ShoppingCartData">
               <PropertyRef Name="Ticketid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="Winkelwagentje_voor_wedstrijd">
           <End Role="Wedstrijd" Type="Self.Wedstrijd" Multiplicity="1" />
-          <End Role="dbo_ShoppingCartData" Type="Self.dbo_ShoppingCartData" Multiplicity="*" />
+          <End Role="ShoppingCartData" Type="Self.ShoppingCartData" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Wedstrijd">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="dbo_ShoppingCartData">
+            <Dependent Role="ShoppingCartData">
               <PropertyRef Name="WedstrijdId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1036,10 +1037,10 @@
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+          <EntitySet Name="Bestellings" EntityType="Self.Bestelling" />
           <EntitySet Name="Bezoekers" EntityType="Self.Bezoeker" />
           <EntitySet Name="Clubs" EntityType="Self.Club" />
-          <EntitySet Name="dbo_Bestelling" EntityType="Self.dbo_Bestelling" />
-          <EntitySet Name="dbo_ShoppingCartData" EntityType="Self.dbo_ShoppingCartData" />
+          <EntitySet Name="ShoppingCartDatas" EntityType="Self.ShoppingCartData" />
           <EntitySet Name="Stadions" EntityType="Self.Stadion" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="Taals" EntityType="Self.Taal" />
@@ -1069,10 +1070,18 @@
           </AssociationSet>
           <AssociationSet Name="Bestelling_door_gebruiker" Association="Self.Bestelling_door_gebruiker">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="dbo_Bestelling" EntitySet="dbo_Bestelling" />
+            <End Role="Bestelling" EntitySet="Bestellings" />
           </AssociationSet>
           <AssociationSet Name="Ticket_besteld_door_ASP_user" Association="Self.Ticket_besteld_door_ASP_user">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Ticket" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="Bestelling_bestaat_uit_verschillende_lijnen" Association="Self.Bestelling_bestaat_uit_verschillende_lijnen">
+            <End Role="Bestelling" EntitySet="Bestellings" />
+            <End Role="ShoppingCartData" EntitySet="ShoppingCartDatas" />
+          </AssociationSet>
+          <AssociationSet Name="Bestelling_van_tickets" Association="Self.Bestelling_van_tickets">
+            <End Role="Bestelling" EntitySet="Bestellings" />
             <End Role="Ticket" EntitySet="Tickets" />
           </AssociationSet>
           <AssociationSet Name="Ticket_van_een_bezoeker" Association="Self.Ticket_van_een_bezoeker">
@@ -1091,21 +1100,13 @@
             <End Role="Club" EntitySet="Clubs" />
             <End Role="Wedstrijd" EntitySet="Wedstrijds" />
           </AssociationSet>
-          <AssociationSet Name="Bestelling_bestaat_uit_verschillende_lijnen" Association="Self.Bestelling_bestaat_uit_verschillende_lijnen">
-            <End Role="dbo_Bestelling" EntitySet="dbo_Bestelling" />
-            <End Role="dbo_ShoppingCartData" EntitySet="dbo_ShoppingCartData" />
-          </AssociationSet>
-          <AssociationSet Name="Bestelling_van_tickets" Association="Self.Bestelling_van_tickets">
-            <End Role="dbo_Bestelling" EntitySet="dbo_Bestelling" />
-            <End Role="Ticket" EntitySet="Tickets" />
-          </AssociationSet>
           <AssociationSet Name="Ticket_in_een_shopping_cart" Association="Self.Ticket_in_een_shopping_cart">
             <End Role="Ticket" EntitySet="Tickets" />
-            <End Role="dbo_ShoppingCartData" EntitySet="dbo_ShoppingCartData" />
+            <End Role="ShoppingCartData" EntitySet="ShoppingCartDatas" />
           </AssociationSet>
           <AssociationSet Name="Winkelwagentje_voor_wedstrijd" Association="Self.Winkelwagentje_voor_wedstrijd">
             <End Role="Wedstrijd" EntitySet="Wedstrijds" />
-            <End Role="dbo_ShoppingCartData" EntitySet="dbo_ShoppingCartData" />
+            <End Role="ShoppingCartData" EntitySet="ShoppingCartDatas" />
           </AssociationSet>
           <AssociationSet Name="Vak_in_een_stadion" Association="Self.Vak_in_een_stadion">
             <End Role="Stadion" EntitySet="Stadions" />
@@ -1204,6 +1205,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Bestellings">
+            <EntityTypeMapping TypeName="VoetbalstoreModel.Bestelling">
+              <MappingFragment StoreEntitySet="Bestelling">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Bevestigd" ColumnName="Bevestigd" />
+                <ScalarProperty Name="TotaalPrijs" ColumnName="TotaalPrijs" />
+                <ScalarProperty Name="AspNetUsersId" ColumnName="AspNetUsersId" />
+                <ScalarProperty Name="BestelDatum" ColumnName="BestelDatum" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Bezoekers">
             <EntityTypeMapping TypeName="VoetbalstoreModel.Bezoeker">
               <MappingFragment StoreEntitySet="Bezoeker">
@@ -1226,20 +1238,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="dbo_Bestelling">
-            <EntityTypeMapping TypeName="VoetbalstoreModel.dbo_Bestelling">
-              <MappingFragment StoreEntitySet="dbo_Bestelling">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Bevestigd" ColumnName="Bevestigd" />
-                <ScalarProperty Name="TotaalPrijs" ColumnName="TotaalPrijs" />
-                <ScalarProperty Name="AspNetUsersId" ColumnName="AspNetUsersId" />
-                <ScalarProperty Name="BestelDatum" ColumnName="BestelDatum" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="dbo_ShoppingCartData">
-            <EntityTypeMapping TypeName="VoetbalstoreModel.dbo_ShoppingCartData">
-              <MappingFragment StoreEntitySet="dbo_ShoppingCartData">
+          <EntitySetMapping Name="ShoppingCartDatas">
+            <EntityTypeMapping TypeName="VoetbalstoreModel.ShoppingCartData">
+              <MappingFragment StoreEntitySet="ShoppingCartData">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="BestellingId" ColumnName="BestellingId" />
                 <ScalarProperty Name="Ticketid" ColumnName="Ticketid" />

@@ -22,37 +22,32 @@
     <br />
     <br />
 
-
-    <table class="table">
-        <tr>
-            <th>Vak</th>
-            <th>Prijs</th>
-            <th>Plaatsen</th>
-            <th></th>
-        </tr>
-        @foreach (var item in Model.VakkenList)
-        {
+    <div id="partial">
+        <table class="table">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.VakType.Beschrijving)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BerekendePrijs) euro
-                </td>
-                <td>
-                    Nog @Html.DisplayFor(modelItem => item.AantalVrijePlaatsen) van de @Html.DisplayFor(modelItem => item.MaximumAantalZitplaatsen) plaatsen vrij!
-                </td>
-                <td>
-                    TODO: DIT MOET EEN POST WORDEN ?
-                    @Html.ActionLink("Koop tickets!", "Confirm", "Ticket", new { vakId = item.Id, stadionId = item.Stadionid, wedstrijdId = Model.Wedstrijd.Id, thuisploegId = Model.Thuisploeg.Id, tegenstandersId = Model.Tegenstanders.Id, naamThuisploeg = Model.Thuisploeg.Naam }, htmlAttributes: new { @class = "btn btn-primary" })
-                </td>
+                <th>Vak</th>
+                <th>Prijs</th>
+                <th>Plaatsen</th>
+                <th></th>
             </tr>
-        }
-    </table>
-</div>
-@*Deze velden moeten bewaard blijven:*@
-@*@Html.HiddenFor(s => s.Stadion.Id)
-    @Html.HiddenFor(w => w.Wedstrijd.Id)
-    @Html.HiddenFor(c => c.Thuisploeg.Id)
-    @Html.HiddenFor(c => c.Tegenstanders.Id)*@
+            @foreach (var item in Model.VakkenList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VakType.Beschrijving)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BerekendePrijs) euro
+                    </td>
+                    <td>
+                        Nog @Html.DisplayFor(modelItem => item.AantalVrijePlaatsen) van de @Html.DisplayFor(modelItem => item.MaximumAantalZitplaatsen) plaatsen vrij!
+                    </td>
+                    <td>
+                        @Ajax.ActionLink("Koop tickets!", "Confirm", "Ticket", new { vakId = item.Id, aantalVrijePlaatsen = item.AantalVrijePlaatsen, prijs = item.BerekendePrijs, wedstrijdId = Model.Wedstrijd.Id, vakNaam = item.VakType.Beschrijving}, new AjaxOptions { HttpMethod = "Post", OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, htmlAttributes: new { @class = "btn btn-outline-danger" })
 
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

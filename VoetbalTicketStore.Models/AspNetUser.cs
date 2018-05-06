@@ -19,7 +19,7 @@ namespace VoetbalTicketStore.Models
         {
             this.AspNetUserClaims = new HashSet<AspNetUserClaim>();
             this.AspNetUserLogins = new HashSet<AspNetUserLogin>();
-            this.dbo_Bestelling = new HashSet<dbo_Bestelling>();
+            this.Bestellings = new HashSet<Bestelling>();
             this.Tickets = new HashSet<Ticket>();
             this.AspNetRoles = new HashSet<AspNetRole>();
         }
@@ -42,7 +42,7 @@ namespace VoetbalTicketStore.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<dbo_Bestelling> dbo_Bestelling { get; set; }
+        public virtual ICollection<Bestelling> Bestellings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Ticket> Tickets { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -1,1 +1,19 @@
-﻿@ViewBag.NaamThuisPloeg
+﻿@model VoetbalTicketStore.ViewModel.TicketConfirm
+
+<ul class="list-group">
+    <li class="list-group-item">Gekozen vak: @Model.VakNaam</li>
+    <li class="list-group-item">Gekozen vak: @Model.AantalVrijePlaatsen</li>
+    <li class="list-group-item">Prijs: @Model.Prijs</li>
+    <li class="list-group-item">
+        @{Html.BeginForm("Add", "ShoppingCart", FormMethod.Post);}
+        @Html.DropDownListFor(a => a.AantalTickets, Model.HoeveelheidTicketsList)
+        <input type="submit" value="Koop!" class="btn btn-outline-danger" />
+
+        @*Deze velden moeten bewaard blijven:*@
+        @Html.HiddenFor(p => p.Prijs)
+        @Html.HiddenFor(v => v.VakId)
+        @Html.HiddenFor(w => w.WedstrijdId)
+
+        @{Html.EndForm();}
+    </li>
+</ul>

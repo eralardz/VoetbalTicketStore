@@ -12,7 +12,7 @@ namespace VoetbalTicketStore.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class dbo_ShoppingCartData
+    public partial class ShoppingCartData
     {
         public int Id { get; set; }
         public int BestellingId { get; set; }
@@ -21,7 +21,7 @@ namespace VoetbalTicketStore.Models
         public int WedstrijdId { get; set; }
         public int Hoeveelheid { get; set; }
     
-        public virtual dbo_Bestelling dbo_Bestelling { get; set; }
+        public virtual Bestelling Bestelling { get; set; }
         public virtual Ticket Ticket { get; set; }
         public virtual Wedstrijd Wedstrijd { get; set; }
     }

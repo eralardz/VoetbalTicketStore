@@ -46,12 +46,30 @@ namespace VoetbalTicketStore.Controllers
             return View(ticketWedstrijd);
         }
 
-        // GET: Ticket
-        public ActionResult Confirm(int vakId, int stadionId, int wedstrijdId, int thuisploegId, int tegenstandersId, string naamThuisploeg)
+        // POST: Confirm
+        [HttpPost]
+        public ActionResult Confirm(int vakId, int aantalVrijePlaatsen, decimal prijs, int wedstrijdId, string vakNaam)
         {
-            ViewBag.NaamThuisPloeg = naamThuisploeg;
-            return View("Confirm");
-        }
 
+            // Lijst voor aantal tickets
+            List<SelectListItem> list = new List<SelectListItem>();
+            list.Add(new SelectListItem { Text = "1", Value = "1", Selected = true });
+            list.Add(new SelectListItem { Text = "2", Value = "2" });
+            list.Add(new SelectListItem { Text = "3", Value = "3" });
+            list.Add(new SelectListItem { Text = "4", Value = "4" });
+
+            // ViewModel maken en opvullen
+            TicketConfirm ticketConfirm = new TicketConfirm()
+            {
+                AantalVrijePlaatsen = aantalVrijePlaatsen,
+                Prijs = prijs,
+                HoeveelheidTicketsList = list,
+                VakId = vakId,
+                VakNaam = vakNaam,
+                WedstrijdId = wedstrijdId
+            };
+
+            return PartialView(ticketConfirm);
+        }
     }
 }
