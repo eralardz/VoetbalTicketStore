@@ -1,3 +1,61 @@
-﻿@model VoetbalTicketStore.Models.ShoppingCartData
+﻿@model VoetbalTicketStore.ViewModel.ShoppingCart
 
-TICKET GEKOCHT EN WEGGESCHREVEN
+@if (Model == null || Model.ShoppingCartEntries.Count == 0)
+{
+    <p>Winkelwagentje is leeg!</p>
+}
+else
+{
+
+    <table class="table">
+        <tr>
+            <th>Id</th>
+            <th>Hoeveelheid</th>
+            <th>Prijs</th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.ShoppingCartEntries)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hoeveelheid)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Prijs)
+                </td>
+                <td>
+                    TODO: drie knopjes naast elkaar, allemaal in 1 form?
+                    @using (Html.BeginForm("Remove", "ShoppingCart", new { id = item.Id }, FormMethod.Post))
+                    {
+                        <input type="submit" value="+" class="btn btn-outline-danger" />
+                    }
+                    @using (Html.BeginForm("Remove", "ShoppingCart", new { id = item.Id }, FormMethod.Post))
+                    {
+                        <input type="submit" value="-" class="btn btn-outline-danger" />
+                    }
+                    @using (Html.BeginForm("Remove", "ShoppingCart", new { id = item.Id }, FormMethod.Post))
+                    {
+                        <input type="submit" value="X" class="btn btn-outline-danger" />
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+    <p>Totaalprijs: @Model.TotaalPrijs euro</p>
+    <p>
+        @using (Html.BeginForm("RemoveAll", "ShoppingCart", FormMethod.Post))
+        {
+            <input type="submit" value="Leegmaken" class="btn btn-outline-danger" />
+        }
+    </p>
+    <div>
+        @using (Html.BeginForm("Finalise", "ShoppingCart", FormMethod.Post))
+        {
+            <input type="submit" value="Bevestigen" class="btn btn-outline-danger" />
+        }
+    </div>
+}

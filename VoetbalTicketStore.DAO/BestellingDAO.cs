@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VoetbalTicketStore.Models;
+using System.Data.Entity;
 
 namespace VoetbalTicketStore.DAO
 {
@@ -25,6 +26,15 @@ namespace VoetbalTicketStore.DAO
                 db.Bestellings.Add(bestelling);
                 db.SaveChanges();
                 return bestelling;
+            }
+        }
+
+        public Bestelling FindOpenstaandeBestellingDoorUser(string user)
+        {
+            using (var db = new VoetbalstoreEntities())
+            {
+                // Reverse include kan ook met EF! 
+                return db.Bestellings.Where(b => b.Bevestigd == false && b.AspNetUsersId.Equals(user)).Include(s => s.ShoppingCartDatas).FirstOrDefault();
             }
         }
     }

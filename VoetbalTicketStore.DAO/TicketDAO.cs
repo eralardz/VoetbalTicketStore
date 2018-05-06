@@ -26,5 +26,13 @@ namespace VoetbalTicketStore.DAO
                 db.SaveChanges();
             }
         }
+
+        public int GetAantalGekochteTickets(string user, int wedstrijdId)
+        {
+            using (var db = new VoetbalstoreEntities())
+            {
+                return db.Tickets.Count(t => t.Gebruikerid.Equals(user) && t.Wedstrijdid == wedstrijdId);
+            }
+        }
     }
 }

@@ -21,7 +21,22 @@ namespace VoetbalTicketStore.Controllers
         // GET: ShoppingCart
         public ActionResult Index()
         {
-            return View();
+            // Openstaande bestelling ophalen
+            bestellingService = new BestellingService();
+            Bestelling bestelling = bestellingService.FindOpenstaandeBestellingDoorUser(User.Identity.GetUserId());
+
+            // ViewModel aanmaken en opvullen
+            ShoppingCart shoppingCart = null;
+            if (bestelling != null)
+            {
+                shoppingCart = new ShoppingCart()
+                {
+                    Bestelling = bestelling,
+                    ShoppingCartEntries = bestelling.ShoppingCartDatas.ToList(),
+                    TotaalPrijs = bestellingService.BerekenTotaalPrijs(bestelling.ShoppingCartDatas)
+                };
+            }
+            return View(shoppingCart);
         }
 
         [HttpPost]
@@ -50,9 +65,18 @@ namespace VoetbalTicketStore.Controllers
 
             // ShoppingCartData toevoegen
             shoppingCartDataService = new ShoppingCartDataService();
-            shoppingCartDataService.AddToShoppingCart(bestelling.Id, ticketConfirm.Prijs, ticketConfirm.WedstrijdId, ticketConfirm.AantalTickets, ticketConfirm.VakId);
+            shoppingCartDataService.AddToShoppingCart(bestelling.Id, ticketConfirm.Prijs, ticketConfirm.WedstrijdId, ticketConfirm.AantalTickets, ticketConfirm.VakId, User.Identity.GetUserId());
 
-            return RedirectToAction("Index","ShoppingCart");
+            // RedirectToAction ipv View, anders wordt geen model meegegeven!
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Remove(int id)
+        {
+            shoppingCartDataService = new ShoppingCartDataService();
+            shoppingCartDataService.RemoveShoppingCartData(id);
+            return RedirectToAction("Index");
         }
     }
 }

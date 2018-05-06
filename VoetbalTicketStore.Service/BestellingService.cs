@@ -41,5 +41,22 @@ namespace VoetbalTicketStore.Service
                 return bestellingDAO.AddBestelling(bestelling);
             }
         }
+
+        public Bestelling FindOpenstaandeBestellingDoorUser(string user)
+        {
+            return bestellingDAO.FindOpenstaandeBestellingDoorUser(user);
+        }
+
+        public decimal BerekenTotaalPrijs(ICollection<ShoppingCartData> shoppingCartDatas)
+        {
+            decimal totaalPrijs = 0;
+
+            foreach (ShoppingCartData shoppingCartData in shoppingCartDatas)
+            {
+                totaalPrijs += shoppingCartData.Prijs;
+            }
+
+            return totaalPrijs;
+        }
     }
 }
