@@ -112,10 +112,10 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BestellingId" Type="int" Nullable="false" />
-          <Property Name="Ticketid" Type="int" Nullable="false" />
           <Property Name="Prijs" Type="money" Nullable="false" />
           <Property Name="WedstrijdId" Type="int" Nullable="false" />
           <Property Name="Hoeveelheid" Type="int" Nullable="false" />
+          <Property Name="VakId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Stadion">
           <Key>
@@ -125,16 +125,6 @@
           <Property Name="Naam" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Adres" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="AantalZitplaatsen" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Taal">
           <Key>
@@ -217,6 +207,18 @@
             </Principal>
             <Dependent Role="Abonnement">
               <PropertyRef Name="VakTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Bestellijn voor een vak">
+          <End Role="Vak" Type="Self.Vak" Multiplicity="1" />
+          <End Role="ShoppingCartData" Type="Self.ShoppingCartData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vak">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ShoppingCartData">
+              <PropertyRef Name="VakId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -360,18 +362,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Ticket in een shopping cart">
-          <End Role="Ticket" Type="Self.Ticket" Multiplicity="1" />
-          <End Role="ShoppingCartData" Type="Self.ShoppingCartData" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Ticket">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ShoppingCartData">
-              <PropertyRef Name="Ticketid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="Ticket van een bezoeker">
           <End Role="Bezoeker" Type="Self.Bezoeker" Multiplicity="0..1" />
           <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
@@ -469,7 +459,6 @@
           <EntitySet Name="Club" EntityType="Self.Club" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ShoppingCartData" EntityType="Self.ShoppingCartData" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Stadion" EntityType="Self.Stadion" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Taal" EntityType="Self.Taal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ticket" EntityType="Self.Ticket" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vak" EntityType="Self.Vak" Schema="dbo" store:Type="Tables" />
@@ -486,6 +475,10 @@
           <AssociationSet Name="Abonnement voor type vak" Association="Self.Abonnement voor type vak">
             <End Role="VakType" EntitySet="VakType" />
             <End Role="Abonnement" EntitySet="Abonnement" />
+          </AssociationSet>
+          <AssociationSet Name="Bestellijn voor een vak" Association="Self.Bestellijn voor een vak">
+            <End Role="Vak" EntitySet="Vak" />
+            <End Role="ShoppingCartData" EntitySet="ShoppingCartData" />
           </AssociationSet>
           <AssociationSet Name="Bestelling bestaat uit verschillende lijnen" Association="Self.Bestelling bestaat uit verschillende lijnen">
             <End Role="Bestelling" EntitySet="Bestelling" />
@@ -530,10 +523,6 @@
           <AssociationSet Name="Ticket besteld door ASP user" Association="Self.Ticket besteld door ASP user">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Ticket" EntitySet="Ticket" />
-          </AssociationSet>
-          <AssociationSet Name="Ticket in een shopping cart" Association="Self.Ticket in een shopping cart">
-            <End Role="Ticket" EntitySet="Ticket" />
-            <End Role="ShoppingCartData" EntitySet="ShoppingCartData" />
           </AssociationSet>
           <AssociationSet Name="Ticket van een bezoeker" Association="Self.Ticket van een bezoeker">
             <End Role="Bezoeker" EntitySet="Bezoeker" />
@@ -688,12 +677,12 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BestellingId" Type="Int32" Nullable="false" />
-          <Property Name="Ticketid" Type="Int32" Nullable="false" />
           <Property Name="Prijs" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="WedstrijdId" Type="Int32" Nullable="false" />
           <Property Name="Hoeveelheid" Type="Int32" Nullable="false" />
+          <Property Name="VakId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Bestelling" Relationship="Self.Bestelling_bestaat_uit_verschillende_lijnen" FromRole="ShoppingCartData" ToRole="Bestelling" />
-          <NavigationProperty Name="Ticket" Relationship="Self.Ticket_in_een_shopping_cart" FromRole="ShoppingCartData" ToRole="Ticket" />
+          <NavigationProperty Name="Vak" Relationship="Self.Bestellijn_voor_een_vak" FromRole="ShoppingCartData" ToRole="Vak" />
           <NavigationProperty Name="Wedstrijd" Relationship="Self.Winkelwagentje_voor_wedstrijd" FromRole="ShoppingCartData" ToRole="Wedstrijd" />
         </EntityType>
         <EntityType Name="Stadion">
@@ -707,16 +696,6 @@
           <NavigationProperty Name="Clubs" Relationship="Self.Club_speelt_in_een_stadion" FromRole="Stadion" ToRole="Club" />
           <NavigationProperty Name="Vaks" Relationship="Self.Vak_in_een_stadion" FromRole="Stadion" ToRole="Vak" />
           <NavigationProperty Name="Wedstrijds" Relationship="Self.Wedstrijd_wordt_gespeeld_in_een_stadion" FromRole="Stadion" ToRole="Wedstrijd" />
-        </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="Taal">
           <Key>
@@ -740,7 +719,6 @@
           <NavigationProperty Name="AspNetUser" Relationship="Self.Ticket_besteld_door_ASP_user" FromRole="Ticket" ToRole="AspNetUsers" />
           <NavigationProperty Name="Bestelling" Relationship="Self.Bestelling_van_tickets" FromRole="Ticket" ToRole="Bestelling" />
           <NavigationProperty Name="Bezoeker" Relationship="Self.Ticket_van_een_bezoeker" FromRole="Ticket" ToRole="Bezoeker" />
-          <NavigationProperty Name="ShoppingCartDatas" Relationship="Self.Ticket_in_een_shopping_cart" FromRole="Ticket" ToRole="ShoppingCartData" />
           <NavigationProperty Name="Vak" Relationship="Self.Ticket_voor_een_vak" FromRole="Ticket" ToRole="Vak" />
           <NavigationProperty Name="Wedstrijd" Relationship="Self.Ticket_voor_wedstrijd" FromRole="Ticket" ToRole="Wedstrijd" />
         </EntityType>
@@ -752,6 +730,7 @@
           <Property Name="MaximumAantalZitplaatsen" Type="Int32" Nullable="false" />
           <Property Name="VakTypeid" Type="Int32" Nullable="false" />
           <Property Name="Stadionid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ShoppingCartDatas" Relationship="Self.Bestellijn_voor_een_vak" FromRole="Vak" ToRole="ShoppingCartData" />
           <NavigationProperty Name="Stadion" Relationship="Self.Vak_in_een_stadion" FromRole="Vak" ToRole="Stadion" />
           <NavigationProperty Name="Tickets" Relationship="Self.Ticket_voor_een_vak" FromRole="Vak" ToRole="Ticket" />
           <NavigationProperty Name="VakType" Relationship="Self.Vak_heeft_een_type" FromRole="Vak" ToRole="VakType" />
@@ -942,15 +921,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Ticket_in_een_shopping_cart">
-          <End Role="Ticket" Type="Self.Ticket" Multiplicity="1" />
+        <Association Name="Bestellijn_voor_een_vak">
+          <End Role="Vak" Type="Self.Vak" Multiplicity="1" />
           <End Role="ShoppingCartData" Type="Self.ShoppingCartData" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Ticket">
+            <Principal Role="Vak">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="ShoppingCartData">
-              <PropertyRef Name="Ticketid" />
+              <PropertyRef Name="VakId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1042,7 +1021,6 @@
           <EntitySet Name="Clubs" EntityType="Self.Club" />
           <EntitySet Name="ShoppingCartDatas" EntityType="Self.ShoppingCartData" />
           <EntitySet Name="Stadions" EntityType="Self.Stadion" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="Taals" EntityType="Self.Taal" />
           <EntitySet Name="Tickets" EntityType="Self.Ticket" />
           <EntitySet Name="Vaks" EntityType="Self.Vak" />
@@ -1100,8 +1078,8 @@
             <End Role="Club" EntitySet="Clubs" />
             <End Role="Wedstrijd" EntitySet="Wedstrijds" />
           </AssociationSet>
-          <AssociationSet Name="Ticket_in_een_shopping_cart" Association="Self.Ticket_in_een_shopping_cart">
-            <End Role="Ticket" EntitySet="Tickets" />
+          <AssociationSet Name="Bestellijn_voor_een_vak" Association="Self.Bestellijn_voor_een_vak">
+            <End Role="Vak" EntitySet="Vaks" />
             <End Role="ShoppingCartData" EntitySet="ShoppingCartDatas" />
           </AssociationSet>
           <AssociationSet Name="Winkelwagentje_voor_wedstrijd" Association="Self.Winkelwagentje_voor_wedstrijd">
@@ -1243,10 +1221,10 @@
               <MappingFragment StoreEntitySet="ShoppingCartData">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="BestellingId" ColumnName="BestellingId" />
-                <ScalarProperty Name="Ticketid" ColumnName="Ticketid" />
                 <ScalarProperty Name="Prijs" ColumnName="Prijs" />
                 <ScalarProperty Name="WedstrijdId" ColumnName="WedstrijdId" />
                 <ScalarProperty Name="Hoeveelheid" ColumnName="Hoeveelheid" />
+                <ScalarProperty Name="VakId" ColumnName="VakId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1257,17 +1235,6 @@
                 <ScalarProperty Name="Naam" ColumnName="Naam" />
                 <ScalarProperty Name="Adres" ColumnName="Adres" />
                 <ScalarProperty Name="AantalZitplaatsen" ColumnName="AantalZitplaatsen" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="VoetbalstoreModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

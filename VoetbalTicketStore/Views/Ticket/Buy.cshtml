@@ -43,8 +43,8 @@
                         Nog @Html.DisplayFor(modelItem => item.AantalVrijePlaatsen) van de @Html.DisplayFor(modelItem => item.MaximumAantalZitplaatsen) plaatsen vrij!
                     </td>
                     <td>
+                        @*TODO: gevuld viewmodel in de ActionLink (RouteValues) steken*@
                         @Ajax.ActionLink("Koop tickets!", "Confirm", "Ticket", new { vakId = item.Id, aantalVrijePlaatsen = item.AantalVrijePlaatsen, prijs = item.BerekendePrijs, wedstrijdId = Model.Wedstrijd.Id, vakNaam = item.VakType.Beschrijving}, new AjaxOptions { HttpMethod = "Post", OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, htmlAttributes: new { @class = "btn btn-outline-danger" })
-
                     </td>
                 </tr>
             }

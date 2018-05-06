@@ -16,13 +16,13 @@ namespace VoetbalTicketStore.Models
     {
         public int Id { get; set; }
         public int BestellingId { get; set; }
-        public int Ticketid { get; set; }
         public decimal Prijs { get; set; }
         public int WedstrijdId { get; set; }
         public int Hoeveelheid { get; set; }
+        public int VakId { get; set; }
     
         public virtual Bestelling Bestelling { get; set; }
-        public virtual Ticket Ticket { get; set; }
+        public virtual Vak Vak { get; set; }
         public virtual Wedstrijd Wedstrijd { get; set; }
     }
 }

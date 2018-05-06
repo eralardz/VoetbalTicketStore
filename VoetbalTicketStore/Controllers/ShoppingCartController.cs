@@ -14,8 +14,9 @@ namespace VoetbalTicketStore.Controllers
     public class ShoppingCartController : Controller
     {
 
-        BestellingService bestellingService;
-
+        private BestellingService bestellingService;
+        private TicketService ticketService;
+        private ShoppingCartDataService shoppingCartDataService;
 
         // GET: ShoppingCart
         public ActionResult Index()
@@ -30,21 +31,26 @@ namespace VoetbalTicketStore.Controllers
             bestellingService = new BestellingService();
             Bestelling bestelling = bestellingService.CreateNieuweBestellingIndienNodig(User.Identity.GetUserId());
 
-            // Tickets toevoegen
+            // Tickets toevoegen - MOET EIGENLIJK IN DE TICKETSERVICE TOCH
             // TODO: batch add ?
-            for(int i = 0; i < ticketConfirm.AantalTickets; i++)
-            {
-                Ticket ticket = new Ticket()
-                {
-                    Gebruikerid = User.Identity.GetUserId(),
-                    Prijs = ticketConfirm.Prijs,
-                    Vakid = ticketConfirm.VakId,
-                    Bevestigd = false,
-                    BestellingId = bestelling.Id,
-                    Wedstrijdid = ticketConfirm.WedstrijdId
-                };
+            //ticketService = new TicketService();
+            //for(int i = 0; i < ticketConfirm.AantalTickets; i++)
+            //{
+            //    Ticket ticket = new Ticket()
+            //    {
+            //        Gebruikerid = User.Identity.GetUserId(),
+            //        Prijs = ticketConfirm.Prijs,
+            //        Vakid = ticketConfirm.VakId,
+            //        Bevestigd = false,
+            //        BestellingId = bestelling.Id,
+            //        Wedstrijdid = ticketConfirm.WedstrijdId
+            //    };
+            //    ticketService.AddTicket(ticket);
+            //}
 
-            }
+            // ShoppingCartData toevoegen
+            shoppingCartDataService = new ShoppingCartDataService();
+            shoppingCartDataService.AddToShoppingCart(bestelling.Id, ticketConfirm.Prijs, ticketConfirm.WedstrijdId, ticketConfirm.AantalTickets, ticketConfirm.VakId);
 
             return RedirectToAction("Index","ShoppingCart");
         }

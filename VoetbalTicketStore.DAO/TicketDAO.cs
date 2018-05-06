@@ -17,5 +17,14 @@ namespace VoetbalTicketStore.DAO
                 return db.Tickets.Count(t => t.Vakid == vak.Id && t.Wedstrijdid == wedstrijd.Id);
             }
         }
+
+        public void AddTicket(Ticket ticket)
+        {
+            using (var db = new VoetbalstoreEntities())
+            {
+                db.Tickets.Add(ticket);
+                db.SaveChanges();
+            }
+        }
     }
 }

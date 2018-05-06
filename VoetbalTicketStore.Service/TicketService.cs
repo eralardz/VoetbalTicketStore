@@ -21,5 +21,10 @@ namespace VoetbalTicketStore.Service
         {
             return ticketDAO.GetAantalVerkochteTicketsVoorVak(vak, wedstrijd);
         }
+
+        public void AddTicket(Ticket ticket)
+        {
+            ticketDAO.AddTicket(ticket);
+        }
     }
 }
