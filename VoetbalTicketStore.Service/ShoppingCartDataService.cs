@@ -82,5 +82,15 @@ namespace VoetbalTicketStore.Service
             shoppingCartDataDAO = new ShoppingCartDataDAO();
             shoppingCartDataDAO.RemoveShoppingCartData(id);
         }
+
+        public void AdjustAmount(int id, int newAmount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void IncrementShoppingCartData(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

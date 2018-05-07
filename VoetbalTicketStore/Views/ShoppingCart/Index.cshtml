@@ -12,6 +12,7 @@ else
             <th>Id</th>
             <th>Hoeveelheid</th>
             <th>Prijs</th>
+            <th>Wedstrijd</th>
             <th></th>
         </tr>
 
@@ -28,18 +29,18 @@ else
                     @Html.DisplayFor(modelItem => item.Prijs)
                 </td>
                 <td>
+
+                </td>
+                <td>
                     TODO: drie knopjes naast elkaar, allemaal in 1 form?
                     @using (Html.BeginForm("Remove", "ShoppingCart", new { id = item.Id }, FormMethod.Post))
                     {
-                        <input type="submit" value="+" class="btn btn-outline-danger" />
+                        <input type="submit" value="x" class="btn btn-outline-danger" />
                     }
-                    @using (Html.BeginForm("Remove", "ShoppingCart", new { id = item.Id }, FormMethod.Post))
-                    {
-                        <input type="submit" value="-" class="btn btn-outline-danger" />
-                    }
-                    @using (Html.BeginForm("Remove", "ShoppingCart", new { id = item.Id }, FormMethod.Post))
-                    {
-                        <input type="submit" value="X" class="btn btn-outline-danger" />
+                    @using (Html.BeginForm("AdjustAmount", "ShoppingCart", new { id = item.Id, newAmount = item.Hoeveelheid }, FormMethod.Post))
+                    {      
+                        @Html.EditorFor(modelItem => item.Hoeveelheid)
+                        <input type="submit" value="Hoeveelheid aanpassen" class="btn btn-outline-danger" />
                     }
                 </td>
             </tr>

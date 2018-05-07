@@ -2,8 +2,8 @@
 
 <ul class="list-group">
     <li class="list-group-item">Gekozen vak: @Model.VakNaam</li>
-    <li class="list-group-item">Gekozen vak: @Model.AantalVrijePlaatsen</li>
-    <li class="list-group-item">Prijs: @Model.Prijs</li>
+    <li class="list-group-item">Aantal vrije plaatsen in vak: @Model.AantalVrijePlaatsen</li>
+    <li class="list-group-item">Prijs: @Model.Prijs euro</li>
     <li class="list-group-item">
         @{Html.BeginForm("Add", "ShoppingCart", FormMethod.Post);}
         @Html.DropDownListFor(a => a.AantalTickets, Model.HoeveelheidTicketsList)

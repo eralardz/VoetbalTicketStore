@@ -78,5 +78,13 @@ namespace VoetbalTicketStore.Controllers
             shoppingCartDataService.RemoveShoppingCartData(id);
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public ActionResult AdjustAmount(int id, int newAmount)
+        {
+            shoppingCartDataService = new ShoppingCartDataService();
+            shoppingCartDataService.AdjustAmount(id, newAmount);
+            return RedirectToAction("Index");
+        }
     }
 }

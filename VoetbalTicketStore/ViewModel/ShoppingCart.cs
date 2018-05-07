@@ -11,5 +11,7 @@ namespace VoetbalTicketStore.ViewModel
         public Bestelling Bestelling{ get; set; }
         public IList<ShoppingCartData> ShoppingCartEntries { get; set; }
         public decimal TotaalPrijs { get; set; }
+        public int SelectedShoppingCartData { get; set; }
+        public int NieuweHoeveelheid { get; set; }
     }
 }
