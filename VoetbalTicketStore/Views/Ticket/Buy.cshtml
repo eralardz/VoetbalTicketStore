@@ -44,7 +44,7 @@
                     </td>
                     <td>
                         @*TODO: gevuld viewmodel in de ActionLink (RouteValues) steken*@
-                        @Ajax.ActionLink("Koop tickets!", "Confirm", "Ticket", new { vakId = item.Id, aantalVrijePlaatsen = item.AantalVrijePlaatsen, prijs = item.BerekendePrijs, wedstrijdId = Model.Wedstrijd.Id, vakNaam = item.VakType.Beschrijving}, new AjaxOptions { HttpMethod = "Post", OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, htmlAttributes: new { @class = "btn btn-outline-danger" })
+                        @Ajax.ActionLink("Koop tickets!", "Confirm", "Ticket", new { vakId = item.Id, aantalVrijePlaatsen = item.AantalVrijePlaatsen, prijs = item.BerekendePrijs, wedstrijdId = Model.Wedstrijd.Id, thuisploegId = Model.Thuisploeg.Id, bezoekersId = Model.Tegenstanders.Id, vakNaam = item.VakType.Beschrijving}, new AjaxOptions { HttpMethod = "Post", OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, htmlAttributes: new { @class = "btn btn-outline-danger" })
                     </td>
                 </tr>
             }

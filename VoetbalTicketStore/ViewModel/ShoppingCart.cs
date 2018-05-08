@@ -13,5 +13,6 @@ namespace VoetbalTicketStore.ViewModel
         public decimal TotaalPrijs { get; set; }
         public int SelectedShoppingCartData { get; set; }
         public int NieuweHoeveelheid { get; set; }
+        public int GeselecteerdeWedstrijd { get; set; }
     }
 }

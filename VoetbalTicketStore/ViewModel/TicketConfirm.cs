@@ -17,5 +17,7 @@ namespace VoetbalTicketStore.ViewModel
         public int WedstrijdId { get; set; }
         public List<SelectListItem> HoeveelheidTicketsList { get; set; }
         public int AantalTickets { get; set; }
+        public int ThuisploegId { get; set; }
+        public int BezoekersId { get; set; }
     }
 }

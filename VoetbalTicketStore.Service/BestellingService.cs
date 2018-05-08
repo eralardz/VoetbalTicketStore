@@ -58,5 +58,10 @@ namespace VoetbalTicketStore.Service
 
             return totaalPrijs;
         }
+
+        public void RemoveBestelling(string user)
+        {
+            bestellingDAO.RemoveBestelling(user);
+        }
     }
 }

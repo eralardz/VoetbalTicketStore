@@ -1,5 +1,4 @@
 ﻿@model VoetbalTicketStore.ViewModel.ShoppingCart
-
 @if (Model == null || Model.ShoppingCartEntries.Count == 0)
 {
     <p>Winkelwagentje is leeg!</p>
@@ -9,10 +8,10 @@ else
 
     <table class="table">
         <tr>
-            <th>Id</th>
-            <th>Hoeveelheid</th>
-            <th>Prijs</th>
             <th>Wedstrijd</th>
+            <th>Beschrijving</th>
+            <th>Prijs</th>
+            <th>Hoeveelheid</th>
             <th></th>
         </tr>
 
@@ -20,27 +19,27 @@ else
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Id)
+                    @Html.DisplayFor(modelItem => item.Club.Naam) - @Html.DisplayFor(modelItem => item.Club1.Naam)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Hoeveelheid)
+                    @Html.DisplayFor(modelItem => item.Vak.VakType.Beschrijving)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Prijs)
                 </td>
                 <td>
-
+                    @Html.DisplayFor(modelItem => item.Hoeveelheid)
                 </td>
                 <td>
-                    TODO: drie knopjes naast elkaar, allemaal in 1 form?
+                    @using (Html.BeginForm("AdjustAmount", "ShoppingCart", new { SelectedShoppingCartData = item.Id, NieuweHoeveelheid = Model.NieuweHoeveelheid, GeselecteerdeWedstrijd = item.WedstrijdId }, FormMethod.Post))
+                    {
+                        @Html.EditorFor(modelItem => Model.NieuweHoeveelheid)
+
+                        <input type="submit" value="H" class="btn btn-outline-danger" />
+                    }
                     @using (Html.BeginForm("Remove", "ShoppingCart", new { id = item.Id }, FormMethod.Post))
                     {
                         <input type="submit" value="x" class="btn btn-outline-danger" />
-                    }
-                    @using (Html.BeginForm("AdjustAmount", "ShoppingCart", new { id = item.Id, newAmount = item.Hoeveelheid }, FormMethod.Post))
-                    {      
-                        @Html.EditorFor(modelItem => item.Hoeveelheid)
-                        <input type="submit" value="Hoeveelheid aanpassen" class="btn btn-outline-danger" />
                     }
                 </td>
             </tr>
@@ -48,7 +47,7 @@ else
     </table>
     <p>Totaalprijs: @Model.TotaalPrijs euro</p>
     <p>
-        @using (Html.BeginForm("RemoveAll", "ShoppingCart", FormMethod.Post))
+        @using (Html.BeginForm("Clear", "ShoppingCart", FormMethod.Post))
         {
             <input type="submit" value="Leegmaken" class="btn btn-outline-danger" />
         }

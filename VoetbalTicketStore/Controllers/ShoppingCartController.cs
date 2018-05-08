@@ -65,7 +65,7 @@ namespace VoetbalTicketStore.Controllers
 
             // ShoppingCartData toevoegen
             shoppingCartDataService = new ShoppingCartDataService();
-            shoppingCartDataService.AddToShoppingCart(bestelling.Id, ticketConfirm.Prijs, ticketConfirm.WedstrijdId, ticketConfirm.AantalTickets, ticketConfirm.VakId, User.Identity.GetUserId());
+            shoppingCartDataService.AddToShoppingCart(bestelling.Id, ticketConfirm.Prijs, ticketConfirm.WedstrijdId, ticketConfirm.ThuisploegId, ticketConfirm.BezoekersId, ticketConfirm.AantalTickets, ticketConfirm.VakId, User.Identity.GetUserId());
 
             // RedirectToAction ipv View, anders wordt geen model meegegeven!
             return RedirectToAction("Index");
@@ -80,10 +80,34 @@ namespace VoetbalTicketStore.Controllers
         }
 
         [HttpPost]
-        public ActionResult AdjustAmount(int id, int newAmount)
+        public ActionResult AdjustAmount(ShoppingCart shoppingCart)
         {
             shoppingCartDataService = new ShoppingCartDataService();
-            shoppingCartDataService.AdjustAmount(id, newAmount);
+            shoppingCartDataService.AdjustAmount(shoppingCart.SelectedShoppingCartData, shoppingCart.NieuweHoeveelheid, User.Identity.GetUserId(), shoppingCart.GeselecteerdeWedstrijd);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Clear()
+        {
+            bestellingService = new BestellingService();
+            bestellingService.RemoveBestelling(User.Identity.GetUserId());
+
+           
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Finalise()
+        {
+          // Geval ticket
+          
+          // Is er nog voldoende plaats om dit ticket aan te maken?
+
+
+
+          // Geval abonnement
+
             return RedirectToAction("Index");
         }
     }

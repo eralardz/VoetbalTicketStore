@@ -33,8 +33,24 @@ namespace VoetbalTicketStore.DAO
         {
             using (var db = new VoetbalstoreEntities())
             {
-                // Reverse include kan ook met EF! 
-                return db.Bestellings.Where(b => b.Bevestigd == false && b.AspNetUsersId.Equals(user)).Include(s => s.ShoppingCartDatas.Select(w => w.Wedstrijd)).FirstOrDefault();
+                //ZONDER club-ids in de shoppingcartdata: return db.Bestellings.Where(b => b.Bevestigd == false && b.AspNetUsersId.Equals(user)).Include(s => s.ShoppingCartDatas.Select(w => w.Wedstrijd).Select(c => c.Club)).Include(s => s.ShoppingCartDatas.Select(w => w.Wedstrijd).Select(c => c.Club1)).FirstOrDefault();
+
+                // MET club-ids in de shoppingcartdata
+                // Reverse include! 
+                // Include chaining!
+                return db.Bestellings.Where(b => b.Bevestigd == false && b.AspNetUsersId.Equals(user)).Include(x => x.ShoppingCartDatas.Select(y => y.Club)).Include(z => z.ShoppingCartDatas.Select(r => r.Club1)).Include(x => x.ShoppingCartDatas.Select(v => v.Vak).Select(t => t.VakType)).FirstOrDefault();
+
+            }
+        }
+
+        public void RemoveBestelling(string user)
+        {
+            using (var db = new VoetbalstoreEntities())
+            {
+                // cascade delete
+                var toRemove = db.Bestellings.Where(a => a.AspNetUsersId.Equals(user) && a.Bevestigd == false);
+                db.Bestellings.RemoveRange(toRemove);
+                db.SaveChanges();
             }
         }
     }

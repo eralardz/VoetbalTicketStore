@@ -17,7 +17,7 @@ namespace VoetbalTicketStore.Service
             shoppingCartDataDAO = new ShoppingCartDataDAO();
         }
 
-        public void AddToShoppingCart(int bestellingId, decimal prijs, int wedstrijdId, int aantalTickets, int vakId, string user)
+        public void AddToShoppingCart(int bestellingId, decimal prijs, int wedstrijdId, int thuisploegId, int bezoekersId, int aantalTickets, int vakId, string user)
         {
             // Er mogen maximaal 4 tickets per wedstrijd per persoon gekocht worden
             if (GebruikerMagVoorDezeWedstrijdNogTicketsToevoegen(user, wedstrijdId, bestellingId))
@@ -38,7 +38,13 @@ namespace VoetbalTicketStore.Service
                         Prijs = prijs,
                         WedstrijdId = wedstrijdId,
                         Hoeveelheid = aantalTickets,
-                        VakId = vakId
+                        VakId = vakId,
+                        Thuisploeg = thuisploegId,
+                        Bezoekers = bezoekersId,
+
+                        // Voorlopig enkel support voor aankopen tickets (id = 1) TODO: enum van maken
+                        ShoppingCartDataTypeId = 1
+
                     };
 
                     // Toevoegen aan DB
@@ -57,7 +63,6 @@ namespace VoetbalTicketStore.Service
             shoppingCartDataDAO.IncrementAmount(shoppingCartData);
         }
 
-
         private bool GebruikerMagVoorDezeWedstrijdNogTicketsToevoegen(string user, int wedstrijdId, int bestellingId)
         {
             // Heeft de gebruiker al tickets gekocht voor deze wedstrijd?
@@ -68,24 +73,40 @@ namespace VoetbalTicketStore.Service
             IEnumerable<ShoppingCartData> shoppingCartDatas = shoppingCartDataDAO.GetShoppingCartEntries(bestellingId, wedstrijdId);
             int totaleHoeveelheidInShoppingCart = 0;
 
-
-            foreach(ShoppingCartData item in shoppingCartDatas)
+            foreach (ShoppingCartData item in shoppingCartDatas)
             {
                 totaleHoeveelheidInShoppingCart += item.Hoeveelheid;
             }
 
-            return (totaleHoeveelheidInShoppingCart + aantalVerkochteTickets) < 4;
+            return (totaleHoeveelheidInShoppingCart + aantalVerkochteTickets) < Constants.MaximaalAantalTicketsPerGebruikerPerWedstrijd;
         }
 
         public void RemoveShoppingCartData(int id)
         {
-            shoppingCartDataDAO = new ShoppingCartDataDAO();
             shoppingCartDataDAO.RemoveShoppingCartData(id);
         }
 
-        public void AdjustAmount(int id, int newAmount)
+        public void AdjustAmount(int id, int newAmount, string user, int wedstrijdId)
         {
-            throw new NotImplementedException();
+
+            // Heeft de gebruiker al tickets gekocht voor deze wedstrijd?
+            ticketService = new TicketService();
+            int aantalVerkochteTickets = ticketService.GetAantalGekochteTickets(user, wedstrijdId);
+
+            // Maximaal aantal tickets per persoon per wedstrijd
+            if (aantalVerkochteTickets + newAmount > 4)
+            {
+                throw new BestelException("Er mogen maximaal " + Constants.MaximaalAantalTicketsPerGebruikerPerWedstrijd + " tickets per wedstrijd aangekocht worden!");
+            }
+            else
+            {
+                shoppingCartDataDAO.AdjustAmount(id, newAmount);
+            }
+        }
+
+        public void RemoveAllShoppingCartData(string user)
+        {
+            shoppingCartDataDAO.RemoveAllShoppingCartData(user);
         }
 
         public void IncrementShoppingCartData(int id)

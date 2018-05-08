@@ -18,7 +18,7 @@ namespace VoetbalTicketStore.DAO
             }
         }
 
-        public IEnumerable<ShoppingCartData> GetShoppingCartEntries (int bestellingId, int wedstrijdId)
+        public IEnumerable<ShoppingCartData> GetShoppingCartEntries(int bestellingId, int wedstrijdId)
         {
             using (var db = new VoetbalstoreEntities())
             {
@@ -32,6 +32,14 @@ namespace VoetbalTicketStore.DAO
             using (var db = new VoetbalstoreEntities())
             {
                 return db.ShoppingCartDatas.Where(s => s.WedstrijdId == wedstrijdId && s.BestellingId == bestellingId && s.VakId == vakId).FirstOrDefault();
+            }
+        }
+
+        public ShoppingCartData GetShoppingCartEntry(int id)
+        {
+            using (var db = new VoetbalstoreEntities())
+            {
+                return db.ShoppingCartDatas.Find(id);
             }
         }
 
@@ -54,6 +62,25 @@ namespace VoetbalTicketStore.DAO
                 ShoppingCartData toRemove = new ShoppingCartData { Id = id };
                 db.Entry(toRemove).State = System.Data.Entity.EntityState.Deleted;
                 db.SaveChanges();
+            }
+        }
+
+        // Hoeveelheid op bestellijn aanpassen naar nieuwe hoeveelheid
+        public void AdjustAmount(int id, int newAmount)
+        {
+            using (var db = new VoetbalstoreEntities())
+            {
+                ShoppingCartData shoppingCartData = new ShoppingCartData { Id = id, Hoeveelheid = newAmount };
+                db.ShoppingCartDatas.Attach(shoppingCartData);
+                var entry = db.Entry(shoppingCartData);
+                entry.Property(e => e.Hoeveelheid).IsModified = true;
+                db.SaveChanges();
+            }
+        }
+
+        public void RemoveAllShoppingCartData(string user)
+        {
+            using (var db = new VoetbalstoreEntities()) {
             }
         }
     }

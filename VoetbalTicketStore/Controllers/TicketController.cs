@@ -48,7 +48,7 @@ namespace VoetbalTicketStore.Controllers
 
         // POST: Confirm
         [HttpPost]
-        public ActionResult Confirm(int vakId, int aantalVrijePlaatsen, decimal prijs, int wedstrijdId, string vakNaam)
+        public ActionResult Confirm(int vakId, int aantalVrijePlaatsen, decimal prijs, int wedstrijdId, int thuisploegId, int bezoekersId, string vakNaam)
         {
 
             // Lijst voor aantal tickets
@@ -66,7 +66,9 @@ namespace VoetbalTicketStore.Controllers
                 HoeveelheidTicketsList = list,
                 VakId = vakId,
                 VakNaam = vakNaam,
-                WedstrijdId = wedstrijdId
+                WedstrijdId = wedstrijdId,
+                ThuisploegId = thuisploegId,
+                BezoekersId = bezoekersId
             };
 
             return PartialView(ticketConfirm);

@@ -82,7 +82,13 @@
     <Compile Include="ShoppingCartData.cs">
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ShoppingCartDataType.cs">
+      <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Stadion.cs">
+      <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sysdiagram.cs">
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Taal.cs">
