@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using VoetbalTicketStore.Exceptions;
 using VoetbalTicketStore.Models;
 using VoetbalTicketStore.Service;
 using VoetbalTicketStore.ViewModel;
@@ -93,22 +94,64 @@ namespace VoetbalTicketStore.Controllers
             bestellingService = new BestellingService();
             bestellingService.RemoveBestelling(User.Identity.GetUserId());
 
-           
+
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         public ActionResult Finalise()
         {
-          // Geval ticket
-          
-          // Is er nog voldoende plaats om dit ticket aan te maken?
+            // Alle ShoppingCartData binnenhalen (via eager bestelling)
+            bestellingService = new BestellingService();
+            Bestelling bestelling = bestellingService.FindOpenstaandeBestellingDoorUser(User.Identity.GetUserId());
+
+            // Is er nog voldoende plaats in het vak om dit ticket aan te maken?
+            ticketService = new TicketService();
+            IList<Ticket> tickets = new List<Ticket>();
+            foreach (ShoppingCartData shoppingCartData in bestelling.ShoppingCartDatas)
+            {
+                int totaalAantal = ticketService.GetAantalVerkochteTicketsVoorVak(shoppingCartData.Vak, shoppingCartData.Wedstrijd) + shoppingCartData.Hoeveelheid;
+
+                int rest = shoppingCartData.Vak.MaximumAantalZitplaatsen - totaalAantal;
+
+                if (rest > 0)
+                {
+                    // tickets mogen aangemaakt worden
+                    Ticket ticket = new Ticket();
+                    ticket.Gebruikerid = User.Identity.GetUserId();
+                    ticket.Prijs = shoppingCartData.Prijs;
+                    // nullable attributes
+                    if (shoppingCartData.VakId != null || shoppingCartData.WedstrijdId == null)
+                    {
+                        ticket.Vakid = (int)shoppingCartData.VakId;
+                        ticket.Wedstrijdid = (int)shoppingCartData.WedstrijdId;
+
+                    }
+                    ticket.BestellingId = shoppingCartData.BestellingId;
+
+                    tickets.Add(ticket);
+
+                }
+                else
+                {
+                    // TODO: eventueel clear shoppingcart?
+                    // tickets mogen niet aangemaakt worden
+                    throw new BestelException("Tickets reeds uitverkocht! Helaas!");
+                }
+            }
+
+            // add in bulk
+            ticketService.AddTickets(tickets);
+
+            // delete shoppingcartdata
+            shoppingCartDataService = new ShoppingCartDataService();
+            shoppingCartDataService.RemoveAllShoppingCartData(User.Identity.GetUserId());
 
 
+            // Geval abonnement
 
-          // Geval abonnement
+            return View("Index");
 
-            return RedirectToAction("Index");
         }
     }
 }
