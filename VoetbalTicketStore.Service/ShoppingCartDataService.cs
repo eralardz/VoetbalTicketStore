@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web.Mvc;
 using VoetbalTicketStore.DAO;
 using VoetbalTicketStore.Exceptions;
 using VoetbalTicketStore.Models;
@@ -102,6 +103,11 @@ namespace VoetbalTicketStore.Service
             {
                 shoppingCartDataDAO.AdjustAmount(id, newAmount);
             }
+        }
+
+        public void RemoveShoppingCartDataVanBestelling(int geselecteerdeBestelling)
+        {
+            shoppingCartDataDAO.RemoveShoppingCartDataVanBestelling(geselecteerdeBestelling);
         }
 
         public void RemoveAllShoppingCartData(string user)

@@ -80,7 +80,19 @@ namespace VoetbalTicketStore.DAO
 
         public void RemoveAllShoppingCartData(string user)
         {
-            using (var db = new VoetbalstoreEntities()) {
+            using (var db = new VoetbalstoreEntities())
+            {
+            }
+        }
+
+        public void RemoveShoppingCartDataVanBestelling(int geselecteerdeBestelling)
+        {
+            using (var db = new VoetbalstoreEntities())
+            {
+                // dit zijn 2 db hits -> TODO: verbeteren met https://www.nuget.org/packages/Z.EntityFramework.Plus.EF6/ -> kan dus met 1 hit
+                // "Batch Operations method allow to perform UPDATE or DELETE operation directly in the database using a LINQ Query without loading entities in the context."
+                db.ShoppingCartDatas.RemoveRange(db.ShoppingCartDatas.Where(x => x.BestellingId == geselecteerdeBestelling));
+                db.SaveChanges();
             }
         }
     }

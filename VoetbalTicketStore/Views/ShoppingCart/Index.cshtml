@@ -47,15 +47,22 @@ else
     </table>
     <p>Totaalprijs: @Model.TotaalPrijs euro</p>
     <p>
-        @using (Html.BeginForm("Clear", "ShoppingCart", FormMethod.Post))
+        @using (Html.BeginForm("Clear", "ShoppingCart", new { GeselecteerdeBestelling = Model.Bestelling.Id }, FormMethod.Post))
         {
             <input type="submit" value="Leegmaken" class="btn btn-outline-danger" />
         }
     </p>
     <div>
+
+        @*@Ajax.ActionLink("Koop tickets!", "Finalise", "ShoppingCart", new { }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "OnSuccessFinalise", OnFailure = "OnFailureFinalise" }, htmlAttributes: new { @class = "btn btn-outline-danger" })*@
+
+
         @using (Html.BeginForm("Finalise", "ShoppingCart", FormMethod.Post))
         {
             <input type="submit" value="Bevestigen" class="btn btn-outline-danger" />
         }
     </div>
 }
+<div id="errors">
+    <h1>@ViewBag.Exception</h1>
+</div>
