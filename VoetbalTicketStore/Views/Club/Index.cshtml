@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<VoetbalTicketStore.Models.Club>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Clubs";
 }
 
 
@@ -17,6 +17,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Stadion.Naam)
+        </th>
+        <th>
+            Abonnement kopen
         </th>
         <th>
             Wedstrijdkalender
@@ -43,7 +46,13 @@
                 @Html.DisplayFor(modelItem => item.Stadion.Naam)
             </td>
             <td>
+                @Html.ActionLink("Koop abonnement", "Buy", "Abonnement", new { item.Id, item.Naam }, null)
+            </td>
+            <td>
                 @*Notice that you specify the controller name without the Controller suffix.*@
+                @*Dit werkt wegens de RouteConfig defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                *@
+
                 @Html.ActionLink("Toon Wedstrijdkalender", "WedstrijdKalender", "Wedstrijd", new { item.Id }, null)
             </td>
         </tr>

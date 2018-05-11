@@ -46,7 +46,6 @@ namespace VoetbalTicketStore.Controllers
         }
 
         [HttpPost]
-        [HandleError(ExceptionType = typeof(BestelException), View = "SqlExceptionView")]
         public ActionResult Add(TicketConfirm ticketConfirm)
         {
             // Nieuwe bestelling aanmaken indien nodig
@@ -133,7 +132,8 @@ namespace VoetbalTicketStore.Controllers
 
 
                 // Geval abonnement
-                throw new BestelException("BULLSHIT");
+                
+
             }
             catch (BestelException ex)
             {
