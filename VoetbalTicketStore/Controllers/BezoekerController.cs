@@ -37,5 +37,14 @@ namespace VoetbalTicketStore.Controllers
 
             return View(bezoekerKoppelen);
         }
+
+        [HttpPost]
+        public ActionResult Add(BezoekerKoppelen bezoekerKoppelen)
+        {
+
+            // leg de koppeling
+
+            return RedirectToAction("Index");
+        }
     }
 }

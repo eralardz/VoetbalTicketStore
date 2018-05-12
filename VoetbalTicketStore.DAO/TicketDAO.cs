@@ -47,10 +47,11 @@ namespace VoetbalTicketStore.DAO
 
         public IEnumerable<IGrouping<Bestelling, Ticket>> GetNietGekoppeldeTickets(string user, DateTime vanaf)
         {
-            using (var db = new VoetbalstoreEntities())
-            {
-                return db.Tickets.Where(t => t.Gebruikerid.Equals(user) && t.Bezoekerrijksregisternummer == null && t.Wedstrijd.DatumEnTijd >= vanaf).Include(t => t.Wedstrijd).GroupBy(b => b.Bestelling).ToList();
-            }
+            var db = new VoetbalstoreEntities();
+
+            // lazy
+            // TODO herschrijven naar eager, echter niet eenvoudig wegens gedrag include (moet VOOR group by volgens compiler, maar NA group by volgens documentatie)
+            return db.Tickets.Where(t => t.Gebruikerid.Equals(user) && t.Bezoekerrijksregisternummer == null && t.Wedstrijd.DatumEnTijd >= vanaf).GroupBy(b => b.Bestelling).ToList();
         }
     }
 }

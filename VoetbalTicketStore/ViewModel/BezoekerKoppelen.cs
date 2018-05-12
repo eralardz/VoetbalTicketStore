@@ -10,6 +10,7 @@ namespace VoetbalTicketStore.ViewModel
     {
         public IEnumerable<IGrouping<Bestelling, Ticket>> NietGekoppeldeTickets { get; set; }
 
-
+        public Bezoeker TeWijzigenBezoeker { get; set; }
+        public int TeWijzigenTicket { get; set; }
     }
 }
