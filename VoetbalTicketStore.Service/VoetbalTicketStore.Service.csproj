@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="AbonnementService.cs" />
     <Compile Include="BestellingService.cs" />
+    <Compile Include="BezoekerService.cs" />
     <Compile Include="ClubService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShoppingCartDataService.cs" />

@@ -140,7 +140,7 @@ namespace VoetbalTicketStore.Controllers
                             ticket.Vakid = shoppingCartData.VakId;
 
                             // nullable attributes
-                            if (shoppingCartData.WedstrijdId == null)
+                            if (shoppingCartData.WedstrijdId != null)
                             {
                                 ticket.Wedstrijdid = (int)shoppingCartData.WedstrijdId;
 
@@ -167,6 +167,9 @@ namespace VoetbalTicketStore.Controllers
                 ticketService.AddTickets(tickets);
                 abonnementService.AddAbonnementen(abonnementen);
 
+                // bestelling bevestigen
+                bestellingService.BevestigBestelling(bestelling.Id);
+
                 // delete shoppingcartdata
                 shoppingCartDataService = new ShoppingCartDataService();
                 shoppingCartDataService.RemoveShoppingCartDataVanBestelling(bestelling.Id);
@@ -181,7 +184,7 @@ namespace VoetbalTicketStore.Controllers
                 TempData["error"] = ex.Message;
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Bezoeker");
         }
     }
 }

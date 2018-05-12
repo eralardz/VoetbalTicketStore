@@ -52,5 +52,16 @@ namespace VoetbalTicketStore.DAO
                 db.SaveChanges();
             }
         }
+
+        public void BevestigBestelling(Bestelling bestelling)
+        {
+            using (var db = new VoetbalstoreEntities())
+            {
+                db.Bestellings.Attach(bestelling);
+                var entry = db.Entry(bestelling);
+                entry.Property(e => e.Bevestigd).IsModified = true;
+                db.SaveChanges();
+            }
+        }
     }
 }

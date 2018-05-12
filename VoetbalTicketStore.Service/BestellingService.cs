@@ -63,5 +63,11 @@ namespace VoetbalTicketStore.Service
         {
             bestellingDAO.RemoveBestelling(user);
         }
+
+        public void BevestigBestelling(int id)
+        {
+            Bestelling bestelling = new Bestelling { Id = id, Bevestigd = true };
+            bestellingDAO.BevestigBestelling(bestelling);
+        }
     }
 }

@@ -33,6 +33,12 @@ namespace VoetbalTicketStore.Service
             return ticketDAO.GetAantalGekochteTickets(user, wedstrijdId);
         }
 
+        public IEnumerable<IGrouping<Bestelling, Ticket>> GetNietGekoppeldeTickets(string user)
+        {
+            DateTime vanaf = DateTime.Now;
+            return ticketDAO.GetNietGekoppeldeTickets(user, vanaf);
+        }
+
         public void AddTickets(IList<Ticket> tickets)
         {
             ticketDAO.AddTickets(tickets);

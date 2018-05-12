@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VoetbalTicketStore.Models;
+using System.Data.Entity;
 
 namespace VoetbalTicketStore.DAO
 {
@@ -41,6 +42,14 @@ namespace VoetbalTicketStore.DAO
             {
                 db.Tickets.AddRange(tickets);
                 db.SaveChanges();
+            }
+        }
+
+        public IEnumerable<IGrouping<Bestelling, Ticket>> GetNietGekoppeldeTickets(string user, DateTime vanaf)
+        {
+            using (var db = new VoetbalstoreEntities())
+            {
+                return db.Tickets.Where(t => t.Gebruikerid.Equals(user) && t.Bezoekerrijksregisternummer == null && t.Wedstrijd.DatumEnTijd >= vanaf).Include(t => t.Wedstrijd).GroupBy(b => b.Bestelling).ToList();
             }
         }
     }
