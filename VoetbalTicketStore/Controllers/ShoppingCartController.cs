@@ -18,11 +18,12 @@ namespace VoetbalTicketStore.Controllers
         private BestellingService bestellingService;
         private TicketService ticketService;
         private ShoppingCartDataService shoppingCartDataService;
+        private AbonnementService abonnementService;
 
         // GET: ShoppingCart
         public ActionResult Index()
         {
-            if(TempData["error"] != null)
+            if (TempData["error"] != null)
             {
                 ViewBag.Exception = TempData["error"].ToString();
             }
@@ -49,8 +50,7 @@ namespace VoetbalTicketStore.Controllers
         public ActionResult Add(TicketConfirm ticketConfirm)
         {
             // Nieuwe bestelling aanmaken indien nodig
-            bestellingService = new BestellingService();
-            Bestelling bestelling = bestellingService.CreateNieuweBestellingIndienNodig(User.Identity.GetUserId());
+            Bestelling bestelling = CreateNieuweBestellingIndienNodig();
 
             // ShoppingCartData toevoegen
             shoppingCartDataService = new ShoppingCartDataService();
@@ -58,6 +58,25 @@ namespace VoetbalTicketStore.Controllers
 
             // RedirectToAction ipv View, anders wordt geen model meegegeven!
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult AddAbonnement(AbonnementBuy abonnementBuy)
+        {
+            // Nieuwe bestelling aanmaken indien nodig
+            Bestelling bestelling = CreateNieuweBestellingIndienNodig();
+
+            // ShoppingCartData toevoegen
+            shoppingCartDataService = new ShoppingCartDataService();
+            shoppingCartDataService.AddAbonnementToShoppingCart(bestelling.Id, abonnementBuy.Prijs, abonnementBuy.AantalAbonnementen, abonnementBuy.GeselecteerdVakId, abonnementBuy.PloegId, User.Identity.GetUserId());
+
+            return RedirectToAction("Index");
+        }
+
+        private Bestelling CreateNieuweBestellingIndienNodig()
+        {
+            bestellingService = new BestellingService();
+            return bestellingService.CreateNieuweBestellingIndienNodig(User.Identity.GetUserId());
         }
 
         [HttpPost]
@@ -87,7 +106,7 @@ namespace VoetbalTicketStore.Controllers
         }
 
         [HttpPost]
-        public ActionResult Finalise()
+        public ActionResult Finalise(ShoppingCart shoppingCart)
         {
             try
             {
@@ -95,45 +114,62 @@ namespace VoetbalTicketStore.Controllers
                 bestellingService = new BestellingService();
                 Bestelling bestelling = bestellingService.FindOpenstaandeBestellingDoorUser(User.Identity.GetUserId());
 
-                // Is er nog voldoende plaats in het vak om dit ticket aan te maken?
-                ticketService = new TicketService();
                 IList<Ticket> tickets = new List<Ticket>();
+                IList<Abonnement> abonnementen = new List<Abonnement>();
+
+                ticketService = new TicketService();
+                abonnementService = new AbonnementService();
+
                 foreach (ShoppingCartData shoppingCartData in bestelling.ShoppingCartDatas)
                 {
-                    int totaalAantal = ticketService.GetAantalVerkochteTicketsVoorVak(shoppingCartData.Vak, shoppingCartData.Wedstrijd) + shoppingCartData.Hoeveelheid;
-
-                    int rest = shoppingCartData.Vak.MaximumAantalZitplaatsen - totaalAantal;
-
-                    if (rest > 0)
+                    // geval ticket
+                    // TODO: enums aanmaken
+                    if (shoppingCartData.ShoppingCartDataTypeId == 1)
                     {
-                        // tickets mogen aangemaakt worden
-                        Ticket ticket = new Ticket();
-                        ticket.Gebruikerid = User.Identity.GetUserId();
-                        ticket.Prijs = shoppingCartData.Prijs;
-                        // nullable attributes
-                        if (shoppingCartData.VakId != null || shoppingCartData.WedstrijdId == null)
+                        // Is er nog voldoende plaats in het vak om dit ticket aan te maken?
+                        int totaalAantal = ticketService.GetAantalVerkochteTicketsVoorVak(shoppingCartData.Vak, shoppingCartData.Wedstrijd) + shoppingCartData.Hoeveelheid;
+
+                        int rest = shoppingCartData.Vak.MaximumAantalZitplaatsen - totaalAantal;
+
+                        if (rest > 0)
                         {
-                            ticket.Vakid = (int)shoppingCartData.VakId;
-                            ticket.Wedstrijdid = (int)shoppingCartData.WedstrijdId;
+                            // tickets mogen aangemaakt worden
+                            Ticket ticket = new Ticket();
+                            ticket.Gebruikerid = User.Identity.GetUserId();
+                            ticket.Prijs = shoppingCartData.Prijs;
+                            ticket.Vakid = shoppingCartData.VakId;
 
+                            // nullable attributes
+                            if (shoppingCartData.WedstrijdId == null)
+                            {
+                                ticket.Wedstrijdid = (int)shoppingCartData.WedstrijdId;
+
+                            }
+                            ticket.BestellingId = shoppingCartData.BestellingId;
+
+                            tickets.Add(ticket);
                         }
-                        ticket.BestellingId = shoppingCartData.BestellingId;
+                    }
+                    // geval abonnement
+                    else if(shoppingCartData.ShoppingCartDataTypeId == 2) {
+                        Abonnement abonnement = new Abonnement()
+                        {
+                            Clubid = shoppingCartData.Thuisploeg,
+                            Prijs = shoppingCartData.Prijs,
+                            VakTypeId = shoppingCartData.VakId
+                        };
 
-                        tickets.Add(ticket);
+                        abonnementen.Add(abonnement);
                     }
                 }
 
                 // add in bulk
                 ticketService.AddTickets(tickets);
+                abonnementService.AddAbonnementen(abonnementen);
 
                 // delete shoppingcartdata
                 shoppingCartDataService = new ShoppingCartDataService();
-                shoppingCartDataService.RemoveAllShoppingCartData(User.Identity.GetUserId());
-
-
-                // Geval abonnement
-                
-
+                shoppingCartDataService.RemoveShoppingCartDataVanBestelling(bestelling.Id);
             }
             catch (BestelException ex)
             {

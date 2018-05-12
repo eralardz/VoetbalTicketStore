@@ -208,6 +208,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\AbonnementBuy.cs" />
+    <Compile Include="ViewModel\ClubOverview.cs" />
     <Compile Include="ViewModel\ShoppingCart.cs" />
     <Compile Include="ViewModel\TicketConfirm.cs" />
     <Compile Include="ViewModel\TicketWedstrijd.cs" />
@@ -280,6 +281,7 @@
     <Content Include="Views\Shared\SqlExceptionView.cshtml" />
     <Content Include="Views\ShoppingCart\Finalise.cshtml" />
     <Content Include="Views\Abonnement\Buy.cshtml" />
+    <Content Include="Views\Abonnement\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

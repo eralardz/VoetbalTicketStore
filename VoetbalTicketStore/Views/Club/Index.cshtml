@@ -1,5 +1,4 @@
-﻿@model IEnumerable<VoetbalTicketStore.Models.Club>
-
+﻿@model VoetbalTicketStore.ViewModel.ClubOverview
 @{
     ViewBag.Title = "Clubs";
 }
@@ -10,13 +9,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Naam)
+            Naam
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Logo)
+            Logo
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Stadion.Naam)
+            Stadion
         </th>
         <th>
             Abonnement kopen
@@ -26,7 +25,7 @@
         </th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.Clubs)
     {
         <tr>
             <td>
@@ -46,7 +45,7 @@
                 @Html.DisplayFor(modelItem => item.Stadion.Naam)
             </td>
             <td>
-                @Html.ActionLink("Koop abonnement", "Buy", "Abonnement", new { item.Id, item.Naam }, null)
+                @Html.ActionLink("Koop abonnement", "Buy", "Abonnement", new { GekozenClubId = item.Id, GekozenClubNaam = item.Naam, Logo = imagePath, StadionId = item.Stadionid, StadionNaam = item.Stadion.Naam }, null)
             </td>
             <td>
                 @*Notice that you specify the controller name without the Controller suffix.*@

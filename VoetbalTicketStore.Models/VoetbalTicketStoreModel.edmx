@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="voetbalstoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="VoetbalstoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -22,7 +22,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Clubid" Type="int" Nullable="false" />
           <Property Name="Prijs" Type="money" Nullable="false" />
-          <Property Name="Bezoekerrijksregisternummer" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Bezoekerrijksregisternummer" Type="varchar" MaxLength="255" />
           <Property Name="VakTypeId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="AspNetRoles">
@@ -115,7 +115,7 @@
           <Property Name="Prijs" Type="money" Nullable="false" />
           <Property Name="WedstrijdId" Type="int" />
           <Property Name="Hoeveelheid" Type="int" Nullable="false" />
-          <Property Name="VakId" Type="int" />
+          <Property Name="VakId" Type="int" Nullable="false" />
           <Property Name="Thuisploeg" Type="int" Nullable="false" />
           <Property Name="Bezoekers" Type="int" />
           <Property Name="ShoppingCartDataTypeId" Type="int" Nullable="false" />
@@ -195,7 +195,7 @@
           <Property Name="DatumEnTijd" Type="datetime" Nullable="false" />
         </EntityType>
         <Association Name="Abonnement van een bezoeker">
-          <End Role="Bezoeker" Type="Self.Bezoeker" Multiplicity="1" />
+          <End Role="Bezoeker" Type="Self.Bezoeker" Multiplicity="0..1" />
           <End Role="Abonnement" Type="Self.Abonnement" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Bezoeker">
@@ -231,7 +231,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="Bestellijn voor een vak">
-          <End Role="Vak" Type="Self.Vak" Multiplicity="0..1" />
+          <End Role="Vak" Type="Self.Vak" Multiplicity="1" />
           <End Role="ShoppingCartData" Type="Self.ShoppingCartData" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Vak">
@@ -243,7 +243,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="Bestelling bestaat uit verschillende lijnen">
-          <End Role="Bestelling" Type="Self.Bestelling" Multiplicity="1" />
+          <End Role="Bestelling" Type="Self.Bestelling" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="ShoppingCartData" Type="Self.ShoppingCartData" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Bestelling">
@@ -502,7 +504,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="voetbalstoreModelStoreContainer">
+        <EntityContainer Name="VoetbalstoreModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Abonnement" EntityType="Self.Abonnement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -627,7 +629,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="voetbalstoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="VoetbalstoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="C__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -645,7 +647,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Clubid" Type="Int32" Nullable="false" />
           <Property Name="Prijs" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="Bezoekerrijksregisternummer" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Bezoekerrijksregisternummer" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="VakTypeId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Bezoeker" Relationship="Self.Abonnement_van_een_bezoeker" FromRole="Abonnement" ToRole="Bezoeker" />
           <NavigationProperty Name="Club" Relationship="Self.Abonnement_voor_een_club" FromRole="Abonnement" ToRole="Club" />
@@ -752,7 +754,7 @@
           <Property Name="Prijs" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="WedstrijdId" Type="Int32" />
           <Property Name="Hoeveelheid" Type="Int32" Nullable="false" />
-          <Property Name="VakId" Type="Int32" />
+          <Property Name="VakId" Type="Int32" Nullable="false" />
           <Property Name="Thuisploeg" Type="Int32" Nullable="false" />
           <Property Name="Bezoekers" Type="Int32" />
           <Property Name="ShoppingCartDataTypeId" Type="Int32" Nullable="false" />
@@ -858,7 +860,7 @@
           <NavigationProperty Name="Tickets" Relationship="Self.Ticket_voor_wedstrijd" FromRole="Wedstrijd" ToRole="Ticket" />
         </EntityType>
         <Association Name="Abonnement_van_een_bezoeker">
-          <End Role="Bezoeker" Type="Self.Bezoeker" Multiplicity="1" />
+          <End Role="Bezoeker" Type="Self.Bezoeker" Multiplicity="0..1" />
           <End Role="Abonnement" Type="Self.Abonnement" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Bezoeker">
@@ -946,7 +948,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="Bestelling_bestaat_uit_verschillende_lijnen">
-          <End Role="Bestelling" Type="Self.Bestelling" Multiplicity="1" />
+          <End Role="Bestelling" Type="Self.Bestelling" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="ShoppingCartData" Type="Self.ShoppingCartData" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Bestelling">
@@ -1042,7 +1046,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="Bestellijn_voor_een_vak">
-          <End Role="Vak" Type="Self.Vak" Multiplicity="0..1" />
+          <End Role="Vak" Type="Self.Vak" Multiplicity="1" />
           <End Role="ShoppingCartData" Type="Self.ShoppingCartData" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Vak">
@@ -1262,9 +1266,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="voetbalstoreModelStoreContainer" CdmEntityContainer="VoetbalstoreEntities">
+        <EntityContainerMapping StorageEntityContainer="VoetbalstoreModelStoreContainer" CdmEntityContainer="VoetbalstoreEntities">
           <EntitySetMapping Name="C__MigrationHistory">
-            <EntityTypeMapping TypeName="voetbalstoreModel.C__MigrationHistory">
+            <EntityTypeMapping TypeName="VoetbalstoreModel.C__MigrationHistory">
               <MappingFragment StoreEntitySet="__MigrationHistory">
                 <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
                 <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
@@ -1274,7 +1278,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Abonnements">
-            <EntityTypeMapping TypeName="voetbalstoreModel.Abonnement">
+            <EntityTypeMapping TypeName="VoetbalstoreModel.Abonnement">
               <MappingFragment StoreEntitySet="Abonnement">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Clubid" ColumnName="Clubid" />
@@ -1285,7 +1289,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspNetRoles">
-            <EntityTypeMapping TypeName="voetbalstoreModel.AspNetRole">
+            <EntityTypeMapping TypeName="VoetbalstoreModel.AspNetRole">
               <MappingFragment StoreEntitySet="AspNetRoles">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1293,7 +1297,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspNetUserClaims">
-            <EntityTypeMapping TypeName="voetbalstoreModel.AspNetUserClaim">
+            <EntityTypeMapping TypeName="VoetbalstoreModel.AspNetUserClaim">
               <MappingFragment StoreEntitySet="AspNetUserClaims">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -1303,7 +1307,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspNetUserLogins">
-            <EntityTypeMapping TypeName="voetbalstoreModel.AspNetUserLogin">
+            <EntityTypeMapping TypeName="VoetbalstoreModel.AspNetUserLogin">
               <MappingFragment StoreEntitySet="AspNetUserLogins">
                 <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
                 <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
@@ -1312,7 +1316,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspNetUsers">
-            <EntityTypeMapping TypeName="voetbalstoreModel.AspNetUser">
+            <EntityTypeMapping TypeName="VoetbalstoreModel.AspNetUser">
               <MappingFragment StoreEntitySet="AspNetUsers">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
@@ -1330,7 +1334,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Bestellings">
-            <EntityTypeMapping TypeName="voetbalstoreModel.Bestelling">
+            <EntityTypeMapping TypeName="VoetbalstoreModel.Bestelling">
               <MappingFragment StoreEntitySet="Bestelling">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Bevestigd" ColumnName="Bevestigd" />
@@ -1341,7 +1345,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Bezoekers">
-            <EntityTypeMapping TypeName="voetbalstoreModel.Bezoeker">
+            <EntityTypeMapping TypeName="VoetbalstoreModel.Bezoeker">
               <MappingFragment StoreEntitySet="Bezoeker">
                 <ScalarProperty Name="Rijksregisternummer" ColumnName="Rijksregisternummer" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
@@ -1351,7 +1355,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Clubs">
-            <EntityTypeMapping TypeName="voetbalstoreModel.Club">
+            <EntityTypeMapping TypeName="VoetbalstoreModel.Club">
               <MappingFragment StoreEntitySet="Club">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Naam" ColumnName="Naam" />
@@ -1363,7 +1367,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ShoppingCartDatas">
-            <EntityTypeMapping TypeName="voetbalstoreModel.ShoppingCartData">
+            <EntityTypeMapping TypeName="VoetbalstoreModel.ShoppingCartData">
               <MappingFragment StoreEntitySet="ShoppingCartData">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="BestellingId" ColumnName="BestellingId" />
@@ -1378,7 +1382,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ShoppingCartDataTypes">
-            <EntityTypeMapping TypeName="voetbalstoreModel.ShoppingCartDataType">
+            <EntityTypeMapping TypeName="VoetbalstoreModel.ShoppingCartDataType">
               <MappingFragment StoreEntitySet="ShoppingCartDataType">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
@@ -1386,7 +1390,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Stadions">
-            <EntityTypeMapping TypeName="voetbalstoreModel.Stadion">
+            <EntityTypeMapping TypeName="VoetbalstoreModel.Stadion">
               <MappingFragment StoreEntitySet="Stadion">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Naam" ColumnName="Naam" />
@@ -1396,7 +1400,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="voetbalstoreModel.sysdiagram">
+            <EntityTypeMapping TypeName="VoetbalstoreModel.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
@@ -1407,7 +1411,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Taals">
-            <EntityTypeMapping TypeName="voetbalstoreModel.Taal">
+            <EntityTypeMapping TypeName="VoetbalstoreModel.Taal">
               <MappingFragment StoreEntitySet="Taal">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Naam" ColumnName="Naam" />
@@ -1415,7 +1419,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tickets">
-            <EntityTypeMapping TypeName="voetbalstoreModel.Ticket">
+            <EntityTypeMapping TypeName="VoetbalstoreModel.Ticket">
               <MappingFragment StoreEntitySet="Ticket">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Gebruikerid" ColumnName="Gebruikerid" />
@@ -1429,7 +1433,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Vaks">
-            <EntityTypeMapping TypeName="voetbalstoreModel.Vak">
+            <EntityTypeMapping TypeName="VoetbalstoreModel.Vak">
               <MappingFragment StoreEntitySet="Vak">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="MaximumAantalZitplaatsen" ColumnName="MaximumAantalZitplaatsen" />
@@ -1439,7 +1443,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="VakTypes">
-            <EntityTypeMapping TypeName="voetbalstoreModel.VakType">
+            <EntityTypeMapping TypeName="VoetbalstoreModel.VakType">
               <MappingFragment StoreEntitySet="VakType">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Beschrijving" ColumnName="Beschrijving" />
@@ -1449,7 +1453,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Wedstrijds">
-            <EntityTypeMapping TypeName="voetbalstoreModel.Wedstrijd">
+            <EntityTypeMapping TypeName="VoetbalstoreModel.Wedstrijd">
               <MappingFragment StoreEntitySet="Wedstrijd">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Stadionid" ColumnName="Stadionid" />
@@ -1459,7 +1463,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="AspNetUserRoles" TypeName="voetbalstoreModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="VoetbalstoreModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
             <EndProperty Name="AspNetRoles">
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>

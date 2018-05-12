@@ -16,5 +16,14 @@ namespace VoetbalTicketStore.DAO
                 return db.Abonnements.Count(a => a.Clubid == thuisploeg.Id && a.VakTypeId == vak.VakTypeid);
             }
         }
+
+        public void AddAbonnementen(IList<Abonnement> abonnementen)
+        {
+            using (var db = new VoetbalstoreEntities())
+            {
+                db.Abonnements.AddRange(abonnementen);
+                db.SaveChanges();
+            }
+        }
     }
 }

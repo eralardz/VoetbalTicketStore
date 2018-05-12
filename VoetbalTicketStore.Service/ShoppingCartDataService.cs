@@ -58,11 +58,40 @@ namespace VoetbalTicketStore.Service
             }
         }
 
+        public void AddAbonnementToShoppingCart(int bestellingId, decimal prijs, int aantalAbonnementen, int vakId, int ploegId, string user)
+        {
+            // geen limiet op het aankopen van abonnementen (wel begrensd in UI)
+
+            ShoppingCartData shoppingCartData = shoppingCartDataDAO.GetShoppingCartAbonnementEntry(bestellingId, ploegId, vakId);
+            if (shoppingCartData != null)
+            {
+                IncrementAmount(shoppingCartData);
+            }
+            else
+            {
+                // Nieuwe ShoppingCartData (bestellijn) aanmaken
+                shoppingCartData = new ShoppingCartData()
+                {
+                    BestellingId = bestellingId,
+                    Prijs = prijs,
+                    Hoeveelheid = aantalAbonnementen,
+                    VakId = vakId,
+                    Thuisploeg = ploegId,
+                    ShoppingCartDataTypeId = 2
+                };
+
+
+                // Toevoegen aan DB
+                shoppingCartDataDAO.AddToShoppingCart(shoppingCartData);
+            }
+        }
+
         public void IncrementAmount(ShoppingCartData shoppingCartData)
         {
             shoppingCartData.Hoeveelheid++;
             shoppingCartDataDAO.IncrementAmount(shoppingCartData);
         }
+
 
         private bool GebruikerMagVoorDezeWedstrijdNogTicketsToevoegen(string user, int wedstrijdId, int bestellingId)
         {

@@ -19,7 +19,7 @@ namespace VoetbalTicketStore.Models
         public decimal Prijs { get; set; }
         public Nullable<int> WedstrijdId { get; set; }
         public int Hoeveelheid { get; set; }
-        public Nullable<int> VakId { get; set; }
+        public int VakId { get; set; }
         public int Thuisploeg { get; set; }
         public Nullable<int> Bezoekers { get; set; }
         public int ShoppingCartDataTypeId { get; set; }

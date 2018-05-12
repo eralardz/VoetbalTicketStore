@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using VoetbalTicketStore.Service;
+using VoetbalTicketStore.ViewModel;
 
 namespace VoetbalTicketStore.Controllers
 {
@@ -16,8 +17,16 @@ namespace VoetbalTicketStore.Controllers
         {
             clubService = new ClubService();
             var clubs = clubService.All();
+
+            // ViewModel aanmaken en opvullen
+            ClubOverview clubOverview = new ClubOverview()
+            {
+                Clubs = clubService.All().ToList()
+            };
+
+
             // we geven de lijst met clubs mee aan de view
-            return View(clubs);
+            return View(clubOverview);
         }
     }
 }

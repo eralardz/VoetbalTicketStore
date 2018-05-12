@@ -23,5 +23,13 @@ namespace VoetbalTicketStore.DAO
                 return db.Clubs.Include(s => s.Stadion).ToList();
             }
         }
+
+        public Club GetClub(int gekozenClubId)
+        {
+            using (var db = new VoetbalstoreEntities())
+            {
+                return db.Clubs.Find(gekozenClubId);
+            }
+        }
     }
 }

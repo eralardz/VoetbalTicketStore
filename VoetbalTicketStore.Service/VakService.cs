@@ -26,12 +26,25 @@ namespace VoetbalTicketStore.Service
             return vakDAO.GetVakkenInStadion(stadionId);
         }
 
+        public IEnumerable<Vak> GetThuisVakkeninStadion(int stadionId)
+        {
+            return vakDAO.GetThuisVakkenInStadion(stadionId);
+        }
+
         // Bereken de specifieke prijs van het vak
         public void BerekenPrijzenBijVakken(IEnumerable<Vak> vakken, Club club)
         {
             foreach (Vak vak in vakken)
             {
                 vak.BerekendePrijs = vak.VakType.StandaardPrijs * club.TicketPrijsCoefficient;
+            }
+        }
+
+        public void BerekenAbonnementPrijzenBijVakken(IEnumerable<Vak> vakken, Club club)
+        {
+            foreach (Vak vak in vakken)
+            {
+                vak.BerekendePrijs = vak.VakType.StandaardPrijs * club.AbonnementPrijsCoefficient;
             }
         }
 

@@ -19,5 +19,14 @@ namespace VoetbalTicketStore.DAO
                 return db.Vaks.Where(v => v.Stadionid == stadionId).Include(v => v.VakType).ToList();
             } 
         }
+
+        public IEnumerable<Vak> GetThuisVakkenInStadion(int stadionId)
+        {
+            using (var db = new VoetbalstoreEntities())
+            {
+                // eager
+                return db.Vaks.Where(v => v.Stadionid == stadionId && v.VakType.ThuisVak == true).Include(v => v.VakType).ToList();
+            }
+        }
     }
 }

@@ -21,5 +21,10 @@ namespace VoetbalTicketStore.Service
         {
             return abonnementDAO.GetAantalAbonnementenPerVakVoorThuisPloeg(thuisploeg, vak);
         }
+
+        public void AddAbonnementen(IList<Abonnement> abonnementen)
+        {
+            abonnementDAO.AddAbonnementen(abonnementen);
+        }
     }
 }

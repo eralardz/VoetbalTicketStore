@@ -22,5 +22,10 @@ namespace VoetbalTicketStore.Service
         {
             return clubDAO.All();
         }
+
+        public Club GetClub(int gekozenClubId)
+        {
+            return clubDAO.GetClub(gekozenClubId);
+        }
     }
 }

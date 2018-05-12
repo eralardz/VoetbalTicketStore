@@ -43,6 +43,15 @@ namespace VoetbalTicketStore.DAO
             }
         }
 
+        public ShoppingCartData GetShoppingCartAbonnementEntry(int bestellingId, int ploegId, int vakId)
+        {
+            using (var db = new VoetbalstoreEntities())
+            {
+                return db.ShoppingCartDatas.Where(s => s.BestellingId == bestellingId && s.Thuisploeg == ploegId && s.VakId == vakId).FirstOrDefault();
+            }
+        }
+
+
         // Attach en IsModified -> Slechts 1 DB hit (tegenover 2 bij ophalen, updaten, en dan weer wegschrijven)
         public void IncrementAmount(ShoppingCartData shoppingCartData)
         {
