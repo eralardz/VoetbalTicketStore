@@ -99,6 +99,8 @@
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Exceptions\BestelException.cs" />
+    <Compile Include="MetaData.cs" />
+    <Compile Include="PartialClasses.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShoppingCartData.cs">
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
