@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 
 namespace VoetbalTicketStore.Models
 {
-    public class PartialClasses
+
+    [MetadataType(typeof(BezoekerMetadata))]
+    public partial class Bezoeker
     {
-        [MetadataType(typeof(BezoekerMetadata))]
-        public partial class Bezoeker
-        {
-        }
     }
+
 }

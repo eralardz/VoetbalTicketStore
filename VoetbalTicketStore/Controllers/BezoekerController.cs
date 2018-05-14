@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -39,12 +40,31 @@ namespace VoetbalTicketStore.Controllers
         }
 
         [HttpPost]
-        public ActionResult Add(BezoekerKoppelen bezoekerKoppelen)
+        public ActionResult Index(BezoekerKoppelen bezoekerKoppelenIn)
         {
+            if (ModelState.IsValid)
+            {
+                // leg de koppeling
+                Debug.WriteLine("valid");
+            }
 
-            // leg de koppeling
 
-            return RedirectToAction("Index");
+            bezoekerService = new BezoekerService();
+            bestellingService = new BestellingService();
+
+            // Tickets en abonnementen van gebruiker zoeken die nog geen rijksregisternummer gekregen hebben, groeperen per bestelling
+
+            // Tickets zonder koppeling
+            ticketService = new TicketService();
+            IEnumerable<IGrouping<Bestelling, Ticket>> tickets = ticketService.GetNietGekoppeldeTickets(User.Identity.GetUserId());
+
+            // ViewModel maken en opvullen
+            BezoekerKoppelen bezoekerKoppelen = new BezoekerKoppelen()
+            {
+                NietGekoppeldeTickets = tickets
+            };
+
+            return View(bezoekerKoppelen);
         }
     }
 }

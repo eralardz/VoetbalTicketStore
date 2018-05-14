@@ -10,15 +10,17 @@
             <h2>Bestelling #@item.Key.Id</h2>
             @foreach (VoetbalTicketStore.Models.Ticket ticket in item.ToArray())
             {
-                <h3>Ticket #@ticket.Id</h3>
-                <ul class="list-group">
-                    <li class="list-group-item">@ticket.Wedstrijd.Club.Naam vs @ticket.Wedstrijd.Club1.Naam</li>
-                    <li class="list-group-item">@ticket.Wedstrijd.DatumEnTijd</li>
-                </ul>
-                <div class="col">
-                    @using (Html.BeginForm("Add", "Bezoeker", FormMethod.Post))
-                    {
-                        @Html.AntiForgeryToken()
+                using (Html.BeginForm(FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <h3>Ticket #@ticket.Id</h3>
+                    <ul class="list-group">
+                        <li class="list-group-item">@ticket.Wedstrijd.Club.Naam vs @ticket.Wedstrijd.Club1.Naam</li>
+                        <li class="list-group-item">@ticket.Wedstrijd.DatumEnTijd</li>
+                    </ul>
+                    <div class="col">
+
                         <div class="list-group-item">
                             <div class="form-horizontal">
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -45,6 +47,13 @@
                                         @Html.ValidationMessageFor(model => model.TeWijzigenBezoeker.Voornaam, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.TeWijzigenBezoeker.Naam, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.TeWijzigenBezoeker.Naam, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.TeWijzigenBezoeker.Naam, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
 
                                 @* Deze velden moeten bewaard blijven: *@
                                 @Html.Hidden("TeWijzigenTicket", ticket.Id)
@@ -56,8 +65,8 @@
                                 </div>
                             </div>
                         </div>
-                    }
-                </div>
+                    </div>
+                }
             }
         </div>
     }

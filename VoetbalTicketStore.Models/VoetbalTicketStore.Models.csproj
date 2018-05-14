@@ -98,6 +98,7 @@
     <Compile Include="C__MigrationHistory.cs">
       <DependentUpon>VoetbalTicketStoreModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataAnnotations\Rijksregisternummer.cs" />
     <Compile Include="Exceptions\BestelException.cs" />
     <Compile Include="MetaData.cs" />
     <Compile Include="PartialClasses.cs" />
@@ -172,8 +173,6 @@
       <LastGenOutput>VoetbalTicketStoreModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DataAnnotations\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
