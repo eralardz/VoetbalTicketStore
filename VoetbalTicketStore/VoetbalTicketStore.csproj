@@ -285,6 +285,7 @@
     <Content Include="Views\Abonnement\Buy.cshtml" />
     <Content Include="Views\Abonnement\View.cshtml" />
     <Content Include="Views\Bezoeker\Index.cshtml" />
+    <Content Include="Views\Bezoeker\Koppel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

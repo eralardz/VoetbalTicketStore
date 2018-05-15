@@ -43,5 +43,10 @@ namespace VoetbalTicketStore.Service
         {
             ticketDAO.AddTickets(tickets);
         }
+
+        public IEnumerable<Ticket> GetNietGekoppeldeTicketsList(string user)
+        {
+            return ticketDAO.GetNietGekoppeldeTicketsList(user).OrderBy(t => t.BestellingId);
+        }
     }
 }

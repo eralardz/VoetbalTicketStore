@@ -53,5 +53,13 @@ namespace VoetbalTicketStore.DAO
             // TODO herschrijven naar eager, echter niet eenvoudig wegens gedrag include (moet VOOR group by volgens compiler, maar NA group by volgens documentatie)
             return db.Tickets.Where(t => t.Gebruikerid.Equals(user) && t.Bezoekerrijksregisternummer == null && t.Wedstrijd.DatumEnTijd >= vanaf).GroupBy(b => b.Bestelling).ToList();
         }
+
+        public IList<Ticket> GetNietGekoppeldeTicketsList(string user)
+        {
+            using(var db = new VoetbalstoreEntities())
+            {
+                return db.Tickets.Where(t => t.Gebruikerid.Equals(user) && t.Bezoekerrijksregisternummer == null).Include(w => w.Wedstrijd).Include(c => c.Wedstrijd.Club).Include(c => c.Wedstrijd.Club1).ToList();
+            }
+        }
     }
 }

@@ -4,70 +4,25 @@
 @Scripts.Render("~/bundles/jqueryval")
 
 <div class="container">
-    @foreach (IGrouping<VoetbalTicketStore.Models.Bestelling, VoetbalTicketStore.Models.Ticket> item in Model.NietGekoppeldeTickets)
+
+    @foreach (VoetbalTicketStore.Models.Ticket ticket in Model.NietGekoppeldeTicketsList)
     {
-        <div class="row">
-            <h2>Bestelling #@item.Key.Id</h2>
-            @foreach (VoetbalTicketStore.Models.Ticket ticket in item.ToArray())
-            {
-                using (Html.BeginForm(FormMethod.Post))
-                {
-                    @Html.AntiForgeryToken()
+        using (Html.BeginForm("Koppel", "Bezoeker",FormMethod.Get))
+        {
+            @Html.AntiForgeryToken()
 
-                    <h3>Ticket #@ticket.Id</h3>
-                    <ul class="list-group">
-                        <li class="list-group-item">@ticket.Wedstrijd.Club.Naam vs @ticket.Wedstrijd.Club1.Naam</li>
-                        <li class="list-group-item">@ticket.Wedstrijd.DatumEnTijd</li>
-                    </ul>
-                    <div class="col">
+            <div>
+                <h3>Ticket (# @ticket.Id, bestelling # @ticket.BestellingId)</h3>
+                @Html.DisplayFor(t => ticket.Wedstrijd.Club.Naam) - @Html.DisplayFor(t => ticket.Wedstrijd.Club1.Naam)
+                @Html.DisplayFor(t => ticket.Wedstrijd.DatumEnTijd)
+                @Html.Hidden("TeWijzigenTicket", ticket.Id)
 
-                        <div class="list-group-item">
-                            <div class="form-horizontal">
-                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.TeWijzigenBezoeker.Rijksregisternummer, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.TeWijzigenBezoeker.Rijksregisternummer, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.TeWijzigenBezoeker.Rijksregisternummer, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.TeWijzigenBezoeker.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.TeWijzigenBezoeker.Email, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.TeWijzigenBezoeker.Email, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.TeWijzigenBezoeker.Voornaam, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.TeWijzigenBezoeker.Voornaam, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.TeWijzigenBezoeker.Voornaam, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.TeWijzigenBezoeker.Naam, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.TeWijzigenBezoeker.Naam, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.TeWijzigenBezoeker.Naam, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                @* Deze velden moeten bewaard blijven: *@
-                                @Html.Hidden("TeWijzigenTicket", ticket.Id)
-
-                                <div class="form-group">
-                                    <div class="col-md-offset-2 col-md-10">
-                                        <input type="submit" value="Create" class="btn btn-default" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default" />
                     </div>
-                }
-            }
-        </div>
+                </div>
+            </div>
+        }
     }
 </div>
