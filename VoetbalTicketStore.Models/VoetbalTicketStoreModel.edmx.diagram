@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a71313b894464dccbb981489409bf7dd" Name="Diagram1">
+      <Diagram DiagramId="a71313b894464dccbb981489409bf7dd" Name="Diagram1" ZoomLevel="83">
         <EntityTypeShape EntityType="VoetbalstoreModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
         <EntityTypeShape EntityType="VoetbalstoreModel.Abonnement" Width="1.5" PointX="5.25" PointY="9.125" IsExpanded="true" />
         <EntityTypeShape EntityType="VoetbalstoreModel.AspNetRole" Width="1.5" PointX="9" PointY="4.25" IsExpanded="true" />

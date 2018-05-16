@@ -1,0 +1,39 @@
+﻿
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.top {
+    background-color: #f2abab;
+    text-align: center;
+    font-size: 40px;
+    width: 100%;
+    float: left;
+}
+
+.subtop {
+    background-color: #afafaf;
+    text-align: center;
+    font-size: 35px;
+    width: 100%;
+    float: left;
+}
+
+.content {
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    float: left;
+    width: 100%;
+    font-size: 25px;
+}
+
+
+.small {
+    font-size: 10px;
+}
+
+.adres {
+    font-size: 20px;
+}
+

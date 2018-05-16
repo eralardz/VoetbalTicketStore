@@ -48,5 +48,15 @@ namespace VoetbalTicketStore.Service
         {
             return ticketDAO.GetNietGekoppeldeTicketsList(user).OrderBy(t => t.BestellingId);
         }
+
+        public void KoppelBezoekerAanTicket(int teWijzigenTicket, string rijksregisternummer)
+        {
+            ticketDAO.KoppelBezoekerAanTicket(teWijzigenTicket, rijksregisternummer);
+        }
+
+        public Ticket FindTicket(int teWijzigenTicket)
+        {
+            return ticketDAO.FindTicket(teWijzigenTicket);
+        }
     }
 }

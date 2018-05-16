@@ -4,13 +4,12 @@
 @Scripts.Render("~/bundles/jqueryval")
 
 <div class="container">
-
+    @ViewBag.msg                                                                                            
     @foreach (VoetbalTicketStore.Models.Ticket ticket in Model.NietGekoppeldeTicketsList)
     {
-        using (Html.BeginForm("Koppel", "Bezoeker",FormMethod.Get))
+        using (Html.BeginForm("Koppel", "Bezoeker", FormMethod.Get))
         {
             @Html.AntiForgeryToken()
-
             <div>
                 <h3>Ticket (# @ticket.Id, bestelling # @ticket.BestellingId)</h3>
                 @Html.DisplayFor(t => ticket.Wedstrijd.Club.Naam) - @Html.DisplayFor(t => ticket.Wedstrijd.Club1.Naam)

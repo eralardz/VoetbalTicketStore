@@ -49,14 +49,34 @@ namespace VoetbalTicketStore.DAO
         {
             var db = new VoetbalstoreEntities();
 
-            // lazy
+            // lazy...
             // TODO herschrijven naar eager, echter niet eenvoudig wegens gedrag include (moet VOOR group by volgens compiler, maar NA group by volgens documentatie)
             return db.Tickets.Where(t => t.Gebruikerid.Equals(user) && t.Bezoekerrijksregisternummer == null && t.Wedstrijd.DatumEnTijd >= vanaf).GroupBy(b => b.Bestelling).ToList();
         }
 
+        public Ticket FindTicket(int teWijzigenTicket)
+        {
+            using (var db = new VoetbalstoreEntities())
+            {
+                return db.Tickets.Where(t => t.Id == teWijzigenTicket).Include(t => t.Wedstrijd).Include(t => t.Wedstrijd.Club).Include(t => t.Wedstrijd.Club1).Include(t => t.Wedstrijd.Stadion).FirstOrDefault();
+            }
+        }
+        // attach: https://msdn.microsoft.com/en-us/library/jj592676(v=vs.113).aspx
+        public void KoppelBezoekerAanTicket(int teWijzigenTicket, string rijksregisternummer)
+        {
+            using (var db = new VoetbalstoreEntities())
+            {
+                Ticket ticket = new Ticket { Id = teWijzigenTicket, Bezoekerrijksregisternummer = rijksregisternummer };
+                db.Tickets.Attach(ticket);
+                var entry = db.Entry(ticket);
+                entry.Property(e => e.Bezoekerrijksregisternummer).IsModified = true;
+                db.SaveChanges();
+            }
+        }
+
         public IList<Ticket> GetNietGekoppeldeTicketsList(string user)
         {
-            using(var db = new VoetbalstoreEntities())
+            using (var db = new VoetbalstoreEntities())
             {
                 return db.Tickets.Where(t => t.Gebruikerid.Equals(user) && t.Bezoekerrijksregisternummer == null).Include(w => w.Wedstrijd).Include(c => c.Wedstrijd.Club).Include(c => c.Wedstrijd.Club1).ToList();
             }

@@ -46,6 +46,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itextsharp.xmlworker.5.5.13\lib\itextsharp.xmlworker.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.8.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -217,7 +223,20 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap.min.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\img\clublogo\anderlecht.png" />
+    <Content Include="Content\img\clublogo\clubBrugge.png" />
+    <Content Include="Content\img\clublogo\genk.png" />
+    <Content Include="Content\img\clublogo\gent.png" />
+    <Content Include="Content\img\clublogo\oostende.png" />
+    <Content Include="Content\img\clublogo\placeholder.png" />
+    <Content Include="Content\img\clublogo\zultewaregem.png" />
+    <Content Include="Content\voucher\voucher.css" />
+    <Content Include="Content\voucher\voucher.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -281,7 +300,6 @@
     <Content Include="Views\Ticket\Confirm.cshtml" />
     <Content Include="Views\ShoppingCart\Index.cshtml" />
     <Content Include="Views\Shared\SqlExceptionView.cshtml" />
-    <Content Include="Views\ShoppingCart\Finalise.cshtml" />
     <Content Include="Views\Abonnement\Buy.cshtml" />
     <Content Include="Views\Abonnement\View.cshtml" />
     <Content Include="Views\Bezoeker\Index.cshtml" />
