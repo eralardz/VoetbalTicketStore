@@ -1,63 +1,38 @@
 ﻿@model VoetbalTicketStore.ViewModel.AbonnementBuy
 
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/jqueryval")
+<div class="row">
+    <h1>Abonnementen voor @Model.PloegNaam <small>@Model.StadionNaam</small></h1>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-5"><span class="top">Vak</span></div>
+    <div class="col-md-2"><span class="top">Prijs</span></div>
+    <div class="col-md-5"><span class="top">Kopen</span></div>
+</div>
+<hr />
+@foreach (var item in Model.Vakken)
+{
+    <div class="row">
+        <div class="col-md-5">
+            @Html.DisplayFor(modelItem => item.VakType.Beschrijving)
+        </div>
+        <div class="col-md-2">
+            @Html.DisplayFor(modelItem => item.BerekendePrijs)
+        </div>
+        <div class="col-md-5">
+            @using (Html.BeginForm("AddAbonnement", "ShoppingCart", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
 
-<img src="@Model.Logo" alt="logo" />
-<h1>@Model.StadionNaam</h1>
-<table class="table">
-    <tr>
-        <th>
-            Vak
-        </th>
-        <th>
-            Prijs
-        </th>
-        <th>
-            Kopen
-        </th>
+                @Html.DropDownListFor(a => a.AantalAbonnementen, Model.HoeveelheidAbonnementenList,"Aantal")
 
-    </tr>
+                <input type="submit" value="Koop!" class="btn btn-default" />
 
-    @foreach (var item in Model.Vakken)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.VakType.Beschrijving)
-            </td>
-
-            <td>
-                @Html.DisplayFor(modelItem => item.BerekendePrijs)
-            </td>
-            <td>
-                @using (Html.BeginForm("AddAbonnement", "ShoppingCart", FormMethod.Post))
-                {
-                    @Html.AntiForgeryToken()
-
-                    <div class="form-horizontal">
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.AantalAbonnementen, htmlAttributes: new { @class = "control-label col-sm-2" })
-                            <div class="col-md-10">
-                                @Html.DropDownListFor(a => a.AantalAbonnementen, Model.HoeveelheidAbonnementenList)
-                                @Html.ValidationMessageFor(model => model.AantalAbonnementen, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Koop!" class="btn btn-default" />
-                            </div>
-                        </div>
-                    </div>
-
-                    @*Deze velden moeten bewaard blijven:*@
-                    @Html.Hidden("GeselecteerdVakId", item.Id)
-                    @Html.Hidden("PloegId", Model.PloegId)
-                    @Html.Hidden("Prijs", item.BerekendePrijs)
-
-                }
-            </td>
-        </tr>
-    }
-
-</table>
+                @*Deze velden moeten bewaard blijven:*@
+                @Html.Hidden("GeselecteerdVakId", item.Id)
+                @Html.Hidden("PloegId", Model.PloegId)
+                @Html.Hidden("Prijs", item.BerekendePrijs)
+            }
+        </div>
+    </div>
+}

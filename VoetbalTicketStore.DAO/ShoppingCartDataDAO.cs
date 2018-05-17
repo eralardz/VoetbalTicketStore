@@ -47,7 +47,7 @@ namespace VoetbalTicketStore.DAO
         {
             using (var db = new VoetbalstoreEntities())
             {
-                return db.ShoppingCartDatas.Where(s => s.BestellingId == bestellingId && s.Thuisploeg == ploegId && s.VakId == vakId).FirstOrDefault();
+                return db.ShoppingCartDatas.Where(s => s.BestellingId == bestellingId && s.Thuisploeg == ploegId && s.VakId == vakId && s.ShoppingCartDataTypeId == 2).FirstOrDefault();
             }
         }
 

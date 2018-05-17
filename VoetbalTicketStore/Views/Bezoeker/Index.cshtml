@@ -1,27 +1,42 @@
 ﻿@model VoetbalTicketStore.ViewModel.BezoekerKoppelen
 
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/jqueryval")
+@if (ViewBag.msg != null)
+{
+    <div class="alert alert-success">
+        @ViewBag.msg
+    </div>
+}
 
-<div class="container">
-    @ViewBag.msg                                                                                            
+<div class="row">
     @foreach (VoetbalTicketStore.Models.Ticket ticket in Model.NietGekoppeldeTicketsList)
     {
-        using (Html.BeginForm("Koppel", "Bezoeker", FormMethod.Get))
-        {
-            @Html.AntiForgeryToken()
-            <div>
-                <h3>Ticket (# @ticket.Id, bestelling # @ticket.BestellingId)</h3>
-                @Html.DisplayFor(t => ticket.Wedstrijd.Club.Naam) - @Html.DisplayFor(t => ticket.Wedstrijd.Club1.Naam)
-                @Html.DisplayFor(t => ticket.Wedstrijd.DatumEnTijd)
-                @Html.Hidden("TeWijzigenTicket", ticket.Id)
-
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Create" class="btn btn-default" />
+        <div class="col-md-4">
+            @using (Html.BeginForm("Koppel", "Bezoeker", FormMethod.Get))
+            {
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Ticket (# @ticket.Id, bestelling # @ticket.BestellingId)</h3>
                     </div>
                 </div>
-            </div>
-        }
+                <div class="row">
+                    <div class="col-md-12">
+                        @Html.DisplayFor(t => ticket.Wedstrijd.Club.Naam) - @Html.DisplayFor(t => ticket.Wedstrijd.Club1.Naam)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        @Html.DisplayFor(t => ticket.Wedstrijd.DatumEnTijd)
+                        @Html.Hidden("TeWijzigenTicket", ticket.Id)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="submit" value="Koppel bezoeker" class="btn btn-default" />
+                    </div>
+                </div>
+            }
+        </div>
     }
 </div>
+

@@ -305,6 +305,7 @@
     <Content Include="Views\Abonnement\View.cshtml" />
     <Content Include="Views\Bezoeker\Index.cshtml" />
     <Content Include="Views\Bezoeker\Koppel.cshtml" />
+    <Content Include="Views\ShoppingCart\Test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

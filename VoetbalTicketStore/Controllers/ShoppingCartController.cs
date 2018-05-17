@@ -72,6 +72,7 @@ namespace VoetbalTicketStore.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult AddAbonnement(AbonnementBuy abonnementBuy)
         {
             // Nieuwe bestelling aanmaken indien nodig

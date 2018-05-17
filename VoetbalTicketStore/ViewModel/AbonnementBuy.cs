@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -17,6 +18,7 @@ namespace VoetbalTicketStore.ViewModel
         public IEnumerable<Vak> Vakken { get; set; }
         public int GeselecteerdVakId { get; set; }
         public decimal Prijs { get; set; }
+        [DisplayName("Aantal")]
         public int AantalAbonnementen { get; set; }
         public List<SelectListItem> HoeveelheidAbonnementenList { get; set; }
 
