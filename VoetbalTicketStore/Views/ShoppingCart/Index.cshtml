@@ -8,60 +8,78 @@ else
 
     <table class="table">
         <tr>
-            <th>Wedstrijd</th>
+            <th>Type</th>
+            <th>Geldig voor</th>
+            <th>Datum</th>
             <th>Beschrijving</th>
             <th>Prijs</th>
             <th>Hoeveelheid</th>
-            <th></th>
+            <th>Aanpassen</th>
         </tr>
 
         @foreach (var item in Model.ShoppingCartEntries)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Club.Naam) - @Html.DisplayFor(modelItem => item.Club1.Naam)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Vak.VakType.Beschrijving)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Prijs)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Hoeveelheid)
-                </td>
-                <td>
-                    @using (Html.BeginForm("AdjustAmount", "ShoppingCart", new { SelectedShoppingCartData = item.Id, NieuweHoeveelheid = Model.NieuweHoeveelheid, GeselecteerdeWedstrijd = item.WedstrijdId }, FormMethod.Post))
-                    {
-                        @Html.EditorFor(modelItem => Model.NieuweHoeveelheid)
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShoppingCartDataType.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Club.Naam)
 
-                        <input type="submit" value="H" class="btn btn-outline-danger" />
-                    }
-                    @using (Html.BeginForm("Remove", "ShoppingCart", new { id = item.Id }, FormMethod.Post))
-                    {
-                        <input type="submit" value="x" class="btn btn-outline-danger" />
-                    }
-                </td>
-            </tr>
+
+                @if (item.Club1 != null)
+                {<text> - </text> @Html.DisplayFor(modelItem => item.Club1.Naam);
+            }
+            </td>
+            <td>
+                @if (item.Wedstrijd != null)
+                {@Html.DisplayFor(modelItem => item.Wedstrijd.DatumEnTijd)
+            }
+            else
+            {
+                <text>Seizoen</text>
+            }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Vak.VakType.Beschrijving)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prijs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hoeveelheid)
+            </td>
+            <td>
+                @using (Html.BeginForm("AdjustAmount", "ShoppingCart", new { SelectedShoppingCartData = item.Id, NieuweHoeveelheid = Model.NieuweHoeveelheid, GeselecteerdeWedstrijd = item.WedstrijdId }, FormMethod.Post, new { @class = "shoppingCartButtons" }))
+                {
+                    @Html.DropDownListFor(modelItem => Model.NieuweHoeveelheid, Model.HoeveelheidList, item.Hoeveelheid.ToString(), new { @class = "form-control" })
+                    <input type="submit" value="H" class="btn" />
+                }
+                @using (Html.BeginForm("Remove", "ShoppingCart", new { id = item.Id }, FormMethod.Post, new { @class = "shoppingCartButtons" }))
+                {
+                    <input type="submit" value="x" class="btn" />
+                }
+            </td>
+
+        </tr>
         }
     </table>
     <p>Totaalprijs: @Model.TotaalPrijs euro</p>
-    <p>
-        @using (Html.BeginForm("Clear", "ShoppingCart", new { GeselecteerdeBestelling = Model.Bestelling.Id }, FormMethod.Post))
-        {
-            <input type="submit" value="Leegmaken" class="btn btn-outline-danger" />
-        }
-    </p>
-    <div>
 
-        @*@Ajax.ActionLink("Koop tickets!", "Finalise", "ShoppingCart", new { }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "OnSuccessFinalise", OnFailure = "OnFailureFinalise" }, htmlAttributes: new { @class = "btn btn-outline-danger" })*@
+    using (Html.BeginForm("Clear", "ShoppingCart", new { GeselecteerdeBestelling = Model.Bestelling.Id }, FormMethod.Post, new { @class = "shoppingCartButtons" }))
+    {
+        <input type="submit" value="Leegmaken" class="btn btn-outline-danger" />
+    }
 
 
-        @using (Html.BeginForm("Finalise", "ShoppingCart", FormMethod.Post))
-        {
-            <input type="submit" value="Bevestigen" class="btn btn-outline-danger" />
-        }
-    </div>
+    @*@Ajax.ActionLink("Koop tickets!", "Finalise", "ShoppingCart", new { }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "OnSuccessFinalise", OnFailure = "OnFailureFinalise" }, htmlAttributes: new { @class = "btn btn-outline-danger" })*@
+
+
+    using (Html.BeginForm("Finalise", "ShoppingCart", FormMethod.Post, new { @class = "shoppingCartButtons" }))
+    {
+        <input type="submit" value="Bevestigen" class="btn btn-outline-danger" />
+    }
+
 }
 <div id="errors">
     <h1>@ViewBag.Exception</h1>

@@ -38,7 +38,7 @@ namespace VoetbalTicketStore.DAO
                 // MET club-ids in de shoppingcartdata
                 // Reverse include! 
                 // Include chaining!
-                return db.Bestellings.Where(b => b.Bevestigd == false && b.AspNetUsersId.Equals(user)).Include(x => x.ShoppingCartDatas.Select(y => y.Club)).Include(z => z.ShoppingCartDatas.Select(r => r.Club1)).Include(x => x.ShoppingCartDatas.Select(v => v.Vak).Select(t => t.VakType)).Include(x => x.ShoppingCartDatas.Select(w => w.Wedstrijd)).FirstOrDefault();
+                return db.Bestellings.Where(b => b.Bevestigd == false && b.AspNetUsersId.Equals(user)).Include(x => x.ShoppingCartDatas.Select(y => y.Club)).Include(z => z.ShoppingCartDatas.Select(r => r.Club1)).Include(x => x.ShoppingCartDatas.Select(v => v.Vak).Select(t => t.VakType)).Include(x => x.ShoppingCartDatas.Select(w => w.Wedstrijd)).Include(s => s.ShoppingCartDatas.Select(t => t.ShoppingCartDataType)).FirstOrDefault();
             }
         }
 

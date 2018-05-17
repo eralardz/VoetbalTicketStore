@@ -53,7 +53,7 @@ namespace VoetbalTicketStore.Service
 
             foreach (ShoppingCartData shoppingCartData in shoppingCartDatas)
             {
-                totaalPrijs += shoppingCartData.Prijs;
+                totaalPrijs += (shoppingCartData.Prijs * shoppingCartData.Hoeveelheid);
             }
 
             return totaalPrijs;

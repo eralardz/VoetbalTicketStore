@@ -28,11 +28,13 @@ namespace VoetbalTicketStore.Controllers
 
 
             // Lijst voor aantal tickets
-            List<SelectListItem> list = new List<SelectListItem>();
-            list.Add(new SelectListItem { Text = "1", Value = "1", Selected = true });
-            list.Add(new SelectListItem { Text = "2", Value = "2" });
-            list.Add(new SelectListItem { Text = "3", Value = "3" });
-            list.Add(new SelectListItem { Text = "4", Value = "4" });
+            List<SelectListItem> list = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "1", Value = "1", Selected = true },
+                new SelectListItem { Text = "2", Value = "2" },
+                new SelectListItem { Text = "3", Value = "3" },
+                new SelectListItem { Text = "4", Value = "4" }
+            };
 
             // ViewModel aanmaken en opvullen
             AbonnementBuy abonnementBuy = new AbonnementBuy()

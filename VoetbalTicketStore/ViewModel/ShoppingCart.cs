@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using VoetbalTicketStore.Models;
 
 namespace VoetbalTicketStore.ViewModel
@@ -15,5 +16,7 @@ namespace VoetbalTicketStore.ViewModel
         public int SelectedShoppingCartData { get; set; }
         public int NieuweHoeveelheid { get; set; }
         public int GeselecteerdeWedstrijd { get; set; }
+        public List<SelectListItem> HoeveelheidList { get; set; }
+
     }
 }

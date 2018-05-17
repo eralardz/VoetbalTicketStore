@@ -32,6 +32,15 @@ namespace VoetbalTicketStore.Controllers
             bestellingService = new BestellingService();
             Bestelling bestelling = bestellingService.FindOpenstaandeBestellingDoorUser(User.Identity.GetUserId());
 
+            // Lijst voor aantallen
+            List<SelectListItem> list = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "1", Value = "1" },
+                new SelectListItem { Text = "2", Value = "2" },
+                new SelectListItem { Text = "3", Value = "3" },
+                new SelectListItem { Text = "4", Value = "4" }
+            };
+
             // ViewModel aanmaken en opvullen
             ShoppingCart shoppingCart = null;
             if (bestelling != null)
@@ -40,7 +49,9 @@ namespace VoetbalTicketStore.Controllers
                 {
                     Bestelling = bestelling,
                     ShoppingCartEntries = bestelling.ShoppingCartDatas.ToList(),
-                    TotaalPrijs = bestellingService.BerekenTotaalPrijs(bestelling.ShoppingCartDatas)
+                    TotaalPrijs = bestellingService.BerekenTotaalPrijs(bestelling.ShoppingCartDatas),
+                    HoeveelheidList = list
+                    
                 };
             }
             return View(shoppingCart);
@@ -90,8 +101,9 @@ namespace VoetbalTicketStore.Controllers
         [HttpPost]
         public ActionResult AdjustAmount(ShoppingCart shoppingCart)
         {
+            // hoeveelheid aanpassen
             shoppingCartDataService = new ShoppingCartDataService();
-            shoppingCartDataService.AdjustAmount(shoppingCart.SelectedShoppingCartData, shoppingCart.NieuweHoeveelheid, User.Identity.GetUserId(), shoppingCart.GeselecteerdeWedstrijd);
+            shoppingCartDataService.AdjustAmount(shoppingCart.SelectedShoppingCartData, shoppingCart.NieuweHoeveelheid, User.Identity.GetUserId(), shoppingCart.GeselecteerdeWedstrijd);            
             return RedirectToAction("Index");
         }
 
