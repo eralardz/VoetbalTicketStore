@@ -24,24 +24,49 @@ namespace VoetbalTicketStore.Controllers
         private BezoekerService bezoekerService;
         private BestellingService bestellingService;
         private TicketService ticketService;
+        private AbonnementService abonnementService;
 
         // GET: Bezoeker
+        //public ActionResult Index()
+        //{
+        //    bezoekerService = new BezoekerService();
+        //    bestellingService = new BestellingService();
+
+        //    // WERKWIJZE MET LIST
+        //    ticketService = new TicketService();
+        //    IEnumerable<Ticket> tickets = ticketService.GetNietGekoppeldeTicketsList(User.Identity.GetUserId());
+
+
+        //    // ViewModel maken en opvullen
+        //    BezoekerKoppelen bezoekerKoppelen = new BezoekerKoppelen()
+        //    {
+        //        NietGekoppeldeTicketsList = tickets.ToList()
+        //    };
+
+        //    // Status message
+        //    if (TempData["msg"] != null)
+        //    {
+        //        ViewBag.Msg = TempData["msg"].ToString();
+        //    }
+
+        //    return View(bezoekerKoppelen);
+        //}
+
         public ActionResult Index()
         {
-            bezoekerService = new BezoekerService();
-            bestellingService = new BestellingService();
-
-
-
-            // WERKWIJZE MET LIST
+            // tickets
             ticketService = new TicketService();
-            IEnumerable<Ticket> tickets = ticketService.GetNietGekoppeldeTicketsList(User.Identity.GetUserId());
+            IEnumerable<IGrouping<Bestelling, Ticket>> tickets = ticketService.GetNietGekoppeldeTickets(User.Identity.GetUserId());
+
+            // abonnementen
+            abonnementService = new AbonnementService();
+            IEnumerable<Abonnement> abonnementen = abonnementService.GetNietGekoppeldeAbonnementen(User.Identity.GetUserId());
 
 
-            // ViewModel maken en opvullen
             BezoekerKoppelen bezoekerKoppelen = new BezoekerKoppelen()
             {
-                NietGekoppeldeTicketsList = tickets.ToList()
+                NietGekoppeldeTickets = tickets,
+                NietGekoppeldeAbonnementen = abonnementen
             };
 
             // Status message
@@ -70,24 +95,33 @@ namespace VoetbalTicketStore.Controllers
                 // bezoeker aanmaken indien nodig
                 Bezoeker bezoeker = bezoekerService.AddBezoekerIndienNodig(bezoekerKoppelen.TeWijzigenBezoeker.Rijksregisternummer, bezoekerKoppelen.TeWijzigenBezoeker.Naam, bezoekerKoppelen.TeWijzigenBezoeker.Voornaam, bezoekerKoppelen.TeWijzigenBezoeker.Email);
 
-                // rijksregisternummer aan ticket koppelen
-                ticketService = new TicketService();
-                ticketService.KoppelBezoekerAanTicket(bezoekerKoppelen.TeWijzigenTicket, bezoeker.Rijksregisternummer);
-
-                // voucher aanmaken en doormailen
+                // gegevens mail
                 var message = new MailMessage();
                 message.To.Add(new MailAddress(bezoekerKoppelen.TeWijzigenBezoeker.Email));
                 message.From = new MailAddress("laurens.dewispelaere@gmail.com");
-                // replace with valid value
-                message.Subject = "Ticket gekocht!";
-
-                // ticket + alle info nodig om voucher te genereren
-                Ticket ticket = ticketService.FindTicket(bezoekerKoppelen.TeWijzigenTicket);
-                message.Attachments.Add(BezoekerController.GetAttachment(bezoekerKoppelen, ticket));
-
-                var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
+                message.Subject = "Uw bestelling bij VoetbalTicketStore";
+                var body = "<p>Bedankt voor uw bestelling!: {0} ({1})</p><p>Message:</p><p>{2}</p>";
                 message.Body = string.Format(body, bezoekerKoppelen.TeWijzigenBezoeker.Naam, bezoekerKoppelen.TeWijzigenBezoeker.Email, "bla");
                 message.IsBodyHtml = true;
+
+                // GEVAL TICKET
+                if (bezoekerKoppelen.TeWijzigenTicket != 0)
+                {
+                    // rijksregisternummer aan ticket koppelen
+                    ticketService = new TicketService();
+                    ticketService.KoppelBezoekerAanTicket(bezoekerKoppelen.TeWijzigenTicket, bezoeker.Rijksregisternummer);
+
+                    // ticket + alle info nodig om voucher te genereren
+                    Ticket ticket = ticketService.FindTicket(bezoekerKoppelen.TeWijzigenTicket);
+                    message.Attachments.Add(BezoekerController.GetAttachment(bezoekerKoppelen, ticket));
+                }
+
+                // GEVAL ABONNEMENT
+                else
+                {
+                    abonnementService = new AbonnementService();
+                    abonnementService.KoppelBezoekerAanAbonnement(bezoekerKoppelen.TeWijzigenAbonnement, bezoeker.Rijksregisternummer);
+                }
 
 
                 using (var smtp = new SmtpClient())
@@ -193,10 +227,6 @@ namespace VoetbalTicketStore.Controllers
                 // leg de koppeling
                 Debug.WriteLine("valid");
             }
-
-
-
-
             return View(bezoekerKoppelenIn);
         }
     }

@@ -152,6 +152,7 @@ namespace VoetbalTicketStore.Controllers
                 return RedirectToAction("Index");
             }
 
+            TempData["msg"] = "Uw bestelling werd succesvol afgerond!";
             return RedirectToAction("Index","Bezoeker");
         }
     }

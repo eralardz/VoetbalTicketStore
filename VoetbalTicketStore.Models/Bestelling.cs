@@ -17,6 +17,7 @@ namespace VoetbalTicketStore.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Bestelling()
         {
+            this.Abonnements = new HashSet<Abonnement>();
             this.ShoppingCartDatas = new HashSet<ShoppingCartData>();
             this.Tickets = new HashSet<Ticket>();
         }
@@ -27,6 +28,8 @@ namespace VoetbalTicketStore.Models
         public string AspNetUsersId { get; set; }
         public System.DateTime BestelDatum { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Abonnement> Abonnements { get; set; }
         public virtual AspNetUser AspNetUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ShoppingCartData> ShoppingCartDatas { get; set; }

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="VoetbalstoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="VoetbalstoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -24,6 +24,8 @@
           <Property Name="Prijs" Type="money" Nullable="false" />
           <Property Name="Bezoekerrijksregisternummer" Type="varchar" MaxLength="255" />
           <Property Name="VakTypeId" Type="int" Nullable="false" />
+          <Property Name="AspNetUsersId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="BestellingId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
@@ -194,6 +196,18 @@
           <Property Name="Club2id" Type="int" Nullable="false" />
           <Property Name="DatumEnTijd" Type="datetime" Nullable="false" />
         </EntityType>
+        <Association Name="Abonnement gekocht door gebruiker">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="Abonnement" Type="Self.Abonnement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Abonnement">
+              <PropertyRef Name="AspNetUsersId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="Abonnement van een bezoeker">
           <End Role="Bezoeker" Type="Self.Bezoeker" Multiplicity="0..1" />
           <End Role="Abonnement" Type="Self.Abonnement" Multiplicity="*" />
@@ -265,6 +279,18 @@
             </Principal>
             <Dependent Role="Bestelling">
               <PropertyRef Name="AspNetUsersId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Bestelling van abonnement">
+          <End Role="Bestelling" Type="Self.Bestelling" Multiplicity="1" />
+          <End Role="Abonnement" Type="Self.Abonnement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bestelling">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Abonnement">
+              <PropertyRef Name="BestellingId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -524,6 +550,10 @@
           <EntitySet Name="Vak" EntityType="Self.Vak" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VakType" EntityType="Self.VakType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Wedstrijd" EntityType="Self.Wedstrijd" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="Abonnement gekocht door gebruiker" Association="Self.Abonnement gekocht door gebruiker">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Abonnement" EntitySet="Abonnement" />
+          </AssociationSet>
           <AssociationSet Name="Abonnement van een bezoeker" Association="Self.Abonnement van een bezoeker">
             <End Role="Bezoeker" EntitySet="Bezoeker" />
             <End Role="Abonnement" EntitySet="Abonnement" />
@@ -547,6 +577,10 @@
           <AssociationSet Name="Bestelling door gebruiker" Association="Self.Bestelling door gebruiker">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Bestelling" EntitySet="Bestelling" />
+          </AssociationSet>
+          <AssociationSet Name="Bestelling van abonnement" Association="Self.Bestelling van abonnement">
+            <End Role="Bestelling" EntitySet="Bestelling" />
+            <End Role="Abonnement" EntitySet="Abonnement" />
           </AssociationSet>
           <AssociationSet Name="Bestelling van tickets" Association="Self.Bestelling van tickets">
             <End Role="Bestelling" EntitySet="Bestelling" />
@@ -625,7 +659,8 @@
             <End Role="ShoppingCartData" EntitySet="ShoppingCartData" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="VoetbalstoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -648,9 +683,13 @@
           <Property Name="Prijs" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="Bezoekerrijksregisternummer" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="VakTypeId" Type="Int32" Nullable="false" />
+          <Property Name="AspNetUsersId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BestellingId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.Abonnement_gekocht_door_gebruiker" FromRole="Abonnement" ToRole="AspNetUsers" />
           <NavigationProperty Name="Bezoeker" Relationship="Self.Abonnement_van_een_bezoeker" FromRole="Abonnement" ToRole="Bezoeker" />
           <NavigationProperty Name="Club" Relationship="Self.Abonnement_voor_een_club" FromRole="Abonnement" ToRole="Club" />
           <NavigationProperty Name="VakType" Relationship="Self.Abonnement_voor_type_vak" FromRole="Abonnement" ToRole="VakType" />
+          <NavigationProperty Name="Bestelling" Relationship="Self.Bestelling_van_abonnement" FromRole="Abonnement" ToRole="Bestelling" />
         </EntityType>
         <EntityType Name="AspNetRole">
           <Key>
@@ -697,6 +736,7 @@
           <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
           <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
           <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Abonnements" Relationship="Self.Abonnement_gekocht_door_gebruiker" FromRole="AspNetUsers" ToRole="Abonnement" />
           <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FKAspNetUser367573" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
           <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FKAspNetUser755613" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
           <NavigationProperty Name="Bestellings" Relationship="Self.Bestelling_door_gebruiker" FromRole="AspNetUsers" ToRole="Bestelling" />
@@ -712,6 +752,7 @@
           <Property Name="TotaalPrijs" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="AspNetUsersId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="BestelDatum" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Abonnements" Relationship="Self.Bestelling_van_abonnement" FromRole="Bestelling" ToRole="Abonnement" />
           <NavigationProperty Name="AspNetUser" Relationship="Self.Bestelling_door_gebruiker" FromRole="Bestelling" ToRole="AspNetUsers" />
           <NavigationProperty Name="ShoppingCartDatas" Relationship="Self.Bestelling_bestaat_uit_verschillende_lijnen" FromRole="Bestelling" ToRole="ShoppingCartData" />
           <NavigationProperty Name="Tickets" Relationship="Self.Bestelling_van_tickets" FromRole="Bestelling" ToRole="Ticket" />
@@ -858,6 +899,18 @@
           <NavigationProperty Name="Stadion" Relationship="Self.Wedstrijd_wordt_gespeeld_in_een_stadion" FromRole="Wedstrijd" ToRole="Stadion" />
           <NavigationProperty Name="Tickets" Relationship="Self.Ticket_voor_wedstrijd" FromRole="Wedstrijd" ToRole="Ticket" />
         </EntityType>
+        <Association Name="Abonnement_gekocht_door_gebruiker">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+          <End Role="Abonnement" Type="Self.Abonnement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Abonnement">
+              <PropertyRef Name="AspNetUsersId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="Abonnement_van_een_bezoeker">
           <End Role="Bezoeker" Type="Self.Bezoeker" Multiplicity="0..1" />
           <End Role="Abonnement" Type="Self.Abonnement" Multiplicity="*" />
@@ -891,6 +944,18 @@
             </Principal>
             <Dependent Role="Abonnement">
               <PropertyRef Name="VakTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Bestelling_van_abonnement">
+          <End Role="Bestelling" Type="Self.Bestelling" Multiplicity="1" />
+          <End Role="Abonnement" Type="Self.Abonnement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bestelling">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Abonnement">
+              <PropertyRef Name="BestellingId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1163,6 +1228,10 @@
           <EntitySet Name="Vaks" EntityType="Self.Vak" />
           <EntitySet Name="VakTypes" EntityType="Self.VakType" />
           <EntitySet Name="Wedstrijds" EntityType="Self.Wedstrijd" />
+          <AssociationSet Name="Abonnement_gekocht_door_gebruiker" Association="Self.Abonnement_gekocht_door_gebruiker">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Abonnement" EntitySet="Abonnements" />
+          </AssociationSet>
           <AssociationSet Name="Abonnement_van_een_bezoeker" Association="Self.Abonnement_van_een_bezoeker">
             <End Role="Bezoeker" EntitySet="Bezoekers" />
             <End Role="Abonnement" EntitySet="Abonnements" />
@@ -1173,6 +1242,10 @@
           </AssociationSet>
           <AssociationSet Name="Abonnement_voor_type_vak" Association="Self.Abonnement_voor_type_vak">
             <End Role="VakType" EntitySet="VakTypes" />
+            <End Role="Abonnement" EntitySet="Abonnements" />
+          </AssociationSet>
+          <AssociationSet Name="Bestelling_van_abonnement" Association="Self.Bestelling_van_abonnement">
+            <End Role="Bestelling" EntitySet="Bestellings" />
             <End Role="Abonnement" EntitySet="Abonnements" />
           </AssociationSet>
           <AssociationSet Name="FKAspNetUser367573" Association="Self.FKAspNetUser367573">
@@ -1284,6 +1357,8 @@
                 <ScalarProperty Name="Prijs" ColumnName="Prijs" />
                 <ScalarProperty Name="Bezoekerrijksregisternummer" ColumnName="Bezoekerrijksregisternummer" />
                 <ScalarProperty Name="VakTypeId" ColumnName="VakTypeId" />
+                <ScalarProperty Name="AspNetUsersId" ColumnName="AspNetUsersId" />
+                <ScalarProperty Name="BestellingId" ColumnName="BestellingId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

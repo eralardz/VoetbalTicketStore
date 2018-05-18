@@ -51,6 +51,7 @@ namespace VoetbalTicketStore.Service
             return ticketDAO.GetNietGekoppeldeTicketsList(user).OrderBy(t => t.BestellingId);
         }
 
+        // TODO: Ticket-object hier maken ipv in DAO (moet eigenlijk hier...)
         public void KoppelBezoekerAanTicket(int teWijzigenTicket, string rijksregisternummer)
         {
             ticketDAO.KoppelBezoekerAanTicket(teWijzigenTicket, rijksregisternummer);

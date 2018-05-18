@@ -19,9 +19,13 @@ namespace VoetbalTicketStore.Models
         public decimal Prijs { get; set; }
         public string Bezoekerrijksregisternummer { get; set; }
         public int VakTypeId { get; set; }
+        public string AspNetUsersId { get; set; }
+        public int BestellingId { get; set; }
     
+        public virtual AspNetUser AspNetUser { get; set; }
         public virtual Bezoeker Bezoeker { get; set; }
         public virtual Club Club { get; set; }
         public virtual VakType VakType { get; set; }
+        public virtual Bestelling Bestelling { get; set; }
     }
 }

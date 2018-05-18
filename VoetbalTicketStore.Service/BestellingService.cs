@@ -53,17 +53,19 @@ namespace VoetbalTicketStore.Service
             ticketService = new TicketService();
             abonnementService = new AbonnementService();
 
-            // eerste datum in bestelling
-            DateTime date = bestelling.ShoppingCartDatas.First().Wedstrijd.DatumEnTijd;
-
-
-            // Een persoon kan geen tickets kopen voor twee verschillende wedstrijden op dezelfde wedstrijddag
-            // Tickets nog niet gekocht
-            IEnumerable<IGrouping<string, ShoppingCartData>> group = bestelling.ShoppingCartDatas.GroupBy(t => t.Wedstrijd.DatumEnTijd.ToShortDateString());
-            int count = group.First().Count();
-            if(count > 1)
+            // geen tickets in de bestelling
+            if (bestelling.ShoppingCartDatas.Where(s => s.WedstrijdId != null).Count() != 0)
             {
-                throw new BestelException("Je wil tickets voor verschillende wedstrijden op dezelfde dag kopen. Dit is niet toegestaan!");
+                // eerste datum in bestelling
+                DateTime date = bestelling.ShoppingCartDatas.Where(s => s.WedstrijdId != null).First().Wedstrijd.DatumEnTijd;
+                // Een persoon kan geen tickets kopen voor twee verschillende wedstrijden op dezelfde wedstrijddag
+                // Tickets nog niet gekocht
+                IEnumerable<IGrouping<string, ShoppingCartData>> group = bestelling.ShoppingCartDatas.GroupBy(t => t.Wedstrijd.DatumEnTijd.ToShortDateString());
+                int count = group.First().Count();
+                if (count > 1)
+                {
+                    throw new BestelException("Je wil tickets voor verschillende wedstrijden op dezelfde dag kopen. Dit is niet toegestaan!");
+                }
             }
 
             foreach (ShoppingCartData shoppingCartData in bestelling.ShoppingCartDatas)
@@ -171,7 +173,9 @@ namespace VoetbalTicketStore.Service
                             {
                                 Clubid = shoppingCartData.Thuisploeg,
                                 Prijs = shoppingCartData.Prijs,
-                                VakTypeId = shoppingCartData.VakId
+                                VakTypeId = shoppingCartData.VakId,
+                                AspNetUsersId = user,
+                                BestellingId = shoppingCartData.BestellingId
                             };
 
                             abonnementen.Add(abonnement);

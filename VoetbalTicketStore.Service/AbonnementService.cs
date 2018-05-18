@@ -26,5 +26,21 @@ namespace VoetbalTicketStore.Service
         {
             abonnementDAO.AddAbonnementen(abonnementen);
         }
+
+        public IEnumerable<Abonnement> GetNietGekoppeldeAbonnementen(string user)
+        {
+            return abonnementDAO.GetNietGekoppeldeAbonnementen(user);
+        }
+
+        public void KoppelBezoekerAanAbonnement(int teWijzigenAbonnement, string rijksregisternummer)
+        {
+            Abonnement abonnement = new Abonnement()
+            {
+                Id = teWijzigenAbonnement,
+                Bezoekerrijksregisternummer = rijksregisternummer
+            };
+
+            abonnementDAO.KoppelBezoekerAanAbonnement(abonnement);
+        }
     }
 }

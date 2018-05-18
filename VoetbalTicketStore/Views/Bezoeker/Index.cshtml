@@ -6,37 +6,73 @@
         @ViewBag.msg
     </div>
 }
+<div class="page-header">
+    <h1>Tickets</h1>
+</div>
 
+@foreach (IGrouping<VoetbalTicketStore.Models.Bestelling, VoetbalTicketStore.Models.Ticket> item in Model.NietGekoppeldeTickets)
+{
+    <div class="row">
+        <h2>
+            Bestelling @Html.DisplayFor(t => item.Key.Id)
+        </h2>
+        @foreach (VoetbalTicketStore.Models.Ticket ticket in item.ToArray())
+        {
+            <div class="col-md-3">
+                @using (Html.BeginForm("Koppel", "Bezoeker", FormMethod.Get))
+                {
+                    <h3>
+                        Ticket #@Html.DisplayFor(t => ticket.Id)
+                    </h3>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            @Html.DisplayFor(t => ticket.Wedstrijd.Club.Naam)
+                            vs @Html.DisplayFor(t => ticket.Wedstrijd.Club1.Naam)
+                        </li>
+                        <li class="list-group-item">
+                            @Html.DisplayFor(t => ticket.Wedstrijd.DatumEnTijd)
+                        </li>
+                        <li class="list-group-item">
+                            <button type="submit" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-user"></span> Koppel bezoeker
+                            </button>
+                        </li>
+                    </ul>
+                    @Html.Hidden("TeWijzigenTicket", ticket.Id)
+                }
+            </div>
+
+
+        }
+    </div>
+}
+<hr />
+<h1>Abonnementen</h1>
+<hr />
 <div class="row">
-    @foreach (VoetbalTicketStore.Models.Ticket ticket in Model.NietGekoppeldeTicketsList)
+    @foreach (VoetbalTicketStore.Models.Abonnement abonnement in Model.NietGekoppeldeAbonnementen)
     {
-        <div class="col-md-4">
+        <div class="col-md-3">
             @using (Html.BeginForm("Koppel", "Bezoeker", FormMethod.Get))
             {
-                @Html.AntiForgeryToken()
-                <div class="row">
-                    <div class="col-md-12">
-                        <h3>Ticket (# @ticket.Id, bestelling # @ticket.BestellingId)</h3>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        @Html.DisplayFor(t => ticket.Wedstrijd.Club.Naam) - @Html.DisplayFor(t => ticket.Wedstrijd.Club1.Naam)
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        @Html.DisplayFor(t => ticket.Wedstrijd.DatumEnTijd)
-                        @Html.Hidden("TeWijzigenTicket", ticket.Id)
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <input type="submit" value="Koppel bezoeker" class="btn btn-default" />
-                    </div>
-                </div>
+                <h3>Abonnement #@Html.DisplayFor(t => abonnement.Id)</h3>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        @Html.DisplayFor(t => abonnement.Club.Naam)
+                    </li>
+                    <li class="list-group-item">
+                        @Html.DisplayFor(t => abonnement.Club.Stadion.Naam)
+                    </li>
+                    <li class="list-group-item">
+                        <button type="submit" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-user"></span> Koppel bezoeker
+                        </button>
+                    </li>
+                </ul>
+                @Html.Hidden("TeWijzigenAbonnement", abonnement.Id)
             }
         </div>
     }
 </div>
+
 
