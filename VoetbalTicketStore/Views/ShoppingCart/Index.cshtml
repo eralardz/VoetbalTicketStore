@@ -9,7 +9,7 @@
 @if (Model == null || Model.ShoppingCartEntries.Count == 0)
 {
     <hr />
-    <div class="alert alert-success" role="alert">
+    <div class="alert alert-info" role="alert">
         <h4 class="alert-heading">Uw winkelwagentje is leeg!</h4>
 
         Koop een ticket of abonnement!
@@ -109,10 +109,16 @@ else
 
     if (ViewBag.Exception != null)
     {
-
-
+        <br />
         <div id="errors" class="alert alert-danger" role="alert">
             @ViewBag.Exception
+        </div>
+    }
+    if (ViewBag.Success != null)
+    {
+        <br />
+        <div class="alert alert-success" role="alert">
+                @ViewBag.Success
         </div>
     }
 }

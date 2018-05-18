@@ -27,6 +27,10 @@ namespace VoetbalTicketStore.Controllers
             {
                 ViewBag.Exception = TempData["error"].ToString();
             }
+            if (TempData["success"] != null)
+            {
+                ViewBag.Success = TempData["success"].ToString();
+            }
 
             // Openstaande bestelling ophalen
             bestellingService = new BestellingService();
@@ -67,6 +71,9 @@ namespace VoetbalTicketStore.Controllers
             shoppingCartDataService = new ShoppingCartDataService();
             shoppingCartDataService.AddToShoppingCart(bestelling.Id, ticketConfirm.Prijs, ticketConfirm.WedstrijdId, ticketConfirm.ThuisploegId, ticketConfirm.BezoekersId, ticketConfirm.AantalTickets, ticketConfirm.VakId, User.Identity.GetUserId());
 
+            // Success message meegeven
+            SetSuccessfulAddMessage("Uw winkelwagentje werd aangepast!");
+
             // RedirectToAction ipv View, anders wordt geen model meegegeven!
             return RedirectToAction("Index");
         }
@@ -82,7 +89,15 @@ namespace VoetbalTicketStore.Controllers
             shoppingCartDataService = new ShoppingCartDataService();
             shoppingCartDataService.AddAbonnementToShoppingCart(bestelling.Id, abonnementBuy.Prijs, abonnementBuy.AantalAbonnementen, abonnementBuy.GeselecteerdVakId, abonnementBuy.PloegId, User.Identity.GetUserId());
 
+            // Success message meegeven
+            SetSuccessfulAddMessage("Uw winkelwagentje werd aangepast!");
+
             return RedirectToAction("Index");
+        }
+
+        private void SetSuccessfulAddMessage(string message)
+        {
+            TempData["success"] = message;
         }
 
         private Bestelling CreateNieuweBestellingIndienNodig()
