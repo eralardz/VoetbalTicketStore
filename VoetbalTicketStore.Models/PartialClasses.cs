@@ -13,4 +13,9 @@ namespace VoetbalTicketStore.Models
     {
     }
 
+    [MetadataType(typeof(WedstrijdMetadata))]
+    public partial class Wedstrijd
+    {
+    }
+
 }

@@ -32,4 +32,10 @@ namespace VoetbalTicketStore.Models
         public string Voornaam;
     }
 
+    public class WedstrijdMetadata
+    {
+        [Display(Name = "Wanneer")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy H:mm}")]
+        public DateTime DatumEnTijd { get; set; }
+    }
 }

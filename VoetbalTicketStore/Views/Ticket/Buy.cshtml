@@ -2,28 +2,35 @@
 @{
     ViewBag.Title = "Tickets kopen";
 }
-<div>
-    @{
-        var LogoThuisploeg = "/Content/img/clublogo/placeholder.png";
-        var LogoBezoekers = "/Content/img/clublogo/placeholder.png";
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        @{
+            var LogoThuisploeg = "/Content/img/clublogo/placeholder.png";
+            var LogoBezoekers = "/Content/img/clublogo/placeholder.png";
 
-        if (Model.Thuisploeg.Logo != null && Model.Tegenstanders.Logo != null)
-        {
-            LogoThuisploeg = Model.Thuisploeg.Logo;
-            LogoBezoekers = Model.Tegenstanders.Logo;
+            if (Model.Thuisploeg.Logo != null && Model.Tegenstanders.Logo != null)
+            {
+                LogoThuisploeg = Model.Thuisploeg.Logo;
+                LogoBezoekers = Model.Tegenstanders.Logo;
+            }
         }
-    }
-    <img src="@LogoThuisploeg" alt="logo thuisploeg" />
-    VS
-    <img src="@LogoBezoekers" alt="logo bezoekers" />
-    <br />
-    Stadion: @Model.Stadion.Naam
-    Datum: @Model.Wedstrijd.DatumEnTijd
-    <br />
-    <br />
-
+        <img src="@LogoThuisploeg" class="wedstrijd" alt="@Model.Thuisploeg.Naam" />
+        <img src="@LogoBezoekers" class="wedstrijd" alt="@Model.Tegenstanders.Naam" />
+    </div>
+    <div class="col-md-6">
+        <h1>
+            @Model.Thuisploeg.Naam - @Model.Tegenstanders.Naam
+            <br />
+            <small>@Model.Stadion.Naam</small>
+            <br />
+            <small>@Model.Wedstrijd.DatumEnTijd</small>
+        </h1>
+    </div>
+</div>
+<div class="row">
     <div id="partial">
-        <table class="table">
+        <table class="table table-hover">
             <tr>
                 <th>Vak</th>
                 <th>Prijs</th>
@@ -40,11 +47,28 @@
                         @Html.DisplayFor(modelItem => item.BerekendePrijs) euro
                     </td>
                     <td>
-                        Nog @Html.DisplayFor(modelItem => item.AantalVrijePlaatsen) van de @Html.DisplayFor(modelItem => item.MaximumAantalZitplaatsen) plaatsen vrij!
+                        @if (item.AantalVrijePlaatsen == 0)
+                        {
+                            <text>Geen tickets meer!</text>
+
+                        }
+                        else
+                        {
+                            <text>Nog</text> @Html.DisplayFor(modelItem => item.AantalVrijePlaatsen) <text>van de </text>@Html.DisplayFor(modelItem => item.MaximumAantalZitplaatsen) <text>plaatsen vrij!</text>
+                        }
+
                     </td>
                     <td>
-                        @*TODO: gevuld viewmodel in de ActionLink (RouteValues) steken*@
-                        @Ajax.ActionLink("Koop tickets!", "Confirm", "Ticket", new { vakId = item.Id, aantalVrijePlaatsen = item.AantalVrijePlaatsen, prijs = item.BerekendePrijs, wedstrijdId = Model.Wedstrijd.Id, thuisploegId = Model.Thuisploeg.Id, bezoekersId = Model.Tegenstanders.Id, vakNaam = item.VakType.Beschrijving}, new AjaxOptions { HttpMethod = "Post", OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, htmlAttributes: new { @class = "btn btn-outline-danger" })
+                        @if (item.AantalVrijePlaatsen == 0)
+                        {
+                            <button type="button" class="btn btn-warning" disabled>Uitverkocht!</button>
+                        }
+                        else
+                        {@*TODO: gevuld viewmodel in de ActionLink (RouteValues) steken*@
+                        @Ajax.ActionLink("Bestel!", "Confirm", "Ticket", new { vakId = item.Id, aantalVrijePlaatsen = item.AantalVrijePlaatsen, prijs = item.BerekendePrijs, wedstrijdId = Model.Wedstrijd.Id, thuisploegId = Model.Thuisploeg.Id, bezoekersId = Model.Tegenstanders.Id, vakNaam = item.VakType.Beschrijving }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, htmlAttributes: new { @class = "btn btn-primary" })}
+
+
+
                     </td>
                 </tr>
             }

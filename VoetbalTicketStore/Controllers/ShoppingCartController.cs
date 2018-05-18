@@ -16,16 +16,14 @@ namespace VoetbalTicketStore.Controllers
     {
 
         private BestellingService bestellingService;
-        private TicketService ticketService;
         private ShoppingCartDataService shoppingCartDataService;
-        private AbonnementService abonnementService;
 
         // GET: ShoppingCart
         public ActionResult Index()
         {
             if (TempData["error"] != null)
             {
-                ViewBag.Exception = TempData["error"].ToString();
+                ViewBag.Error = TempData["error"].ToString();
             }
             if (TempData["success"] != null)
             {
@@ -138,69 +136,10 @@ namespace VoetbalTicketStore.Controllers
         {
             try
             {
-                // Alle ShoppingCartData binnenhalen (via eager bestelling)
+                // Plaats bestelling
                 bestellingService = new BestellingService();
                 Bestelling bestelling = bestellingService.FindOpenstaandeBestellingDoorUser(User.Identity.GetUserId());
-
-                IList<Ticket> tickets = new List<Ticket>();
-                IList<Abonnement> abonnementen = new List<Abonnement>();
-
-                ticketService = new TicketService();
-                abonnementService = new AbonnementService();
-
-                foreach (ShoppingCartData shoppingCartData in bestelling.ShoppingCartDatas)
-                {
-                    // geval ticket
-                    // TODO: enums aanmaken
-                    if (shoppingCartData.ShoppingCartDataTypeId == 1)
-                    {
-                        // Is er nog voldoende plaats in het vak om dit ticket aan te maken?
-                        int totaalAantal = ticketService.GetAantalVerkochteTicketsVoorVak(shoppingCartData.Vak, shoppingCartData.Wedstrijd) + shoppingCartData.Hoeveelheid;
-
-                        int rest = shoppingCartData.Vak.MaximumAantalZitplaatsen - totaalAantal;
-
-                        if (rest > 0)
-                        {
-                            // tickets mogen aangemaakt worden
-                            Ticket ticket = new Ticket();
-                            ticket.Gebruikerid = User.Identity.GetUserId();
-                            ticket.Prijs = shoppingCartData.Prijs;
-                            ticket.Vakid = shoppingCartData.VakId;
-
-                            // nullable attributes
-                            if (shoppingCartData.WedstrijdId != null)
-                            {
-                                ticket.Wedstrijdid = (int)shoppingCartData.WedstrijdId;
-
-                            }
-                            ticket.BestellingId = shoppingCartData.BestellingId;
-
-                            tickets.Add(ticket);
-                        }
-                    }
-                    // geval abonnement
-                    else if(shoppingCartData.ShoppingCartDataTypeId == 2) {
-                        Abonnement abonnement = new Abonnement()
-                        {
-                            Clubid = shoppingCartData.Thuisploeg,
-                            Prijs = shoppingCartData.Prijs,
-                            VakTypeId = shoppingCartData.VakId
-                        };
-
-                        abonnementen.Add(abonnement);
-                    }
-                }
-
-                // add in bulk
-                ticketService.AddTickets(tickets);
-                abonnementService.AddAbonnementen(abonnementen);
-
-                // bestelling bevestigen
-                bestellingService.BevestigBestelling(bestelling.Id);
-
-                // delete shoppingcartdata
-                shoppingCartDataService = new ShoppingCartDataService();
-                shoppingCartDataService.RemoveShoppingCartDataVanBestelling(bestelling.Id);
+                bestellingService.PlaatsBestelling(bestelling, User.Identity.GetUserId());
             }
             catch (BestelException ex)
             {
@@ -210,6 +149,7 @@ namespace VoetbalTicketStore.Controllers
                 // When you use redirection, you shall not use ViewBag, but TempData
                 // TempData passes data between the current and next HTTP request
                 TempData["error"] = ex.Message;
+                return RedirectToAction("Index");
             }
 
             return RedirectToAction("Index","Bezoeker");

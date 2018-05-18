@@ -12,6 +12,7 @@ namespace VoetbalTicketStore.Service
     public class TicketService
     {
         private TicketDAO ticketDAO;
+        private AbonnementService abonnementService;
 
         public TicketService()
         {
@@ -22,6 +23,7 @@ namespace VoetbalTicketStore.Service
         {
             return ticketDAO.GetAantalVerkochteTicketsVoorVak(vak, wedstrijd);
         }
+        
 
         public void AddTicket(Ticket ticket)
         {
@@ -57,6 +59,11 @@ namespace VoetbalTicketStore.Service
         public Ticket FindTicket(int teWijzigenTicket)
         {
             return ticketDAO.FindTicket(teWijzigenTicket);
+        }
+
+        public int GetAantalTicketsVoorAndereWedstrijdOpDezelfdeDatum(string user, int wedstrijdId, DateTime datumEnTijd)
+        {
+            return ticketDAO.GetAantalTicketsVoorAndereWedstrijdOpDezelfdeDatum(user, wedstrijdId, datumEnTijd);
         }
     }
 }

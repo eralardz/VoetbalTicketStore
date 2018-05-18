@@ -61,6 +61,15 @@ namespace VoetbalTicketStore.DAO
                 return db.Tickets.Where(t => t.Id == teWijzigenTicket).Include(t => t.Wedstrijd).Include(t => t.Wedstrijd.Club).Include(t => t.Wedstrijd.Club1).Include(t => t.Wedstrijd.Stadion).FirstOrDefault();
             }
         }
+
+        public int GetAantalTicketsVoorAndereWedstrijdOpDezelfdeDatum(string user, int wedstrijdId, DateTime datumEnTijd)
+        {
+            using (var db = new VoetbalstoreEntities())
+            {
+                return db.Tickets.Where(t => t.Gebruikerid.Equals(user) && t.Wedstrijdid != wedstrijdId && DbFunctions.TruncateTime(t.Wedstrijd.DatumEnTijd) == DbFunctions.TruncateTime(datumEnTijd)).Count();
+            }
+        }
+
         // attach: https://msdn.microsoft.com/en-us/library/jj592676(v=vs.113).aspx
         public void KoppelBezoekerAanTicket(int teWijzigenTicket, string rijksregisternummer)
         {

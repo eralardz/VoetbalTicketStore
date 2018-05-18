@@ -15,7 +15,7 @@
         <EntityTypeShape EntityType="VoetbalstoreModel.Bezoeker" Width="1.5" PointX="3" PointY="13.375" IsExpanded="true" />
         <EntityTypeShape EntityType="VoetbalstoreModel.Club" Width="1.5" PointX="3" PointY="8.75" IsExpanded="true" />
         <EntityTypeShape EntityType="VoetbalstoreModel.ShoppingCartData" Width="1.5" PointX="10.5" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VoetbalstoreModel.ShoppingCartDataType" Width="1.5" PointX="8.25" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="VoetbalstoreModel.ShoppingCartDataType" Width="1.875" PointX="8.25" PointY="12.875" IsExpanded="true" />
         <EntityTypeShape EntityType="VoetbalstoreModel.Stadion" Width="1.5" PointX="0.75" PointY="9.25" IsExpanded="true" />
         <EntityTypeShape EntityType="VoetbalstoreModel.sysdiagram" Width="1.5" PointX="2.75" PointY="2.25" IsExpanded="true" />
         <EntityTypeShape EntityType="VoetbalstoreModel.Taal" Width="1.5" PointX="4.75" PointY="2.25" IsExpanded="true" />
