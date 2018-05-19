@@ -45,5 +45,14 @@ namespace VoetbalTicketStore.DAO
                 db.SaveChanges();
             }
         }
+
+        public Abonnement FindAbonnement(int teWijzigenAbonnement)
+        {
+            using (var db = new VoetbalstoreEntities())
+            {
+                return db.Abonnements.Where(a => a.Id == teWijzigenAbonnement).Include(a => a.Club).Include((a => a.VakType)).FirstOrDefault();
+            }
+        }
+
     }
 }

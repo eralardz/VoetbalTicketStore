@@ -42,5 +42,10 @@ namespace VoetbalTicketStore.Service
 
             abonnementDAO.KoppelBezoekerAanAbonnement(abonnement);
         }
+
+        public Abonnement FindAbonnement(int teWijzigenAbonnement)
+        {
+            return abonnementDAO.FindAbonnement(teWijzigenAbonnement);
+        }
     }
 }

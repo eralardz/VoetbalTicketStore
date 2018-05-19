@@ -45,14 +45,14 @@
                             else
                             {
                                 //Don't mix with other components Icon classes cannot be directly combined with other components. -> ActionLink niet geschikt, Action kan niet POSTen, dus een Form dan maar
-                                using (Html.BeginForm("Koppel", "Bezoeker", new { Area = "" }, FormMethod.Post, htmlAttributes: new { title = "SomeTitle" }))
+                                using (Html.BeginForm("GenerateTicketPDF", "Bezoeker", new VoetbalTicketStore.ViewModel.BestellingVM { TicketId = ticket.Id, BestellingId = bestelling.Id, Prijs = ticket.Prijs, ThuisploegNaam = ticket.Wedstrijd.Club.Naam, TegenstandersNaam = ticket.Wedstrijd.Club1.Naam, BezoekerNaam = ticket.Bezoeker.Naam, BezoekerVoornaam = ticket.Bezoeker.Voornaam, BezoekerRijksregisternummer = ticket.Bezoekerrijksregisternummer, BezoekerEmail = ticket.Bezoeker.Email, StadionAdres = ticket.Wedstrijd.Stadion.Adres, StadionNaam = ticket.Wedstrijd.Stadion.Naam, WedstrijdDatumEnTijd = ticket.Wedstrijd.DatumEnTijd }, FormMethod.Post))
                                 {
+                                    @Html.AntiForgeryToken()
+
                                     <button type="submit" class="btn btn-primary" role="menuitem">
-                                        <i class="glyphicon glyphicon-download-alt"></i>Koppel bezoeker
+                                        <i class="glyphicon glyphicon-download-alt"></i>Voucher
                                     </button>
                                 }
-
-
                             }
                         </li>
 
@@ -64,14 +64,42 @@
             {
                 <div class="col-md-3">
                     <h4>#@Html.DisplayFor(modelItem => abonnement.Id)</h4>
+                    <ul class="list-group">
+                        <li class="list-group-item">@Html.DisplayFor(modelItem => abonnement.Club.Naam)</li>
+                        <li class="list-group-item">@Html.DisplayFor(modelItem => abonnement.Club.Stadion.Naam)</li>
+                        <li class="list-group-item">@Html.DisplayFor(modelItem => abonnement.Prijs)</li>
+                        <li class="list-group-item">
+                            @if (abonnement.Bezoekerrijksregisternummer == null)
+                            {
+                                <text>Nog geen bezoeker gekoppeld</text>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(modelItem => abonnement.Bezoekerrijksregisternummer)
+                            }
+                        </li>
+                        <li class="list-group-item">
+
+                            @if (abonnement.Bezoekerrijksregisternummer == null)
+                            {
+                                <text>Abonnement nog niet beschikbaar</text>
+                            }
+                            else
+                            {
+                                //Don't mix with other components Icon classes cannot be directly combined with other components. -> ActionLink niet geschikt, Action kan niet POSTen, dus een Form dan maar
+                                using (Html.BeginForm("GenerateAbonnementPDF", "Bezoeker", new { Area = "" }, FormMethod.Post, htmlAttributes: new { title = "SomeTitle" }))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <button type="submit" class="btn btn-primary" role="menuitem">
+                                        <i class="glyphicon glyphicon-download-alt"></i>Voucher
+                                    </button>
+                                }
+                            }
+                        </li>
+                    </ul>
                 </div>
             }
-
-
         </div>
     </div>
 }
-<p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

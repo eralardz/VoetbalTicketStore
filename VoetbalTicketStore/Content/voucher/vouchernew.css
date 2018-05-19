@@ -1,0 +1,73 @@
+﻿body {
+    font-family: 'Helvetica Neue', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0px;
+}
+
+div.firstRow {
+    height: 14%;
+    width: 100%;
+    background-color: rgb(237,237,237);
+    margin: 0px;
+    padding: 0px;
+    border-bottom: 2px dashed black;
+}
+
+div.midRow {
+    width: 100%;
+}
+
+h1#clubs {
+    text-align: center;
+}
+
+
+    h2.info {
+        text-align: center;
+    }
+
+ 
+
+div.left {
+    float: left;
+}
+
+div.right {
+    float: right;
+}
+
+div.etc {
+    font-size: 75%;
+    position: absolute;
+    bottom: 0;
+}
+
+div.botRow {
+    text-align: center;
+    border-top: 2px dashed black;
+}
+
+h2.bezoeker {
+    text-decoration: underline;
+}
+
+#orderNumbers {
+    border: 5px dashed white;
+    text-align: left;
+    padding: 8px;
+}
+
+    #orderNumbers h2 {
+        margin: 0;
+        padding: 5px;
+    }
+
+h1 {
+    margin: 0;
+    padding: 10px;
+    font-size: 300%;
+}
+
+    h1 small {
+        font-size: 50%;
+        color: gray;
+    }

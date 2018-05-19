@@ -236,6 +236,14 @@
     <Content Include="Content\img\clublogo\oostende.png" />
     <Content Include="Content\img\clublogo\placeholder.png" />
     <Content Include="Content\img\clublogo\zultewaregem.png" />
+    <Content Include="Content\voucher\logo.png" />
+    <Content Include="Content\voucher\abonnement.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\voucher\vouchernew.css" />
+    <Content Include="Content\voucher\vouchernew.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\voucher\voucher.css" />
     <Content Include="Content\voucher\voucher.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

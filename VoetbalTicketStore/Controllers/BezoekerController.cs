@@ -113,7 +113,8 @@ namespace VoetbalTicketStore.Controllers
 
                     // ticket + alle info nodig om voucher te genereren
                     Ticket ticket = ticketService.FindTicket(bezoekerKoppelen.TeWijzigenTicket);
-                    message.Attachments.Add(BezoekerController.GetAttachment(bezoekerKoppelen, ticket));
+
+                    message.Attachments.Add(GetAttachment(bezoekerKoppelen, ticket));
                 }
 
                 // GEVAL ABONNEMENT
@@ -121,6 +122,12 @@ namespace VoetbalTicketStore.Controllers
                 {
                     abonnementService = new AbonnementService();
                     abonnementService.KoppelBezoekerAanAbonnement(bezoekerKoppelen.TeWijzigenAbonnement, bezoeker.Rijksregisternummer);
+
+                    Abonnement abonnement = abonnementService.FindAbonnement(bezoekerKoppelen.TeWijzigenAbonnement);
+                    //message.Attachments.Add(GetAttachment(bezoekerKoppelen, abonnement));
+
+                // TODO GRACIEUS KOPPELEN, SLECHTS 1 GETATTACHMENT EN CONVERTMETHODE -> viewmodels rechtstreeks doorgeven en dan filteren type dat binnenkomt (welk type viewmodel of boolean (isAttachment bvb) of string)
+
                 }
 
 
@@ -138,9 +145,18 @@ namespace VoetbalTicketStore.Controllers
             return View(bezoekerKoppelen);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public FileContentResult GenerateTicketPDF(BestellingVM bestellingVM)
+        {
+            Byte[] bytes = ConvertHtmlToPDF(bestellingVM.TicketId, bestellingVM.BestellingId, bestellingVM.Prijs, bestellingVM.ThuisploegNaam, bestellingVM.TegenstandersNaam, bestellingVM.StadionNaam, bestellingVM.WedstrijdDatumEnTijd, bestellingVM.StadionAdres, bestellingVM.BezoekerVoornaam, bestellingVM.BezoekerNaam, bestellingVM.BezoekerRijksregisternummer, bestellingVM.BezoekerEmail);
+            // openen in browser
+            return File(bytes, "application/pdf", "voucher.pdf");
+        }
+
         // This tool parses (X)HTML snippets and the associated CSS and converts them to PDF.
         // XMLWorker is an extra component for iText®. The first XML to PDF implementation, is a new version of the old HTMLWorker that used to be shipped with iText.
-        private static MemoryStream ConvertHtmlToPDF(BezoekerKoppelen bezoekerKoppelen, Ticket ticket)
+        private Byte[] ConvertHtmlToPDF(int ticketId, int bestellingId, decimal prijs, string thuisploegNaam, string tegenstandersNaam, string stadionNaam, DateTime wedstrijdDatumEnTijd, string stadionAdres, string bezoekerVoornaam, string bezoekerNaam, string bezoekerRijksregisternummer, string bezoekerEmail)
         {
             //Create a byte array that will eventually hold our final PDF
             Byte[] bytes;
@@ -161,9 +177,8 @@ namespace VoetbalTicketStore.Controllers
                         //Open the document for writing
                         doc.Open();
 
-                        string html = String.Format(System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/voucher/voucher.html")), ticket.Id, ticket.BestellingId, ticket.Wedstrijd.Club.Naam, ticket.Wedstrijd.Club1.Naam, ticket.Wedstrijd.DatumEnTijd.ToShortDateString(), ticket.Wedstrijd.DatumEnTijd.ToShortTimeString(), ticket.Wedstrijd.Stadion.Naam, ticket.Wedstrijd.Stadion.Adres, bezoekerKoppelen.TeWijzigenBezoeker.Voornaam, bezoekerKoppelen.TeWijzigenBezoeker.Naam, bezoekerKoppelen.TeWijzigenBezoeker.Rijksregisternummer, bezoekerKoppelen.TeWijzigenBezoeker.Email, DateTime.Now.ToString());
-
-                        string css = System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/voucher/voucher.css"));
+                        var html = String.Format(System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/voucher/vouchernew.html")), ticketId, bestellingId, prijs, thuisploegNaam, tegenstandersNaam, stadionNaam, wedstrijdDatumEnTijd, stadionAdres, bezoekerVoornaam, bezoekerNaam, bezoekerRijksregisternummer, bezoekerEmail, DateTime.Now.ToString());
+                        var css = System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/voucher/vouchernew.css"));
 
                         /**************************************************
                          * Use the XMLWorker to parse HTML and CSS        *
@@ -188,15 +203,16 @@ namespace VoetbalTicketStore.Controllers
                 //close the MemoryStream, grab all of the active bytes from the stream
                 bytes = ms.ToArray();
             }
-            return new MemoryStream(bytes);
+            return bytes;
         }
 
 
-        private static Attachment GetAttachment(BezoekerKoppelen bezoekerKoppelen, Ticket ticket)
+
+        private Attachment GetAttachment(BezoekerKoppelen bezoekerKoppelen, Ticket ticket)
         {
-            var file = ConvertHtmlToPDF(bezoekerKoppelen, ticket);
+            var file = new MemoryStream(ConvertHtmlToPDF(ticket.Id, ticket.BestellingId, ticket.Prijs, ticket.Wedstrijd.Club.Naam, ticket.Wedstrijd.Club1.Naam,ticket.Wedstrijd.Stadion.Naam,ticket.Wedstrijd.DatumEnTijd,ticket.Wedstrijd.Stadion.Adres,ticket.Bezoeker.Voornaam, ticket.Bezoeker.Naam,ticket.Bezoekerrijksregisternummer,ticket.Bezoeker.Email));
             file.Seek(0, SeekOrigin.Begin);
-            Attachment attachment = new Attachment(file, "test.pdf", "application/pdf");
+            Attachment attachment = new Attachment(file, "voucher.pdf", "application/pdf");
             ContentDisposition disposition = attachment.ContentDisposition;
             disposition.CreationDate = System.DateTime.Now;
             disposition.ModificationDate = System.DateTime.Now;

@@ -46,7 +46,7 @@ namespace VoetbalTicketStore.DAO
         {
             using (var db = new VoetbalstoreEntities())
             {
-                return db.Bestellings.Where(b => b.AspNetUsersId.Equals(user)).Include(b => b.Abonnements).Include(b => b.Tickets).Include(b => b.Tickets.Select(t => t.Wedstrijd).Select(c => c.Club)).Include(b => b.Tickets.Select(t => t.Wedstrijd).Select(c => c.Club1)).ToList();
+                return db.Bestellings.Where(b => b.AspNetUsersId.Equals(user)).Include(b => b.Abonnements).Include(b => b.Tickets).Include(b => b.Tickets.Select(t => t.Wedstrijd).Select(c => c.Club)).Include(b => b.Tickets.Select(t => t.Wedstrijd).Select(c => c.Club1)).Include(b => b.Abonnements.Select(a => a.Club.Stadion)).Include(b => b.Tickets.Select(t => t.Bezoeker)).Include(b => b.Abonnements.Select(a => a.Bezoeker)).ToList();
             }
         }
 

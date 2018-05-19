@@ -58,7 +58,7 @@ namespace VoetbalTicketStore.DAO
         {
             using (var db = new VoetbalstoreEntities())
             {
-                return db.Tickets.Where(t => t.Id == teWijzigenTicket).Include(t => t.Wedstrijd).Include(t => t.Wedstrijd.Club).Include(t => t.Wedstrijd.Club1).Include(t => t.Wedstrijd.Stadion).FirstOrDefault();
+                return db.Tickets.Where(t => t.Id == teWijzigenTicket).Include(t => t.Wedstrijd).Include(t => t.Wedstrijd.Club).Include(t => t.Wedstrijd.Club1).Include(t => t.Wedstrijd.Stadion).Include(t => t.Bezoeker).FirstOrDefault();
             }
         }
 
