@@ -198,6 +198,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AbonnementController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BestellingController.cs" />
     <Compile Include="Controllers\BezoekerController.cs" />
     <Compile Include="Controllers\ClubController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -215,6 +216,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\AbonnementBuy.cs" />
+    <Compile Include="ViewModel\BestellingVM.cs" />
     <Compile Include="ViewModel\BezoekerKoppelen.cs" />
     <Compile Include="ViewModel\ClubOverview.cs" />
     <Compile Include="ViewModel\ShoppingCart.cs" />
@@ -306,6 +308,7 @@
     <Content Include="Views\Bezoeker\Koppel.cshtml" />
     <Content Include="Views\ShoppingCart\Test.cshtml" />
     <Content Include="Views\Bezoeker\Index.cshtml" />
+    <Content Include="Views\Bestelling\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

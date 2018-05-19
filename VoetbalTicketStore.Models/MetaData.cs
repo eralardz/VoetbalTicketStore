@@ -38,4 +38,10 @@ namespace VoetbalTicketStore.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy H:mm}")]
         public DateTime DatumEnTijd { get; set; }
     }
+    public class BestellingMetadata
+    {
+        [Display(Name = "Wanneer")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime BestelDatum { get; set; }
+    }
 }

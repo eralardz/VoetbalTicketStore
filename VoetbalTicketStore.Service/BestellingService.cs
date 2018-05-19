@@ -46,6 +46,11 @@ namespace VoetbalTicketStore.Service
             }
         }
 
+        public IEnumerable<Bestelling> All(string user)
+        {
+            return bestellingDAO.All(user);
+        }
+
         private bool BestellingMagGeplaatstWorden(Bestelling bestelling, string user)
         {
             bool go = true;

@@ -42,6 +42,14 @@ namespace VoetbalTicketStore.DAO
             }
         }
 
+        public IEnumerable<Bestelling> All(string user)
+        {
+            using (var db = new VoetbalstoreEntities())
+            {
+                return db.Bestellings.Where(b => b.AspNetUsersId.Equals(user)).Include(b => b.Abonnements).Include(b => b.Tickets).Include(b => b.Tickets.Select(t => t.Wedstrijd).Select(c => c.Club)).Include(b => b.Tickets.Select(t => t.Wedstrijd).Select(c => c.Club1)).ToList();
+            }
+        }
+
         public void RemoveBestelling(string user)
         {
             using (var db = new VoetbalstoreEntities())

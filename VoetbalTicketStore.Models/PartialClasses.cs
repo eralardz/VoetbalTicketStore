@@ -18,4 +18,8 @@ namespace VoetbalTicketStore.Models
     {
     }
 
+    [MetadataType(typeof(BestellingMetadata))]
+    public partial class Bestelling
+    {
+    }
 }

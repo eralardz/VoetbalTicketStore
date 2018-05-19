@@ -1,0 +1,77 @@
+﻿@model VoetbalTicketStore.ViewModel.BestellingVM
+
+@{
+    ViewBag.Title = "Aankoopgeschiedenis";
+}
+
+<div class="row">
+    <div class="page-header">
+        <h1>Uw aankoopgeschiedenis <small>Tickets en abonnementen</small></h1>
+    </div>
+</div>
+
+@foreach (VoetbalTicketStore.Models.Bestelling bestelling in @Model.Bestellingen)
+{
+    <div class="row">
+        <h3>Bestelling: #@Html.DisplayFor(modelItem => bestelling.Id) (@Html.DisplayFor(modelItem => bestelling.BestelDatum))</h3>
+        <div class="row">
+            @foreach (VoetbalTicketStore.Models.Ticket ticket in bestelling.Tickets)
+            {
+                <div class="col-md-3">
+                    <ul class="list-group">
+                        <li class="list-group-item">#@Html.DisplayFor(modelItem => ticket.Id)</li>
+                        <li class="list-group-item">@Html.DisplayFor(modelItem => ticket.Wedstrijd.Club.Naam) - @Html.DisplayFor(modelItem => ticket.Wedstrijd.Club1.Naam)</li>
+                        <li class="list-group-item">@Html.DisplayFor(modelItem => ticket.Wedstrijd.DatumEnTijd)</li>
+                        <li class="list-group-item">@Html.DisplayFor(modelItem => ticket.Prijs)</li>
+
+
+                        <li class="list-group-item">
+
+                            @if (ticket.Bezoekerrijksregisternummer == null)
+                            {
+                                <text>Nog geen bezoeker gekoppeld</text>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(modelItem => ticket.Bezoekerrijksregisternummer)
+                            }
+                        </li>
+                        <li class="list-group-item">
+
+                            @if (ticket.Bezoekerrijksregisternummer == null)
+                            {
+                                <text>Voucher nog niet beschikbaar</text>
+                            }
+                            else
+                            {
+                                //Don't mix with other components Icon classes cannot be directly combined with other components. -> ActionLink niet geschikt, Action kan niet POSTen, dus een Form dan maar
+                                using (Html.BeginForm("Koppel", "Bezoeker", new { Area = "" }, FormMethod.Post, htmlAttributes: new { title = "SomeTitle" }))
+                                {
+                                    <button type="submit" class="btn btn-primary" role="menuitem">
+                                        <i class="glyphicon glyphicon-download-alt"></i>Koppel bezoeker
+                                    </button>
+                                }
+
+
+                            }
+                        </li>
+
+                    </ul>
+                </div>
+
+            }
+            @foreach (VoetbalTicketStore.Models.Abonnement abonnement in bestelling.Abonnements)
+            {
+                <div class="col-md-3">
+                    <h4>#@Html.DisplayFor(modelItem => abonnement.Id)</h4>
+                </div>
+            }
+
+
+        </div>
+    </div>
+}
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
