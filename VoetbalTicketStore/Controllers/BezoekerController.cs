@@ -114,7 +114,23 @@ namespace VoetbalTicketStore.Controllers
                     // ticket + alle info nodig om voucher te genereren
                     Ticket ticket = ticketService.FindTicket(bezoekerKoppelen.TeWijzigenTicket);
 
-                    message.Attachments.Add(GetAttachment(bezoekerKoppelen, ticket));
+                    TicketPDF ticketPDF = new TicketPDF()
+                    {
+                        TicketId = ticket.Id,
+                        BestellingId = ticket.BestellingId,
+                        Prijs = ticket.Prijs,
+                        ThuisploegNaam = ticket.Wedstrijd.Club.Naam,
+                        TegenstandersNaam = ticket.Wedstrijd.Club1.Naam,
+                        StadionNaam = ticket.Wedstrijd.Stadion.Naam,
+                        StadionAdres = ticket.Wedstrijd.Stadion.Adres,
+                        WedstrijdDatumEnTijd = ticket.Wedstrijd.DatumEnTijd,
+                        BezoekerVoornaam = ticket.Bezoeker.Voornaam,
+                        BezoekerNaam = ticket.Bezoeker.Naam,
+                        BezoekerRijksregisternummer = ticket.Bezoekerrijksregisternummer,
+                        BezoekerEmail = ticket.Bezoeker.Email
+                    };
+
+                    message.Attachments.Add(GetAttachment(ticketPDF, null));
                 }
 
                 // GEVAL ABONNEMENT
@@ -124,9 +140,24 @@ namespace VoetbalTicketStore.Controllers
                     abonnementService.KoppelBezoekerAanAbonnement(bezoekerKoppelen.TeWijzigenAbonnement, bezoeker.Rijksregisternummer);
 
                     Abonnement abonnement = abonnementService.FindAbonnement(bezoekerKoppelen.TeWijzigenAbonnement);
-                    //message.Attachments.Add(GetAttachment(bezoekerKoppelen, abonnement));
 
-                // TODO GRACIEUS KOPPELEN, SLECHTS 1 GETATTACHMENT EN CONVERTMETHODE -> viewmodels rechtstreeks doorgeven en dan filteren type dat binnenkomt (welk type viewmodel of boolean (isAttachment bvb) of string)
+                    AbonnementPDF abonnementPDF = new AbonnementPDF()
+                    {
+                        AbonnementId = abonnement.Id,
+                        BestellingId = abonnement.BestellingId,
+                        Prijs = abonnement.Prijs,
+                        ClubNaam = abonnement.Club.Naam,
+                        StadionNaam = abonnement.Club.Stadion.Naam,
+                        SeizoenJaar = abonnement.Bestelling.BestelDatum.Year,
+                        BezoekerVoornaam = abonnement.Bezoeker.Voornaam,
+                        BezoekerNaam = abonnement.Bezoeker.Naam,
+                        BezoekerRijksregisternummer = abonnement.Bezoekerrijksregisternummer,
+                        BezoekerEmail = abonnement.Bezoeker.Email
+                    };
+
+                    message.Attachments.Add(GetAttachment(null, abonnementPDF));
+
+                    // TODO GRACIEUS KOPPELEN, SLECHTS 1 GETATTACHMENT EN CONVERTMETHODE -> viewmodels rechtstreeks doorgeven en dan filteren type dat binnenkomt (welk type viewmodel of boolean (isAttachment bvb) of string)
 
                 }
 
@@ -141,7 +172,6 @@ namespace VoetbalTicketStore.Controllers
                 // redirect
                 return RedirectToAction("Index");
             }
-
             return View(bezoekerKoppelen);
         }
 
@@ -149,14 +179,56 @@ namespace VoetbalTicketStore.Controllers
         [ValidateAntiForgeryToken]
         public FileContentResult GenerateTicketPDF(BestellingVM bestellingVM)
         {
-            Byte[] bytes = ConvertHtmlToPDF(bestellingVM.TicketId, bestellingVM.BestellingId, bestellingVM.Prijs, bestellingVM.ThuisploegNaam, bestellingVM.TegenstandersNaam, bestellingVM.StadionNaam, bestellingVM.WedstrijdDatumEnTijd, bestellingVM.StadionAdres, bestellingVM.BezoekerVoornaam, bestellingVM.BezoekerNaam, bestellingVM.BezoekerRijksregisternummer, bestellingVM.BezoekerEmail);
+            TicketPDF ticketPDF = new TicketPDF()
+            {
+                TicketId = bestellingVM.TicketId,
+                BestellingId = bestellingVM.BestellingId,
+                Prijs = bestellingVM.Prijs,
+                ThuisploegNaam = bestellingVM.ThuisploegNaam,
+                TegenstandersNaam = bestellingVM.TegenstandersNaam,
+                StadionNaam = bestellingVM.StadionNaam,
+                StadionAdres = bestellingVM.StadionAdres,
+                WedstrijdDatumEnTijd = bestellingVM.WedstrijdDatumEnTijd,
+                BezoekerVoornaam = bestellingVM.BezoekerVoornaam,
+                BezoekerNaam = bestellingVM.BezoekerNaam,
+                BezoekerRijksregisternummer = bestellingVM.BezoekerRijksregisternummer,
+                BezoekerEmail = bestellingVM.BezoekerEmail
+            };
+
+
+            Byte[] bytes = ConvertHtmlToPDF(ticketPDF, null);
             // openen in browser
             return File(bytes, "application/pdf", "voucher.pdf");
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public FileContentResult GenerateAbonnementPDF(BestellingVM bestellingVM)
+        {
+            AbonnementPDF abonnementPDF = new AbonnementPDF()
+            {
+                AbonnementId = bestellingVM.AbonnementId,
+                BestellingId = bestellingVM.BestellingId,
+                Prijs = bestellingVM.Prijs,
+                ClubNaam = bestellingVM.ThuisploegNaam,
+                StadionNaam = bestellingVM.StadionNaam,
+                SeizoenJaar = bestellingVM.BestelDatum.Year,
+                BezoekerVoornaam = bestellingVM.BezoekerVoornaam,
+                BezoekerNaam = bestellingVM.BezoekerNaam,
+                BezoekerRijksregisternummer = bestellingVM.BezoekerRijksregisternummer,
+                BezoekerEmail = bestellingVM.BezoekerEmail
+            };
+
+
+            Byte[] bytes = ConvertHtmlToPDF(null, abonnementPDF);
+            // openen in browser
+            return File(bytes, "application/pdf", "abonnement.pdf");
+        }
+
+
         // This tool parses (X)HTML snippets and the associated CSS and converts them to PDF.
         // XMLWorker is an extra component for iText®. The first XML to PDF implementation, is a new version of the old HTMLWorker that used to be shipped with iText.
-        private Byte[] ConvertHtmlToPDF(int ticketId, int bestellingId, decimal prijs, string thuisploegNaam, string tegenstandersNaam, string stadionNaam, DateTime wedstrijdDatumEnTijd, string stadionAdres, string bezoekerVoornaam, string bezoekerNaam, string bezoekerRijksregisternummer, string bezoekerEmail)
+        private Byte[] ConvertHtmlToPDF(TicketPDF ticketPDF, AbonnementPDF abonnementPDF)
         {
             //Create a byte array that will eventually hold our final PDF
             Byte[] bytes;
@@ -177,9 +249,18 @@ namespace VoetbalTicketStore.Controllers
                         //Open the document for writing
                         doc.Open();
 
-                        var html = String.Format(System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/voucher/vouchernew.html")), ticketId, bestellingId, prijs, thuisploegNaam, tegenstandersNaam, stadionNaam, wedstrijdDatumEnTijd, stadionAdres, bezoekerVoornaam, bezoekerNaam, bezoekerRijksregisternummer, bezoekerEmail, DateTime.Now.ToString());
-                        var css = System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/voucher/vouchernew.css"));
+                        string html = "";
+                        string css = System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/voucher/vouchernew.css"));
 
+                        if (ticketPDF != null)
+                        {
+                            html = String.Format(System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/voucher/vouchernew.html")), ticketPDF.TicketId, ticketPDF.BestellingId, ticketPDF.Prijs, ticketPDF.BezoekerVoornaam, ticketPDF.BezoekerNaam, ticketPDF.StadionNaam, ticketPDF.WedstrijdDatumEnTijd, ticketPDF.StadionAdres, ticketPDF.BezoekerVoornaam, ticketPDF.BezoekerNaam, ticketPDF.BezoekerRijksregisternummer, ticketPDF.BezoekerEmail, DateTime.Now.ToString());
+
+                        }
+                        if (abonnementPDF != null)
+                        {
+                            html = String.Format(System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/voucher/abonnement.html")), abonnementPDF.AbonnementId, abonnementPDF.BestellingId, abonnementPDF.Prijs, abonnementPDF.ClubNaam, abonnementPDF.StadionNaam, abonnementPDF.SeizoenJaar, abonnementPDF.BezoekerVoornaam, abonnementPDF.BezoekerNaam, abonnementPDF.BezoekerRijksregisternummer, abonnementPDF.BezoekerEmail, DateTime.Now.ToString());
+                        }
                         /**************************************************
                          * Use the XMLWorker to parse HTML and CSS        *
                          * ************************************************/
@@ -208,9 +289,9 @@ namespace VoetbalTicketStore.Controllers
 
 
 
-        private Attachment GetAttachment(BezoekerKoppelen bezoekerKoppelen, Ticket ticket)
+        private Attachment GetAttachment(TicketPDF ticketPDF, AbonnementPDF abonnementPDF)
         {
-            var file = new MemoryStream(ConvertHtmlToPDF(ticket.Id, ticket.BestellingId, ticket.Prijs, ticket.Wedstrijd.Club.Naam, ticket.Wedstrijd.Club1.Naam,ticket.Wedstrijd.Stadion.Naam,ticket.Wedstrijd.DatumEnTijd,ticket.Wedstrijd.Stadion.Adres,ticket.Bezoeker.Voornaam, ticket.Bezoeker.Naam,ticket.Bezoekerrijksregisternummer,ticket.Bezoeker.Email));
+            var file = new MemoryStream(ConvertHtmlToPDF(ticketPDF, abonnementPDF));
             file.Seek(0, SeekOrigin.Begin);
             Attachment attachment = new Attachment(file, "voucher.pdf", "application/pdf");
             ContentDisposition disposition = attachment.ContentDisposition;

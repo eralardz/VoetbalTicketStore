@@ -87,7 +87,7 @@
                             else
                             {
                                 //Don't mix with other components Icon classes cannot be directly combined with other components. -> ActionLink niet geschikt, Action kan niet POSTen, dus een Form dan maar
-                                using (Html.BeginForm("GenerateAbonnementPDF", "Bezoeker", new { Area = "" }, FormMethod.Post, htmlAttributes: new { title = "SomeTitle" }))
+                                using (Html.BeginForm("GenerateAbonnementPDF", "Bezoeker", new VoetbalTicketStore.ViewModel.BestellingVM { AbonnementId = abonnement.Id, BestellingId = abonnement.BestellingId, Prijs = abonnement.Prijs, ThuisploegNaam = abonnement.Club.Naam, StadionNaam = abonnement.Club.Stadion.Naam, BestelDatum = abonnement.Bestelling.BestelDatum, BezoekerVoornaam = abonnement.Bezoeker.Voornaam, BezoekerNaam = abonnement.Bezoeker.Naam, BezoekerRijksregisternummer = abonnement.Bezoekerrijksregisternummer, BezoekerEmail = abonnement.Bezoeker.Email }, FormMethod.Post))
                                 {
                                     @Html.AntiForgeryToken()
 
