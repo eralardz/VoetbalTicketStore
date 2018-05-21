@@ -11,8 +11,16 @@
     </div>
 }
 <div class="page-header">
-    <h1>Tickets</h1>
+    <h1>Tickets <small>Koppel een bezoeker</small></h1>
 </div>
+@if (Model.NietGekoppeldeTickets.Count() == 0)
+{
+    <div class="alert alert-info" role="alert">
+        Je hebt nog geen tickets gekocht. Van zodra je tickets bestelt kan je er hier een bezoeker aan koppelen via zijn of haar rijksregisternummer.
+        <hr />
+        <h4 class="alert-heading">Let op!</h4>Deze koppeling is <strong>verplicht</strong>. Een ticket zonder gekoppelde bezoeker is ongeldig in het stadion!
+    </div>
+}
 
 @foreach (IGrouping<VoetbalTicketStore.Models.Bestelling, VoetbalTicketStore.Models.Ticket> item in Model.NietGekoppeldeTickets)
 {
@@ -51,8 +59,16 @@
     </div>
 }
 <hr />
-<h1>Abonnementen</h1>
+<h1>Abonnementen <small>Koppel een bezoeker</small></h1>
 <hr />
+@if (Model.NietGekoppeldeAbonnementen.Count() == 0)
+{
+    <div class="alert alert-info" role="alert">
+        Je hebt nog geen abonnementen gekocht. Van zodra een abonnement bestelt kan je er hier een bezoeker aan koppelen via zijn of haar rijksregisternummer.
+        <hr />
+        <h4 class="alert-heading">Let op!</h4>Deze koppeling is <strong>verplicht</strong>. Een abonnement zonder gekoppelde bezoeker is ongeldig in het stadion!
+    </div>
+}
 <div class="row">
     @foreach (VoetbalTicketStore.Models.Abonnement abonnement in Model.NietGekoppeldeAbonnementen)
     {

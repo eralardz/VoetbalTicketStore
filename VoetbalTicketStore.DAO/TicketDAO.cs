@@ -54,6 +54,16 @@ namespace VoetbalTicketStore.DAO
             return db.Tickets.Where(t => t.Gebruikerid.Equals(user) && t.Bezoekerrijksregisternummer == null && t.Wedstrijd.DatumEnTijd >= vanaf).GroupBy(b => b.Bestelling).ToList();
         }
 
+        public void RemoveTicket(int ticketId)
+        {
+            using (var db = new VoetbalstoreEntities())
+            {
+                Ticket toRemove = new Ticket { Id = ticketId };
+                db.Entry(toRemove).State = EntityState.Deleted;
+                db.SaveChanges();
+            }
+        }
+
         public Ticket FindTicket(int teWijzigenTicket)
         {
             using (var db = new VoetbalstoreEntities())

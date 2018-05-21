@@ -23,7 +23,7 @@ namespace VoetbalTicketStore.Service
         {
             return ticketDAO.GetAantalVerkochteTicketsVoorVak(vak, wedstrijd);
         }
-        
+
 
         public void AddTicket(Ticket ticket)
         {
@@ -44,6 +44,22 @@ namespace VoetbalTicketStore.Service
         public void AddTickets(IList<Ticket> tickets)
         {
             ticketDAO.AddTickets(tickets);
+        }
+
+        public void AnnuleerTicket(int ticketId)
+        {
+            // datum controleren (1 week op voorhand)
+            Ticket ticket = FindTicket(ticketId);
+
+            if((ticket.Wedstrijd.DatumEnTijd - DateTime.Now).TotalDays > 7)
+            {
+                // ticket verwijderen          
+                ticketDAO.RemoveTicket(ticketId);    
+
+            } else
+            {
+                throw new BestelException("Een ticket mag ten laatste 7 dagen op voorhand geannuleerd worden!");
+            }
         }
 
         public IEnumerable<Ticket> GetNietGekoppeldeTicketsList(string user)

@@ -156,9 +156,6 @@ namespace VoetbalTicketStore.Controllers
                     };
 
                     message.Attachments.Add(GetAttachment(null, abonnementPDF));
-
-                    // TODO GRACIEUS KOPPELEN, SLECHTS 1 GETATTACHMENT EN CONVERTMETHODE -> viewmodels rechtstreeks doorgeven en dan filteren type dat binnenkomt (welk type viewmodel of boolean (isAttachment bvb) of string)
-
                 }
 
 
@@ -254,7 +251,7 @@ namespace VoetbalTicketStore.Controllers
 
                         if (ticketPDF != null)
                         {
-                            html = String.Format(System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/voucher/vouchernew.html")), ticketPDF.TicketId, ticketPDF.BestellingId, ticketPDF.Prijs, ticketPDF.BezoekerVoornaam, ticketPDF.BezoekerNaam, ticketPDF.StadionNaam, ticketPDF.WedstrijdDatumEnTijd, ticketPDF.StadionAdres, ticketPDF.BezoekerVoornaam, ticketPDF.BezoekerNaam, ticketPDF.BezoekerRijksregisternummer, ticketPDF.BezoekerEmail, DateTime.Now.ToString());
+                            html = String.Format(System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/voucher/vouchernew.html")), ticketPDF.TicketId, ticketPDF.BestellingId, ticketPDF.Prijs, ticketPDF.ThuisploegNaam, ticketPDF.TegenstandersNaam, ticketPDF.StadionNaam, ticketPDF.WedstrijdDatumEnTijd, ticketPDF.StadionAdres, ticketPDF.BezoekerVoornaam, ticketPDF.BezoekerNaam, ticketPDF.BezoekerRijksregisternummer, ticketPDF.BezoekerEmail, DateTime.Now.ToString());
 
                         }
                         if (abonnementPDF != null)

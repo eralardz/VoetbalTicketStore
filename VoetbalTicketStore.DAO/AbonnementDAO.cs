@@ -50,7 +50,7 @@ namespace VoetbalTicketStore.DAO
         {
             using (var db = new VoetbalstoreEntities())
             {
-                return db.Abonnements.Where(a => a.Id == teWijzigenAbonnement).Include(a => a.Club).Include((a => a.VakType)).FirstOrDefault();
+                return db.Abonnements.Where(a => a.Id == teWijzigenAbonnement).Include(a => a.Club.Stadion).Include((a => a.VakType)).FirstOrDefault();
             }
         }
 

@@ -15,6 +15,7 @@ namespace VoetbalTicketStore.Controllers
     {
 
         private BestellingService bestellingService;
+        private TicketService ticketService;
 
 
         // GET: Bestelling
@@ -32,7 +33,24 @@ namespace VoetbalTicketStore.Controllers
                 Bestellingen = bestellingen
             };
 
+            if (TempData["msg"] != null)
+            {
+                ViewBag.Msg = TempData["msg"].ToString();
+            }
+
             return View(bestellingVM);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Annuleren(BestellingVM bestellingVM)
+        {
+            ticketService = new TicketService();
+            ticketService.AnnuleerTicket(bestellingVM.TicketId);
+
+
+            TempData["msg"] = "Uw ticket werd geannuleerd.";
+            return RedirectToAction("Index");
         }
     }
 }
