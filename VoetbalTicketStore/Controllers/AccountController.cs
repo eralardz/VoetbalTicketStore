@@ -214,7 +214,7 @@ namespace VoetbalTicketStore.Controllers
                 // Send an email with this link
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                await UserManager.SendEmailAsync(user.Id, "Voetbal Ticket Store - Wachtwoord opnieuw instellen", "Oeps! Wachtwoord vergeten? Stel uw wachtwoord opnieuw in via deze link: "+ callbackUrl);
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
