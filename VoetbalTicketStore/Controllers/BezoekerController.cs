@@ -98,7 +98,7 @@ namespace VoetbalTicketStore.Controllers
                 // gegevens mail
                 var message = new MailMessage();
                 message.To.Add(new MailAddress(bezoekerKoppelen.TeWijzigenBezoeker.Email));
-                message.From = new MailAddress("laurens.dewispelaere@gmail.com");
+                message.From = new MailAddress("vbtstore2018@gmail.com");
                 message.Subject = "Uw bestelling bij VoetbalTicketStore";
                 var body = "<p>Bedankt voor uw bestelling!: {0} ({1})</p><p>Message:</p><p>{2}</p>";
                 message.Body = string.Format(body, bezoekerKoppelen.TeWijzigenBezoeker.Naam, bezoekerKoppelen.TeWijzigenBezoeker.Email, "bla");
