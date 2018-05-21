@@ -131,9 +131,9 @@ namespace VoetbalTicketStore.Service
             bestellingDAO.RemoveBestelling(user);
         }
 
-        public void BevestigBestelling(int id)
+        public void BevestigBestelling(int id, decimal totaalPrijs)
         {
-            Bestelling bestelling = new Bestelling { Id = id, Bevestigd = true };
+            Bestelling bestelling = new Bestelling { Id = id, Bevestigd = true, TotaalPrijs = totaalPrijs };
             bestellingDAO.BevestigBestelling(bestelling);
         }
 
@@ -149,6 +149,8 @@ namespace VoetbalTicketStore.Service
 
             if (BestellingMagGeplaatstWorden(bestelling, user))
             {
+                decimal totaalPrijs = 0;
+
                 // maak objecten
                 foreach (ShoppingCartData shoppingCartData in bestelling.ShoppingCartDatas)
                 {
@@ -171,6 +173,7 @@ namespace VoetbalTicketStore.Service
                             ticket.BestellingId = shoppingCartData.BestellingId;
 
                             tickets.Add(ticket);
+                            totaalPrijs += ticket.Prijs;
                         }
                         else if (shoppingCartData.ShoppingCartDataTypeId == 2)
                         {
@@ -184,20 +187,21 @@ namespace VoetbalTicketStore.Service
                             };
 
                             abonnementen.Add(abonnement);
+                            totaalPrijs += abonnement.Prijs;
                         }
                     }
                 }
+
+                // add in bulk
+                ticketService.AddTickets(tickets);
+                abonnementService.AddAbonnementen(abonnementen);
+
+                // bestelling bevestigen
+                BevestigBestelling(bestelling.Id, totaalPrijs);
+
+                // delete shoppingcartdata
+                shoppingCartDataService.RemoveShoppingCartDataVanBestelling(bestelling.Id);
             }
-
-            // add in bulk
-            ticketService.AddTickets(tickets);
-            abonnementService.AddAbonnementen(abonnementen);
-
-            // bestelling bevestigen
-            BevestigBestelling(bestelling.Id);
-
-            // delete shoppingcartdata
-            shoppingCartDataService.RemoveShoppingCartDataVanBestelling(bestelling.Id);
         }
     }
 }

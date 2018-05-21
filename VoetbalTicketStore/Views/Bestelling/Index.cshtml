@@ -28,7 +28,7 @@
     if (bestelling.Tickets.Count > 0 || bestelling.Abonnements.Count > 0)
     {
         <div class="row">
-            <h3>Bestelling: #@Html.DisplayFor(modelItem => bestelling.Id) (@Html.DisplayFor(modelItem => bestelling.BestelDatum))</h3>
+            <h3>Bestelling: #@Html.DisplayFor(modelItem => bestelling.Id) (@Html.DisplayFor(modelItem => bestelling.BestelDatum) - @Html.DisplayFor(modelItem => bestelling.TotaalPrijs))</h3>
             <div class="row">
                 @foreach (VoetbalTicketStore.Models.Ticket ticket in bestelling.Tickets)
                 {

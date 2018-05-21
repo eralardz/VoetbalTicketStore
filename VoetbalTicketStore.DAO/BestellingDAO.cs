@@ -68,6 +68,7 @@ namespace VoetbalTicketStore.DAO
                 db.Bestellings.Attach(bestelling);
                 var entry = db.Entry(bestelling);
                 entry.Property(e => e.Bevestigd).IsModified = true;
+                entry.Property(e => e.TotaalPrijs).IsModified = true;
                 db.SaveChanges();
             }
         }
