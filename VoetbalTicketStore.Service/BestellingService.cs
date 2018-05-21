@@ -59,7 +59,10 @@ namespace VoetbalTicketStore.Service
             abonnementService = new AbonnementService();
 
             // geen tickets in de bestelling
-            if (bestelling.ShoppingCartDatas.Where(s => s.WedstrijdId != null).Count() != 0)
+            int aantalTickets = bestelling.ShoppingCartDatas.Where(s => s.WedstrijdId != null).Count();
+            int aantalAbonnementen = bestelling.ShoppingCartDatas.Where(s => s.WedstrijdId == null).Count();
+
+            if (aantalTickets > 0 && aantalAbonnementen == 0)
             {
                 // eerste datum in bestelling
                 DateTime date = bestelling.ShoppingCartDatas.Where(s => s.WedstrijdId != null).First().Wedstrijd.DatumEnTijd;
