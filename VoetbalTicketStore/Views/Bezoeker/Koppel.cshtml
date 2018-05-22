@@ -3,13 +3,29 @@
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/jqueryval")
 
+@{
+    ViewBag.Title = "Bezoeker koppelen";
+}
+<hr />
+Dit is een bestelling voor:
+<div class="form-group">
+    <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-primary active">
+            @Html.RadioButton("bezoeker", "user", true,
+                new { id = "mezelf" }) Mezelf
+        </label>
+        <label class="btn btn-primary">
+            @Html.RadioButton("bezoeker", "andere",
+                 new { id = "andere" }) Iemand anders
+        </label>
+    </div>
+</div>
 
 @using (Html.BeginForm(FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Bezoeker</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -49,8 +65,32 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Bevestig" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
+
+
+@*Gedrag knoppen bovenaan aanpassen.*@
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#mezelf').change(function () {
+            $('#TeWijzigenBezoeker_Rijksregisternummer').val('@Model.ActieveGebruikerRijksregisternummer');
+            $('#TeWijzigenBezoeker_Email').val('@Model.ActieveGebruikerEmail');
+            $('#TeWijzigenBezoeker_Naam').val('@Model.ActieveGebruikerFamilienaam');
+            $('#TeWijzigenBezoeker_Voornaam').val('@Model.ActieveGebruikerVoornaam');
+
+
+        })
+
+        $('#andere').change(function () {
+            $('#TeWijzigenBezoeker_Rijksregisternummer').val("");
+            $('#TeWijzigenBezoeker_Email').val("");
+            $('#TeWijzigenBezoeker_Naam').val("");
+            $('#TeWijzigenBezoeker_Voornaam').val("");
+        })
+
+    });
+</script>

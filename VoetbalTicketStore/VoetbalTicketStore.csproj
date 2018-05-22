@@ -209,6 +209,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelBinder\DecimalModelBinder.cs" />
     <Compile Include="Models\AbonnementPDF.cs" />
     <Compile Include="Models\AccountViewModels.cs" />

@@ -1,6 +1,7 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -81,6 +82,31 @@ namespace VoetbalTicketStore.Controllers
         [HttpGet]
         public ActionResult Koppel(BezoekerKoppelen bezoekerKoppelen)
         {
+            List<SelectListItem> list = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Mezelf", Value = "0", Selected = true },
+                new SelectListItem { Text = "Iemand anders", Value = "1" },
+            };
+
+            // ViewModel opvullen
+            bezoekerKoppelen.TypeBezoekerList = list;
+
+            // 
+
+
+            // Create manager
+            var manager = new UserManager<ApplicationUser>(
+               new UserStore<ApplicationUser>(
+                   new ApplicationDbContext()));
+
+            // Find user
+            var user = manager.FindById(User.Identity.GetUserId());
+
+            bezoekerKoppelen.ActieveGebruikerVoornaam = user.FirstName;
+            bezoekerKoppelen.ActieveGebruikerFamilienaam = user.LastName;
+            bezoekerKoppelen.ActieveGebruikerEmail = user.Email;
+            bezoekerKoppelen.ActieveGebruikerRijksregisternummer = user.Rijksregisternummer;
+
             return View(bezoekerKoppelen);
         }
 
