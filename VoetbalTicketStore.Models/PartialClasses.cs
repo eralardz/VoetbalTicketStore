@@ -22,4 +22,7 @@ namespace VoetbalTicketStore.Models
     public partial class Bestelling
     {
     }
+
+   
+
 }

@@ -232,13 +232,33 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\css\ticketstore.css" />
-    <Content Include="Content\img\clublogo\anderlecht.png" />
-    <Content Include="Content\img\clublogo\clubBrugge.png" />
-    <Content Include="Content\img\clublogo\genk.png" />
-    <Content Include="Content\img\clublogo\gent.png" />
-    <Content Include="Content\img\clublogo\oostende.png" />
-    <Content Include="Content\img\clublogo\placeholder.png" />
-    <Content Include="Content\img\clublogo\zultewaregem.png" />
+    <Content Include="Content\img\anderlecht-carousel.jpg" />
+    <Content Include="Content\img\clubbrugge-carousel.jpg" />
+    <Content Include="Content\img\clublogo\anderlecht.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\img\clublogo\clubBrugge.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\img\clublogo\genk.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\img\clublogo\gent.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\img\clublogo\oostende.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\img\clublogo\placeholder.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\img\clublogo\zultewaregem.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\img\genk-carousel.jpg" />
+    <Content Include="Content\img\gent-carousel.jpg" />
+    <Content Include="Content\img\oostende-carousel.jpg" />
+    <Content Include="Content\img\zultewaregem-carousel.jpg" />
     <Content Include="Content\voucher\logo.png" />
     <Content Include="Content\voucher\abonnement.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -320,6 +340,7 @@
     <Content Include="Views\ShoppingCart\Test.cshtml" />
     <Content Include="Views\Bezoeker\Index.cshtml" />
     <Content Include="Views\Bestelling\Index.cshtml" />
+    <Content Include="Views\Wedstrijd\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

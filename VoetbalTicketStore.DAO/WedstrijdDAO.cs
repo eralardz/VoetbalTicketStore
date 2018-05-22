@@ -14,10 +14,10 @@ namespace VoetbalTicketStore.DAO
         public IEnumerable<Wedstrijd> All()
         {
             //In general, if you're going to use the result of a query more than once, it's always a good idea to store it via ToList() or ToArray(). 
-            //This is especially true if you're LINQ query is an "expensive" one, as it prevents the expensive operation from running more than once.
+            //This is especially true if your LINQ query is an "expensive" one, as it prevents the expensive operation from running more than once.
             using (var db = new VoetbalstoreEntities())
             {
-                return db.Wedstrijds.ToList(); // lazy-loading
+                return db.Wedstrijds.Include(w => w.Stadion).Include(w => w.Club).Include(w => w.Club1).ToList();
             }
         }
 
