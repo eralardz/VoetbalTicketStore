@@ -53,25 +53,27 @@ namespace VoetbalTicketStore.Controllers
                     ShoppingCartEntries = bestelling.ShoppingCartDatas.ToList(),
                     TotaalPrijs = bestellingService.BerekenTotaalPrijs(bestelling.ShoppingCartDatas),
                     HoeveelheidList = list
-                    
+
                 };
             }
             return View(shoppingCart);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Add(TicketConfirm ticketConfirm)
         {
-            // Nieuwe bestelling aanmaken indien nodig
-            Bestelling bestelling = CreateNieuweBestellingIndienNodig();
+            if (ModelState.IsValid) { 
+                // Nieuwe bestelling aanmaken indien nodig
+                Bestelling bestelling = CreateNieuweBestellingIndienNodig();
 
-            // ShoppingCartData toevoegen
-            shoppingCartDataService = new ShoppingCartDataService();
-            shoppingCartDataService.AddToShoppingCart(bestelling.Id, ticketConfirm.Prijs, ticketConfirm.WedstrijdId, ticketConfirm.ThuisploegId, ticketConfirm.BezoekersId, ticketConfirm.AantalTickets, ticketConfirm.VakId, User.Identity.GetUserId());
+                // ShoppingCartData toevoegen
+                shoppingCartDataService = new ShoppingCartDataService();
+                shoppingCartDataService.AddToShoppingCart(bestelling.Id, ticketConfirm.Prijs, ticketConfirm.WedstrijdId, ticketConfirm.ThuisploegId, ticketConfirm.BezoekersId, ticketConfirm.AantalTickets, ticketConfirm.VakId, User.Identity.GetUserId());
 
-            // Success message meegeven
-            SetSuccessfulAddMessage("Uw winkelwagentje werd aangepast!");
-
+                // Success message meegeven
+                SetSuccessfulAddMessage("Uw winkelwagentje werd aangepast!");
+            }
             // RedirectToAction ipv View, anders wordt geen model meegegeven!
             return RedirectToAction("Index");
         }
@@ -117,7 +119,7 @@ namespace VoetbalTicketStore.Controllers
         {
             // hoeveelheid aanpassen
             shoppingCartDataService = new ShoppingCartDataService();
-            shoppingCartDataService.AdjustAmount(shoppingCart.SelectedShoppingCartData, shoppingCart.NieuweHoeveelheid, User.Identity.GetUserId(), shoppingCart.GeselecteerdeWedstrijd);            
+            shoppingCartDataService.AdjustAmount(shoppingCart.SelectedShoppingCartData, shoppingCart.NieuweHoeveelheid, User.Identity.GetUserId(), shoppingCart.GeselecteerdeWedstrijd);
             return RedirectToAction("Index");
         }
 
@@ -153,7 +155,7 @@ namespace VoetbalTicketStore.Controllers
             }
 
             TempData["msg"] = "Uw bestelling werd succesvol afgerond!";
-            return RedirectToAction("Index","Bezoeker");
+            return RedirectToAction("Index", "Bezoeker");
         }
     }
 }

@@ -1,5 +1,12 @@
 ﻿@model IEnumerable<VoetbalTicketStore.Models.Wedstrijd>
 
+@{
+    ViewBag.Title = "Wedstrijden";
+}
+<div class="page-header">
+    <h1>Wedstrijden <small>Volledige kalender</small></h1>
+</div>
+
 <table class="table">
     <tr>
         <th>
@@ -17,26 +24,42 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Stadion.Naam)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Club.Naam)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Club1.Naam)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DatumEnTijd)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
-
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Stadion.Naam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Club.Naam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Club1.Naam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DatumEnTijd)
+            </td>
+            <td>
+                @*Verleden*@
+                @if (DateTime.Now > item.DatumEnTijd)
+                {
+                    <button type="button" class="btn btn-primary" disabled>Te laat!</button>
+                }
+                @*Binnen de maand*@
+                else if (DateTime.Now > item.DatumEnTijd - TimeSpan.FromDays(30))
+                {
+                    @*action, controller*@
+                    @*https://getbootstrap.com/docs/4.0/components/buttons/*@
+                    @*Query string's has a limitation on how much data you can pass via those based on the browser.*@
+                    @Html.ActionLink("Koop tickets", "Buy", "Ticket", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-primary" })
+                }
+                @*Langer dan een maand*@
+                else
+                {
+                    <button type="button" class="btn btn-primary" disabled>Nog niet beschikbaar</button>
+                }
+            </td>
+        </tr>
+    }
 </table>
+

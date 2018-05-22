@@ -1,21 +1,21 @@
 ﻿@model VoetbalTicketStore.ViewModel.TicketConfirm
 
 <ul class="list-group">
-    <li class="list-group-item">Gekozen vak: @Model.VakNaam</li>
-    <li class="list-group-item">Aantal vrije plaatsen in vak: @Model.AantalVrijePlaatsen</li>
-    <li class="list-group-item">Prijs: @Model.Prijs euro</li>
+    <li class="list-group-item"><strong>Gekozen vak: </strong>@Html.DisplayFor(model => model.VakNaam)</li>
+    <li class="list-group-item"><strong>Aantal vrije plaatsen in vak: </strong>@Html.DisplayFor(model => model.AantalVrijePlaatsen)</li>
+    <li class="list-group-item"><strong>Prijs:</strong> @Html.DisplayFor(model => model.Prijs)</li>
     <li class="list-group-item">
-        @{Html.BeginForm("Add", "ShoppingCart", FormMethod.Post);}
-        @Html.DropDownListFor(a => a.AantalTickets, Model.HoeveelheidTicketsList)
-        <input type="submit" value="Koop!" class="btn btn-outline-danger" />
 
-        @*Deze velden moeten bewaard blijven:*@
-        @Html.HiddenFor(p => p.Prijs)
-        @Html.HiddenFor(v => v.VakId)
-        @Html.HiddenFor(w => w.WedstrijdId)
-        @Html.HiddenFor(t => t.ThuisploegId)
-        @Html.HiddenFor(b => b.BezoekersId)
 
-        @{Html.EndForm();}
+        @using (Html.BeginForm("Add", "ShoppingCart", new VoetbalTicketStore.ViewModel.TicketConfirm { Prijs = Model.Prijs, VakId = Model.VakId, WedstrijdId = Model.WedstrijdId, ThuisploegId = Model.ThuisploegId, BezoekersId = Model.BezoekersId }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <strong>Aantal: </strong>@Html.DropDownListFor(a => a.AantalTickets, Model.HoeveelheidTicketsList)
+            <hr />
+            <button type="submit" class="btn btn-primary" role="menuitem">
+                <i class="glyphicon glyphicon-plus"></i>Koop!
+            </button>
+        }
     </li>
 </ul>

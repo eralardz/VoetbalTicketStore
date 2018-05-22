@@ -14,7 +14,7 @@ namespace VoetbalTicketStore.DAO
         {
             using (var db = new VoetbalstoreEntities())
             {
-                return db.Abonnements.Count(a => a.Clubid == thuisploeg.Id && a.VakTypeId == vak.VakTypeid);
+                return db.Abonnements.Count(a => a.Clubid == thuisploeg.Id && a.Vak.VakTypeid == vak.VakTypeid);
             }
         }
 
@@ -31,7 +31,7 @@ namespace VoetbalTicketStore.DAO
         {
             using (var db = new VoetbalstoreEntities())
             {
-                return db.Abonnements.Where(a => a.AspNetUsersId.Equals(user) && a.Bezoekerrijksregisternummer == null).Include(c => c.Club).Include(s => s.Club.Stadion).ToList();
+                return db.Abonnements.Where(a => a.AspNetUsersId.Equals(user) && a.Bezoekerrijksregisternummer == null).Include(c => c.Club).Include(s => s.Club.Stadion).Include(a => a.Vak.VakType).ToList();
             }
         }
 
@@ -50,7 +50,7 @@ namespace VoetbalTicketStore.DAO
         {
             using (var db = new VoetbalstoreEntities())
             {
-                return db.Abonnements.Where(a => a.Id == teWijzigenAbonnement).Include(a => a.Club.Stadion).Include((a => a.VakType)).Include(a => a.Bestelling).Include(a => a.Bezoeker).FirstOrDefault();
+                return db.Abonnements.Where(a => a.Id == teWijzigenAbonnement).Include(a => a.Club.Stadion).Include((a => a.Vak.VakType)).Include(a => a.Bestelling).Include(a => a.Bezoeker).FirstOrDefault();
             }
         }
 

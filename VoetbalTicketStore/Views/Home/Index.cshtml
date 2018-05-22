@@ -13,9 +13,9 @@
 
             <div class="item active">
                 <div class="hero">
-                        <h1>Club Brugge - Anderlecht</h1>
-                        <h2>Pakt Brugge de titel?   </h2>
-             </div>
+                    <h1>Club Brugge - Anderlecht</h1>
+                    <h2>Pakt Brugge de titel?   </h2>
+                </div>
                 <div class="overlay"></div>
                 <a href="#"><img src="~/Content/img/anderlecht-carousel.jpg" alt="Anderlecht"></a>
 
@@ -46,18 +46,21 @@
                 <a href="#"><img src="~/Content/img/oostende-carousel.jpg" alt="Anderlecht"></a>
 
             </div>
-        </div> 
+        </div>
     </div>
 </div>
 <div class="row">
     <div class="col-md-4">
-        <h2>Getting started</h2>
+        <h2>Wedstrijdkalender</h2>
         <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
+            Wedstrijdje meepikken? Bekijk ze allemaal!
         </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        <p>
+            <a href="@Url.Action("Index", "Wedstrijd")" class="btn btn-default">
+                Kalender
+                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+            </a>
+        </p>
     </div>
     <div class="col-md-4">
         <h2>Get more libraries</h2>

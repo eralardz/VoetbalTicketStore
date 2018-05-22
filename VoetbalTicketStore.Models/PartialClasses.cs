@@ -23,6 +23,18 @@ namespace VoetbalTicketStore.Models
     {
     }
 
-   
+    [MetadataType(typeof(StadionMetadata))]
+    public partial class Stadion
+    {
+    }
 
+    [MetadataType(typeof(ClubMetadata))]
+    public partial class Club
+    {
+    }
+
+    [MetadataType(typeof(TicketMetadata))]
+    public partial class Ticket
+    {
+    }
 }

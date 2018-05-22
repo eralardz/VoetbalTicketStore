@@ -49,9 +49,9 @@ namespace VoetbalTicketStore.DAO
         {
             var db = new VoetbalstoreEntities();
 
-            // lazy...
+            // lazy, maar toch zoveel mogelijk includes...
             // TODO herschrijven naar eager, echter niet eenvoudig wegens gedrag include (moet VOOR group by volgens compiler, maar NA group by volgens documentatie)
-            return db.Tickets.Where(t => t.Gebruikerid.Equals(user) && t.Bezoekerrijksregisternummer == null && t.Wedstrijd.DatumEnTijd >= vanaf).GroupBy(b => b.Bestelling).ToList();
+            return db.Tickets.Where(t => t.Gebruikerid.Equals(user) && t.Bezoekerrijksregisternummer == null && t.Wedstrijd.DatumEnTijd >= vanaf).Include(t => t.Wedstrijd.Club).Include(t => t.Wedstrijd.Club1).Include(t => t.Vak).GroupBy(b => b.Bestelling).ToList();
         }
 
         public void RemoveTicket(int ticketId)

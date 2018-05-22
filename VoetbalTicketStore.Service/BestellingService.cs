@@ -184,7 +184,7 @@ namespace VoetbalTicketStore.Service
                             {
                                 Clubid = shoppingCartData.Thuisploeg,
                                 Prijs = shoppingCartData.Prijs,
-                                VakTypeId = shoppingCartData.VakId,
+                                VakId = shoppingCartData.VakId,
                                 AspNetUsersId = user,
                                 BestellingId = shoppingCartData.BestellingId
                             };

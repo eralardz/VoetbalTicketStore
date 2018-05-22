@@ -23,12 +23,17 @@ namespace VoetbalTicketStore.Service
         }
 
 
-        public IEnumerable<Wedstrijd> getWedstrijdKalenderVanPloeg(Club club)
+        public IEnumerable<Wedstrijd> GetWedstrijdKalenderVanPloeg(Club club)
         {
             return wedstrijdDAO.getWedstrijdKalenderVanPloeg(club);
         }
 
-        public Wedstrijd getWedstrijdById(int id)
+        public IEnumerable<Wedstrijd> GetUpcomingWedstrijden()
+        {
+            return wedstrijdDAO.GetUpcomingWedstrijden();
+        }
+
+        public Wedstrijd GetWedstrijdById(int id)
         {
             return wedstrijdDAO.getWedstrijdById(id);
         }

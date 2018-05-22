@@ -17,6 +17,7 @@ namespace VoetbalTicketStore.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Vak()
         {
+            this.Abonnements = new HashSet<Abonnement>();
             this.ShoppingCartDatas = new HashSet<ShoppingCartData>();
             this.Tickets = new HashSet<Ticket>();
         }
@@ -26,6 +27,8 @@ namespace VoetbalTicketStore.Models
         public int VakTypeid { get; set; }
         public int Stadionid { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Abonnement> Abonnements { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ShoppingCartData> ShoppingCartDatas { get; set; }
         public virtual Stadion Stadion { get; set; }

@@ -21,7 +21,7 @@ namespace VoetbalTicketStore.Controllers
         {
             // Wedstrijd ophalen
             wedstrijdService = new WedstrijdService();
-            Wedstrijd wedstrijd = wedstrijdService.getWedstrijdById(id);
+            Wedstrijd wedstrijd = wedstrijdService.GetWedstrijdById(id);
 
             // Vakken ophalen van stadion
             vakService = new VakService();

@@ -37,6 +37,14 @@ namespace VoetbalTicketStore.Models
         [Display(Name = "Wanneer")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy H:mm}")]
         public DateTime DatumEnTijd { get; set; }
+        [Display(Name = "Thuisploeg")]
+        public int Club1id { get; set; }
+        [Display(Name = "Bezoekers")]
+        public int Club2id { get; set; }
+        [Display(Name = "Thuisploeg")]
+        public virtual Club Club { get; set; }
+        [Display(Name = "Bezoekers")]
+        public virtual Club Club1 { get; set; }
     }
     public class BestellingMetadata
     {
@@ -44,4 +52,23 @@ namespace VoetbalTicketStore.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime BestelDatum { get; set; }
     }
+
+    public class StadionMetadata
+    {
+        [Display(Name = "Stadion")]
+        public String Naam { get; set; }
+    }
+
+    public class ClubMetadata
+    {
+        [Display(Name = "Club")]
+        public String Naam { get; set; }
+    }
+
+    public class TicketMetadata
+    {
+        [DisplayFormat(DataFormatString = "{0:C}")]
+        public decimal Prijs { get; set; }
+    }
+
 }

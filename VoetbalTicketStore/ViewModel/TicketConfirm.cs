@@ -12,7 +12,7 @@ namespace VoetbalTicketStore.ViewModel
         public int VakId { get; set; }
         public string VakNaam { get; set; }
         public int AantalVrijePlaatsen { get; set; }
-        [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal Prijs { get; set; }
         public int WedstrijdId { get; set; }
         public List<SelectListItem> HoeveelheidTicketsList { get; set; }

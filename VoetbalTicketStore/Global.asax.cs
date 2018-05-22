@@ -22,7 +22,7 @@ namespace VoetbalTicketStore
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
 
-            System.Globalization.CultureInfo.DefaultThreadCurrentCulture = new System.Globalization.CultureInfo("en-gb");
+            System.Globalization.CultureInfo.DefaultThreadCurrentCulture = new System.Globalization.CultureInfo("nl-be");
 
        
 

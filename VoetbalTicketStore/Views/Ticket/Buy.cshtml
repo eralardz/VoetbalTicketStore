@@ -32,8 +32,12 @@
     <div id="partial">
         <table class="table table-hover">
             <tr>
-                <th>Vak</th>
-                <th>Prijs</th>
+                <th>
+                    @Html.LabelFor(modelItem => modelItem.VakkenList.First().VakType)
+                </th>
+                <th>
+                    @Html.LabelFor(modelItem => modelItem.VakkenList.First().BerekendePrijs)
+                </th>
                 <th>Plaatsen</th>
                 <th></th>
             </tr>
@@ -44,7 +48,7 @@
                         @Html.DisplayFor(modelItem => item.VakType.Beschrijving)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.BerekendePrijs) euro
+                        @Html.DisplayFor(modelItem => item.BerekendePrijs)
                     </td>
                     <td>
                         @if (item.AantalVrijePlaatsen == 0)
@@ -66,9 +70,6 @@
                         else
                         {@*TODO: gevuld viewmodel in de ActionLink (RouteValues) steken*@
                         @Ajax.ActionLink("Bestel!", "Confirm", "Ticket", new { vakId = item.Id, aantalVrijePlaatsen = item.AantalVrijePlaatsen, prijs = item.BerekendePrijs, wedstrijdId = Model.Wedstrijd.Id, thuisploegId = Model.Thuisploeg.Id, bezoekersId = Model.Tegenstanders.Id, vakNaam = item.VakType.Beschrijving }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, htmlAttributes: new { @class = "btn btn-primary" })}
-
-
-
                     </td>
                 </tr>
             }

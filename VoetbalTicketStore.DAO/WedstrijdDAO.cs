@@ -17,7 +17,15 @@ namespace VoetbalTicketStore.DAO
             //This is especially true if your LINQ query is an "expensive" one, as it prevents the expensive operation from running more than once.
             using (var db = new VoetbalstoreEntities())
             {
-                return db.Wedstrijds.Include(w => w.Stadion).Include(w => w.Club).Include(w => w.Club1).ToList();
+                return db.Wedstrijds.Include(w => w.Stadion).Include(w => w.Club).Include(w => w.Club1).OrderBy(w => w.DatumEnTijd).ToList();
+            }
+        }
+
+        public IEnumerable<Wedstrijd> GetUpcomingWedstrijden()
+        {
+            using (var db = new VoetbalstoreEntities())
+            {
+                return db.Wedstrijds.Where(w => w.DatumEnTijd > DateTime.Now).Include(w => w.Stadion).Include(w => w.Club).Include(w => w.Club1).OrderBy(w => w.DatumEnTijd).ToList();
             }
         }
 

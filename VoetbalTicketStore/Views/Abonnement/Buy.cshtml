@@ -20,7 +20,7 @@
             @Html.DisplayFor(modelItem => item.BerekendePrijs)
         </div>
         <div class="col-md-5">
-            @using (Html.BeginForm("AddAbonnement", "ShoppingCart", FormMethod.Post))
+            @using (Html.BeginForm("AddAbonnement", "ShoppingCart",FormMethod.Post))
             {
                 @Html.AntiForgeryToken()
 
@@ -29,7 +29,7 @@
                 <input type="submit" value="Koop!" class="btn btn-default" />
 
                 @*Deze velden moeten bewaard blijven:*@
-                @Html.Hidden("GeselecteerdVakId", item.VakTypeid)
+                @Html.Hidden("GeselecteerdVakId", item.Id)
                 @Html.Hidden("PloegId", Model.PloegId)
                 @Html.Hidden("Prijs", item.BerekendePrijs)
             }

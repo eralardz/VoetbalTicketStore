@@ -18,7 +18,7 @@ namespace VoetbalTicketStore.Controllers
         public ActionResult Index()
         {
             wedstrijdService = new WedstrijdService();
-            var wedstrijden = wedstrijdService.All();
+            var wedstrijden = wedstrijdService.GetUpcomingWedstrijden();
             // we geven de lijst met wedstrijden mee aan de view
             return View(wedstrijden);
         }
@@ -26,7 +26,7 @@ namespace VoetbalTicketStore.Controllers
         public ActionResult WedstrijdKalender(Club club)
         {
             wedstrijdService = new WedstrijdService();
-            var wedstrijden = wedstrijdService.getWedstrijdKalenderVanPloeg(club);
+            var wedstrijden = wedstrijdService.GetWedstrijdKalenderVanPloeg(club);
             return View(wedstrijden);
         }
     }
