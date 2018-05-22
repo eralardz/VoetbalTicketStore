@@ -67,8 +67,22 @@ namespace VoetbalTicketStore.Models
 
     public class TicketMetadata
     {
+        [Display(Name = "fuark")]
+
         [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal Prijs { get; set; }
     }
+
+    public class AbonnementMetadata
+    {
+        [DisplayFormat(DataFormatString = "{0:C}")]
+        public decimal Prijs { get; set; }
+    }
+    public class ShoppingCartDataMetadata
+    {
+        [DisplayFormat(DataFormatString = "{0:C}")]
+        public decimal Prijs { get; set; }
+    }
+
 
 }

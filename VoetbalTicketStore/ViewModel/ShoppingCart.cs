@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -12,6 +13,7 @@ namespace VoetbalTicketStore.ViewModel
         public Bestelling Bestelling{ get; set; }
         public int GeselecteerdeBestelling { get; set; }
         public IList<ShoppingCartData> ShoppingCartEntries { get; set; }
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal TotaalPrijs { get; set; }
         public int SelectedShoppingCartData { get; set; }
         public int NieuweHoeveelheid { get; set; }

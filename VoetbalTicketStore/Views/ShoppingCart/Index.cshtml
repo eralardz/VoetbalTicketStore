@@ -87,22 +87,25 @@ else
     <div class="row">
         <div class="col-md-9">
 
-            Totaalprijs: @Model.TotaalPrijs euro
+            <strong>Totaal:</strong> @Html.DisplayFor(modelItem => modelItem.TotaalPrijs)
         </div>
         <div class="col-md-3">
 
-            @using (Html.BeginForm("Clear", "ShoppingCart", new { GeselecteerdeBestelling = Model.Bestelling.Id }, FormMethod.Post, new { @class = "shoppingCartButtons" }))
-            {
-                <input type="submit" value="Leegmaken" class="btn btn-primary" />
-            }
-
-
-            @*@Ajax.ActionLink("Koop tickets!", "Finalise", "ShoppingCart", new { }, new AjaxOptions { HttpMethod = "Post", OnSuccess = "OnSuccessFinalise", OnFailure = "OnFailureFinalise" }, htmlAttributes: new { @class = "btn btn-outline-danger" })*@
 
 
             @using (Html.BeginForm("Finalise", "ShoppingCart", FormMethod.Post, new { @class = "shoppingCartButtons" }))
             {
-                <input type="submit" value="Bevestig bestelling" class="btn btn-primary formButtons" />
+                @*<input type="submit" value="Betalen" class="btn btn-primary formButtons" />*@
+                <button type="submit" class="btn btn-primary formButtons">
+                    <span class="glyphicon glyphicon-euro"></span> Betalen
+                </button>
+            }
+            @using (Html.BeginForm("Clear", "ShoppingCart", new { GeselecteerdeBestelling = Model.Bestelling.Id }, FormMethod.Post, new { @class = "shoppingCartButtons" }))
+            {
+                @*<input type="submit" value="Leegmaken" class="btn btn-primary" />*@
+                <button type="submit" class="btn btn-danger formButtons">
+                    <span class="glyphicon glyphicon-trash"></span> Leegmaken
+                </button>
             }
         </div>
     </div>
@@ -118,7 +121,7 @@ else
     {
         <br />
         <div class="alert alert-success" role="alert">
-                @ViewBag.Success
+            @ViewBag.Success
         </div>
     }
 }

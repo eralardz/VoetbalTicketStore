@@ -33,9 +33,9 @@
             <div class="col-md-3">
                 @using (Html.BeginForm("Koppel", "Bezoeker", FormMethod.Get))
                 {
-                    <h3>
+                    <h4>
                         Ticket #@Html.DisplayFor(t => ticket.Id) (@Html.DisplayFor(t => ticket.Prijs))
-                    </h3>
+                    </h4>
                     <ul class="list-group">
                         <li class="list-group-item">
                             @Html.DisplayFor(t => ticket.Wedstrijd.Club.Naam)
@@ -75,29 +75,29 @@
 <div class="row">
     @foreach (VoetbalTicketStore.Models.Abonnement abonnement in Model.NietGekoppeldeAbonnementen)
     {
-        <div class="col-md-3">
-            @using (Html.BeginForm("Koppel", "Bezoeker", FormMethod.Get))
-            {
-                <h3>Abonnement #@Html.DisplayFor(t => abonnement.Id)</h3>
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        @Html.DisplayFor(t => abonnement.Club.Naam)
-                    </li>
-                    <li class="list-group-item">
-                        @Html.DisplayFor(t => abonnement.Club.Stadion.Naam)
-                    </li>
-                    <li class="list-group-item">
-                        @Html.DisplayFor(t => abonnement.Vak.VakType.Beschrijving)
-                    </li>
-                    <li class="list-group-item">
-                        <button type="submit" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-user"></span> Koppel bezoeker
-                        </button>
-                    </li>
-                </ul>
-                @Html.Hidden("TeWijzigenAbonnement", abonnement.Id)
-            }
-        </div>
+    <div class="col-md-3">
+        @using (Html.BeginForm("Koppel", "Bezoeker", FormMethod.Get))
+        {
+            <h4>Abonnement #@Html.DisplayFor(t => abonnement.Id) (@Html.DisplayFor(t => abonnement.Prijs))</h4>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    @Html.DisplayFor(t => abonnement.Club.Naam)
+                </li>
+                <li class="list-group-item">
+                    @Html.DisplayFor(t => abonnement.Club.Stadion.Naam)
+                </li>
+                <li class="list-group-item">
+                    @Html.DisplayFor(t => abonnement.Vak.VakType.Beschrijving)
+                </li>
+                <li class="list-group-item">
+                    <button type="submit" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-user"></span> Koppel bezoeker
+                    </button>
+                </li>
+            </ul>
+            @Html.Hidden("TeWijzigenAbonnement", abonnement.Id)
+        }
+    </div>
     }
 </div>
 

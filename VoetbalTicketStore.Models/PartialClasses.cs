@@ -37,4 +37,15 @@ namespace VoetbalTicketStore.Models
     public partial class Ticket
     {
     }
+
+    [MetadataType(typeof(AbonnementMetadata))]
+    public partial class Abonnement
+    {
+    }
+
+    [MetadataType(typeof(ShoppingCartDataMetadata))]
+    public partial class ShoppingCartData
+    {
+    }
+
 }

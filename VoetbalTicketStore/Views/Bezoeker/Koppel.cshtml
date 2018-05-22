@@ -10,8 +10,8 @@
 Dit is een bestelling voor:
 <div class="form-group">
     <div class="btn-group" data-toggle="buttons">
-        <label class="btn btn-primary active">
-            @Html.RadioButton("bezoeker", "user", true,
+        <label class="btn btn-primary">
+            @Html.RadioButton("bezoeker", "user",
                 new { id = "mezelf" }) Mezelf
         </label>
         <label class="btn btn-primary">
@@ -65,7 +65,9 @@ Dit is een bestelling voor:
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Bevestig" class="btn btn-default" />
+                <button type="submit" class="btn btn-primary" role="menuitem">
+                    <i class="glyphicon glyphicon-ok"></i> Bevestig
+                </button>
             </div>
         </div>
     </div>
