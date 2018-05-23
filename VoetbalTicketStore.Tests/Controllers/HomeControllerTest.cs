@@ -7,6 +7,31 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VoetbalTicketStore;
 using VoetbalTicketStore.Controllers;
 
+namespace VoetbalTicketStore.Controllers.Tests
+{
+    [TestClass()]
+    public class HomeControllerTest
+    {
+        [TestMethod()]
+        public void IndexTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void AboutTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void ContactTest()
+        {
+            Assert.Fail();
+        }
+    }
+}
+
 namespace VoetbalTicketStore.Tests.Controllers
 {
     [TestClass]
@@ -19,7 +44,7 @@ namespace VoetbalTicketStore.Tests.Controllers
             HomeController controller = new HomeController();
 
             // Act
-            ViewResult result = controller.Index() as ViewResult;
+            ViewResult result = controller.Index();
 
             // Assert
             Assert.IsNotNull(result);
