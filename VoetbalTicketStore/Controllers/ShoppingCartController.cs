@@ -142,6 +142,11 @@ namespace VoetbalTicketStore.Controllers
                 bestellingService = new BestellingService();
                 Bestelling bestelling = bestellingService.FindOpenstaandeBestellingDoorUser(User.Identity.GetUserId());
                 bestellingService.PlaatsBestelling(bestelling, User.Identity.GetUserId());
+
+
+                // pas profiel aan
+
+
             }
             catch (BestelException ex)
             {

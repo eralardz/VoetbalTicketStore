@@ -219,6 +219,11 @@
     <Compile Include="Models\TicketPDF.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strings.resx</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\AbonnementBuy.cs" />
     <Compile Include="ViewModel\BestellingVM.cs" />
     <Compile Include="ViewModel\BezoekerKoppelen.cs" />
@@ -596,6 +601,10 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Resources\VoetbalTicketStore.Resources.csproj">
+      <Project>{52511665-1e48-4e7b-8f96-2d829985bc52}</Project>
+      <Name>VoetbalTicketStore.Resources</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VoetbalTicketStore.Models\VoetbalTicketStore.Models.csproj">
       <Project>{4374d90e-def2-4349-9293-c4e3d7d913b1}</Project>
       <Name>VoetbalTicketStore.Models</Name>
@@ -604,6 +613,13 @@
       <Project>{201fe612-0e4d-44bc-a070-c40114dab671}</Project>
       <Name>VoetbalTicketStore.Service</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="strings.fr.resx" />
+    <EmbeddedResource Include="strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
