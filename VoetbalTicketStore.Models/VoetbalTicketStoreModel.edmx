@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="VoetbalstoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="VoetbalstoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -21,7 +21,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Clubid" Type="int" Nullable="false" />
-          <Property Name="Prijs" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="Prijs" Type="money" Nullable="false" />
           <Property Name="Bezoekerrijksregisternummer" Type="varchar" MaxLength="255" />
           <Property Name="VakId" Type="int" Nullable="false" />
           <Property Name="AspNetUsersId" Type="nvarchar" MaxLength="128" Nullable="false" />
@@ -80,6 +80,7 @@
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Rijksregisternummer" Type="nvarchar" MaxLength="11" Nullable="false" />
+          <Property Name="FavorietTeam" Type="int" />
         </EntityType>
         <EntityType Name="Bestelling">
           <Key>
@@ -108,8 +109,8 @@
           <Property Name="Naam" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Logo" Type="varchar" MaxLength="255" />
           <Property Name="Stadionid" Type="int" Nullable="false" />
-          <Property Name="TicketPrijsCoefficient" Type="decimal" Precision="12" Scale="2" Nullable="false" />
-          <Property Name="AbonnementPrijsCoefficient" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="TicketPrijsCoefficient" Type="money" Nullable="false" />
+          <Property Name="AbonnementPrijsCoefficient" Type="money" Nullable="false" />
         </EntityType>
         <EntityType Name="ShoppingCartData">
           <Key>
@@ -117,7 +118,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BestellingId" Type="int" Nullable="false" />
-          <Property Name="Prijs" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="Prijs" Type="money" Nullable="false" />
           <Property Name="WedstrijdId" Type="int" />
           <Property Name="Hoeveelheid" Type="int" Nullable="false" />
           <Property Name="VakId" Type="int" Nullable="false" />
@@ -164,7 +165,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Gebruikerid" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="Prijs" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="Prijs" Type="money" Nullable="false" />
           <Property Name="Bezoekerrijksregisternummer" Type="varchar" MaxLength="255" />
           <Property Name="Vakid" Type="int" Nullable="false" />
           <Property Name="Bevestigd" Type="bit" Nullable="false" />
@@ -198,6 +199,8 @@
           <Property Name="Club1id" Type="int" Nullable="false" />
           <Property Name="Club2id" Type="int" Nullable="false" />
           <Property Name="DatumEnTijd" Type="datetime" Nullable="false" />
+          <Property Name="Beschrijving" Type="nvarchar(max)" />
+          <Property Name="Afbeelding" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <Association Name="Abonnement gekocht door gebruiker">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
@@ -235,7 +238,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Abonnement voor vak">
+        <Association Name="Abonnement voor type vak">
           <End Role="Vak" Type="Self.Vak" Multiplicity="1" />
           <End Role="Abonnement" Type="Self.Abonnement" Multiplicity="*" />
           <ReferentialConstraint>
@@ -330,6 +333,18 @@
             </Principal>
             <Dependent Role="Club">
               <PropertyRef Name="Stadionid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AspNetUsers_Club">
+          <End Role="Club" Type="Self.Club" Multiplicity="0..1" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Club">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUsers">
+              <PropertyRef Name="FavorietTeam" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -565,7 +580,7 @@
             <End Role="Club" EntitySet="Club" />
             <End Role="Abonnement" EntitySet="Abonnement" />
           </AssociationSet>
-          <AssociationSet Name="Abonnement voor vak" Association="Self.Abonnement voor vak">
+          <AssociationSet Name="Abonnement voor type vak" Association="Self.Abonnement voor type vak">
             <End Role="Vak" EntitySet="Vak" />
             <End Role="Abonnement" EntitySet="Abonnement" />
           </AssociationSet>
@@ -596,6 +611,10 @@
           <AssociationSet Name="Club speelt in een stadion" Association="Self.Club speelt in een stadion">
             <End Role="Stadion" EntitySet="Stadion" />
             <End Role="Club" EntitySet="Club" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspNetUsers_Club" Association="Self.FK_AspNetUsers_Club">
+            <End Role="Club" EntitySet="Club" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
           <AssociationSet Name="FKAspNetUser206039" Association="Self.FKAspNetUser206039">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
@@ -662,8 +681,7 @@
             <End Role="ShoppingCartData" EntitySet="ShoppingCartData" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="VoetbalstoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -683,7 +701,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Clubid" Type="Int32" Nullable="false" />
-          <Property Name="Prijs" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="Prijs" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="Bezoekerrijksregisternummer" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="VakId" Type="Int32" Nullable="false" />
           <Property Name="AspNetUsersId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
@@ -748,6 +766,8 @@
           <NavigationProperty Name="Bestellings" Relationship="Self.Bestelling_door_gebruiker" FromRole="AspNetUsers" ToRole="Bestelling" />
           <NavigationProperty Name="Tickets" Relationship="Self.Ticket_besteld_door_ASP_user" FromRole="AspNetUsers" ToRole="Ticket" />
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+          <Property Name="FavorietTeam" Type="Int32" />
+          <NavigationProperty Name="Club" Relationship="VoetbalstoreModel.FK_AspNetUsers_Club" FromRole="AspNetUser" ToRole="Club" />
         </EntityType>
         <EntityType Name="Bestelling">
           <Key>
@@ -782,14 +802,15 @@
           <Property Name="Naam" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Logo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Stadionid" Type="Int32" Nullable="false" />
-          <Property Name="TicketPrijsCoefficient" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
-          <Property Name="AbonnementPrijsCoefficient" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="TicketPrijsCoefficient" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="AbonnementPrijsCoefficient" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <NavigationProperty Name="Abonnements" Relationship="Self.Abonnement_voor_een_club" FromRole="Club" ToRole="Abonnement" />
           <NavigationProperty Name="Wedstrijds" Relationship="Self.Bezoekers" FromRole="Club" ToRole="Wedstrijd" />
           <NavigationProperty Name="Stadion" Relationship="Self.Club_speelt_in_een_stadion" FromRole="Club" ToRole="Stadion" />
           <NavigationProperty Name="ShoppingCartDatas" Relationship="Self.Gegevens_bezoekers_in_winkelwagentje" FromRole="Club" ToRole="ShoppingCartData" />
           <NavigationProperty Name="ShoppingCartDatas1" Relationship="Self.Gegevens_thuisploeg_in_winkelwagentje" FromRole="Club" ToRole="ShoppingCartData" />
           <NavigationProperty Name="Wedstrijds1" Relationship="Self.Thuisploeg" FromRole="Club" ToRole="Wedstrijd" />
+          <NavigationProperty Name="AspNetUsers" Relationship="VoetbalstoreModel.FK_AspNetUsers_Club" FromRole="Club" ToRole="AspNetUser" />
         </EntityType>
         <EntityType Name="ShoppingCartData">
           <Key>
@@ -797,7 +818,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BestellingId" Type="Int32" Nullable="false" />
-          <Property Name="Prijs" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="Prijs" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="WedstrijdId" Type="Int32" />
           <Property Name="Hoeveelheid" Type="Int32" Nullable="false" />
           <Property Name="VakId" Type="Int32" Nullable="false" />
@@ -854,7 +875,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Gebruikerid" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Prijs" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="Prijs" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="Bezoekerrijksregisternummer" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Vakid" Type="Int32" Nullable="false" />
           <Property Name="Bevestigd" Type="Boolean" Nullable="false" />
@@ -904,6 +925,8 @@
           <NavigationProperty Name="ShoppingCartDatas" Relationship="Self.Winkelwagentje_voor_wedstrijd" FromRole="Wedstrijd" ToRole="ShoppingCartData" />
           <NavigationProperty Name="Stadion" Relationship="Self.Wedstrijd_wordt_gespeeld_in_een_stadion" FromRole="Wedstrijd" ToRole="Stadion" />
           <NavigationProperty Name="Tickets" Relationship="Self.Ticket_voor_wedstrijd" FromRole="Wedstrijd" ToRole="Ticket" />
+          <Property Name="Beschrijving" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Afbeelding" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="Abonnement_gekocht_door_gebruiker">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
@@ -1338,7 +1361,23 @@
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <AssociationSet Name="FK_AspNetUsers_Club" Association="VoetbalstoreModel.FK_AspNetUsers_Club">
+            <End Role="Club" EntitySet="Clubs" />
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_AspNetUsers_Club">
+          <End Type="VoetbalstoreModel.Club" Role="Club" Multiplicity="0..1" />
+          <End Type="VoetbalstoreModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Club">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUser">
+              <PropertyRef Name="FavorietTeam" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1398,6 +1437,7 @@
           <EntitySetMapping Name="AspNetUsers">
             <EntityTypeMapping TypeName="VoetbalstoreModel.AspNetUser">
               <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="FavorietTeam" ColumnName="FavorietTeam" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
@@ -1538,6 +1578,8 @@
           <EntitySetMapping Name="Wedstrijds">
             <EntityTypeMapping TypeName="VoetbalstoreModel.Wedstrijd">
               <MappingFragment StoreEntitySet="Wedstrijd">
+                <ScalarProperty Name="Afbeelding" ColumnName="Afbeelding" />
+                <ScalarProperty Name="Beschrijving" ColumnName="Beschrijving" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Stadionid" ColumnName="Stadionid" />
                 <ScalarProperty Name="Club1id" ColumnName="Club1id" />

@@ -10,6 +10,7 @@ namespace VoetbalTicketStore.Service
 {
     public class WedstrijdService
     {
+        //DAO
         private WedstrijdDAO wedstrijdDAO;
 
         public WedstrijdService()
@@ -36,6 +37,12 @@ namespace VoetbalTicketStore.Service
         public Wedstrijd GetWedstrijdById(int id)
         {
             return wedstrijdDAO.getWedstrijdById(id);
+        }
+
+        public IEnumerable<Wedstrijd> GetAanTeRadenWedstrijdenVoorClub(int clubId, int aantal)
+        {
+            // meest recente wedstrijden voor het favoriete team van de gebruiker
+            return wedstrijdDAO.GetAanTeRadenWedstrijdenVoorClub(clubId, aantal);
         }
     }
 }

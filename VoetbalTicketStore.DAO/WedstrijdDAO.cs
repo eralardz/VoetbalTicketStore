@@ -29,6 +29,14 @@ namespace VoetbalTicketStore.DAO
             }
         }
 
+        public IEnumerable<Wedstrijd> GetAanTeRadenWedstrijdenVoorClub(int clubId, int aantal)
+        {
+            using (var db = new VoetbalstoreEntities())
+            {
+                return db.Wedstrijds.Where(w => w.Club1id == clubId).OrderBy(w => w.DatumEnTijd).Take(aantal);
+            }
+        }
+
         public IEnumerable<Wedstrijd> getWedstrijdKalenderVanPloeg(Club club)
         {
             using (var db = new VoetbalstoreEntities())

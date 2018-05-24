@@ -213,6 +213,7 @@
     <Compile Include="ModelBinder\DecimalModelBinder.cs" />
     <Compile Include="Models\AbonnementPDF.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\HomeVM.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\TicketPDF.cs" />
