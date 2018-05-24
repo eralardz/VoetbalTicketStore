@@ -1,4 +1,16 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+}
+@helper selected(string c, string culture)
+{
+    if (c == culture)
+    {
+        @:checked="checked"
+    }
+}
+
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -22,11 +34,15 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Clubs", "Index", "Club")</li>
-                    <li>@Html.ActionLink("Shopping Cart", "Index", "ShoppingCart")</li>
-                    <li>@Html.ActionLink("Bezoekers koppelen", "Index", "Bezoeker")</li>
-                    <li>@Html.ActionLink("Aankoopgeschiedenis", "Index", "Bestelling")</li>
+                    <li>@Html.ActionLink(@Resources.strings.Clubs, "Index", "Club")</li>
+                    <li>@Html.ActionLink(@Resources.strings.Winkelwagentje, "Index", "ShoppingCart")</li>
+                    <li>@Html.ActionLink(@Resources.strings.Bezoekers, "Index", "Bezoeker")</li>
+                    <li>@Html.ActionLink(@Resources.strings.Aankoopgeschiedenis, "Index", "Bestelling")</li>
                 </ul>
+              
+
+
+
                 @Html.Partial("_LoginPartial")
             </div>
         </div>

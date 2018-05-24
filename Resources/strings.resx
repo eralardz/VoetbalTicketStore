@@ -123,7 +123,7 @@
   <data name="Bezoekers" xml:space="preserve">
     <value>Bezoekers</value>
   </data>
-  <data name="clubs" xml:space="preserve">
+  <data name="Clubs" xml:space="preserve">
     <value>Clubs</value>
   </data>
   <data name="Inloggen" xml:space="preserve">
@@ -132,7 +132,7 @@
   <data name="Registreren" xml:space="preserve">
     <value>Registreren</value>
   </data>
-  <data name="winkelwagentje" xml:space="preserve">
+  <data name="Winkelwagentje" xml:space="preserve">
     <value>Winkelwagentje</value>
   </data>
 </root>

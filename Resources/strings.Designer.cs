@@ -81,9 +81,9 @@ namespace Resources {
         /// <summary>
         ///   Looks up a localized string similar to Clubs.
         /// </summary>
-        public static string clubs {
+        public static string Clubs {
             get {
-                return ResourceManager.GetString("clubs", resourceCulture);
+                return ResourceManager.GetString("Clubs", resourceCulture);
             }
         }
         
@@ -108,9 +108,9 @@ namespace Resources {
         /// <summary>
         ///   Looks up a localized string similar to Winkelwagentje.
         /// </summary>
-        public static string winkelwagentje {
+        public static string Winkelwagentje {
             get {
-                return ResourceManager.GetString("winkelwagentje", resourceCulture);
+                return ResourceManager.GetString("Winkelwagentje", resourceCulture);
             }
         }
     }
