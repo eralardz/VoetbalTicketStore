@@ -57,6 +57,8 @@ namespace VoetbalTicketStore.Models
     {
         [Display(Name = "Stadion")]
         public String Naam { get; set; }
+        [Display(Name = "Aantal zitplaatsen")]
+        public int AantalZitplaatsen { get; set; }
     }
 
     public class ClubMetadata
@@ -81,6 +83,4 @@ namespace VoetbalTicketStore.Models
         [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal Prijs { get; set; }
     }
-
-
 }

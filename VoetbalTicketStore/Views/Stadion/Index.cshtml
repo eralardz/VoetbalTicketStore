@@ -1,0 +1,63 @@
+﻿@model IEnumerable<VoetbalTicketStore.Models.Stadion>
+
+@{
+    ViewBag.Title = "Stadions";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="page-header">
+            <h1>Stadions <small>Waar speelt uw favoriete club?</small></h1>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-3">
+        <span class="top">
+            @Html.DisplayNameFor(model => model.Naam)
+        </span>
+    </div>
+    <div class="col-md-3">
+        <span class="top">
+            @Html.DisplayNameFor(model => model.Clubs)
+        </span>
+    </div>
+    <div class="col-md-4">
+        <span class="top">
+            @Html.DisplayNameFor(model => model.Adres)
+        </span>
+    </div>
+    <div class="col-md-2">
+        <span class="top">
+            @Html.DisplayNameFor(model => model.AantalZitplaatsen)
+        </span>
+    </div>
+</div>
+
+
+
+@foreach (var item in Model)
+{
+    <div class="row">
+        <div class="col-md-3">
+            @Html.DisplayFor(modelItem => item.Naam)
+        </div>
+        <div class="col-md-3">
+            @foreach (var club in item.Clubs)
+            {
+                @club.Naam;
+            }
+        </div>
+
+
+        <div class="col-md-4">
+            @Html.DisplayFor(modelItem => item.Adres)
+        </div>
+        <div class="col-md-2">
+            @Html.DisplayFor(modelItem => item.AantalZitplaatsen)
+        </div>
+    </div>
+}
+

@@ -31,7 +31,6 @@ namespace VoetbalTicketStore.Controllers
             // ENKEL de CurrentUICulture instellen (zorgt voor taal) -> datums, currency, enz... worden gecontroleerd door CurrentCulture.
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(cultureName);
 
-
             return base.BeginExecuteCore(callback, state);
         }
     }

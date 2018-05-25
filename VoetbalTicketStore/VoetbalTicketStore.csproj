@@ -205,6 +205,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ShoppingCartController.cs" />
+    <Compile Include="Controllers\StadionController.cs" />
     <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Controllers\WedstrijdController.cs" />
     <Compile Include="Global.asax.cs">
@@ -585,6 +586,7 @@
     <Content Include="Views\Bezoeker\Index.cshtml" />
     <Content Include="Views\Bestelling\Index.cshtml" />
     <Content Include="Views\Wedstrijd\Index.cshtml" />
+    <Content Include="Views\Stadion\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

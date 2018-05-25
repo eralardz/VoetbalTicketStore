@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VoetbalTicketStore.Models;
+using System.Data.Entity;
 
 namespace VoetbalTicketStore.DAO
 {
@@ -11,9 +12,10 @@ namespace VoetbalTicketStore.DAO
     {
         public IEnumerable<Stadion> All()
         {
-            var db = new VoetbalstoreEntities();
-
-            return db.Stadions; // lazy-loading
+            using (var db = new VoetbalstoreEntities())
+            {
+                return db.Stadions.Include(s => s.Clubs).ToList();
+            }
         }
     }
 }
