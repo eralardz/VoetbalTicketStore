@@ -67,7 +67,7 @@ namespace VoetbalTicketStore.Controllers
                 cookie.Expires = DateTime.Now.AddYears(1);
             }
             Response.Cookies.Add(cookie);
-            return RedirectToAction("Index");
+            return Redirect(Request.UrlReferrer.ToString());
         }
     }
 }

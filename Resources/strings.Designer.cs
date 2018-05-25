@@ -88,6 +88,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hallo.
+        /// </summary>
+        public static string Hallo {
+            get {
+                return ResourceManager.GetString("Hallo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inloggen.
         /// </summary>
         public static string Inloggen {
@@ -102,6 +111,24 @@ namespace Resources {
         public static string Registreren {
             get {
                 return ResourceManager.GetString("Registreren", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Taal.
+        /// </summary>
+        public static string Taal {
+            get {
+                return ResourceManager.GetString("Taal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uitloggen.
+        /// </summary>
+        public static string Uitloggen {
+            get {
+                return ResourceManager.GetString("Uitloggen", resourceCulture);
             }
         }
         

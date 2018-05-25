@@ -10,7 +10,7 @@ using VoetbalTicketStore.ViewModel;
 namespace VoetbalTicketStore.Controllers
 {
 
-    public class TicketController : Controller
+    public class TicketController : BaseController
     {
 
         private WedstrijdService wedstrijdService;

@@ -9,7 +9,7 @@ using VoetbalTicketStore.ViewModel;
 
 namespace VoetbalTicketStore.Controllers
 {
-    public class AbonnementController : Controller
+    public class AbonnementController : BaseController
     {
 
         private VakService vakService;

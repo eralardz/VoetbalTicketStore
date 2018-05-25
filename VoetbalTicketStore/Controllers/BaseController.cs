@@ -26,8 +26,11 @@ namespace VoetbalTicketStore.Controllers
             cultureName = CultureHelper.GetImplementedCulture(cultureName); // This is safe
 
             // Modify current thread's cultures            
-            Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(cultureName);
-            Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
+            //Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(cultureName);
+
+            // ENKEL de CurrentUICulture instellen (zorgt voor taal) -> datums, currency, enz... worden gecontroleerd door CurrentCulture.
+            Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(cultureName);
+
 
             return base.BeginExecuteCore(callback, state);
         }

@@ -8,7 +8,7 @@ using VoetbalTicketStore.ViewModel;
 
 namespace VoetbalTicketStore.Controllers
 {
-    public class ClubController : Controller
+    public class ClubController : BaseController
     {
         private ClubService clubService;
 

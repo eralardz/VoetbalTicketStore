@@ -13,7 +13,7 @@ namespace VoetbalTicketStore.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Rijksregisternummer { get; set; }
-        public int FavorietTeam { get; set; }
+        public int? FavorietTeam { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

@@ -118,30 +118,30 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Aankoopgeschiedenis" xml:space="preserve">
-    <value>Aankoopgeschiedenis</value>
+    <value>Purchase history</value>
   </data>
   <data name="Bezoekers" xml:space="preserve">
-    <value>Bezoekers</value>
+    <value>Visitors</value>
   </data>
   <data name="Clubs" xml:space="preserve">
-    <value>Clubs</value>
+    <value>Teams</value>
   </data>
   <data name="Hallo" xml:space="preserve">
-    <value>Hallo</value>
+    <value>Hello</value>
   </data>
   <data name="Inloggen" xml:space="preserve">
-    <value>Inloggen</value>
+    <value>Log in</value>
   </data>
   <data name="Registreren" xml:space="preserve">
-    <value>Registreren</value>
+    <value>Register</value>
   </data>
   <data name="Taal" xml:space="preserve">
-    <value>Taal</value>
+    <value>Language</value>
   </data>
   <data name="Uitloggen" xml:space="preserve">
-    <value>Uitloggen</value>
+    <value>Log out</value>
   </data>
   <data name="Winkelwagentje" xml:space="preserve">
-    <value>Winkelwagentje</value>
+    <value>Shopping Cart</value>
   </data>
 </root>

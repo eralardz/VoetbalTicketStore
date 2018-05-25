@@ -126,11 +126,20 @@
   <data name="Clubs" xml:space="preserve">
     <value>Clubs</value>
   </data>
+  <data name="Hallo" xml:space="preserve">
+    <value>Bonjour</value>
+  </data>
   <data name="Inloggen" xml:space="preserve">
     <value>Se connecter</value>
   </data>
   <data name="Registreren" xml:space="preserve">
     <value>S'inscrire</value>
+  </data>
+  <data name="Taal" xml:space="preserve">
+    <value>Langue</value>
+  </data>
+  <data name="Uitloggen" xml:space="preserve">
+    <value>Se déloguer</value>
   </data>
   <data name="Winkelwagentje" xml:space="preserve">
     <value>Caddie</value>

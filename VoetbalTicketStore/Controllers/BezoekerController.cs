@@ -19,7 +19,7 @@ using VoetbalTicketStore.ViewModel;
 namespace VoetbalTicketStore.Controllers
 {
     [Authorize]
-    public class BezoekerController : Controller
+    public class BezoekerController : BaseController
     {
 
         private BezoekerService bezoekerService;

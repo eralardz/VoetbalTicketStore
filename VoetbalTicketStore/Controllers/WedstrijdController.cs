@@ -9,7 +9,7 @@ using VoetbalTicketStore.Service;
 
 namespace VoetbalTicketStore.Controllers
 {
-    public class WedstrijdController : Controller
+    public class WedstrijdController : BaseController
     {
 
         WedstrijdService wedstrijdService;
