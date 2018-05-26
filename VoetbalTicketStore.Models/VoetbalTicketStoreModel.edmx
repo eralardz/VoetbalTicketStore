@@ -21,7 +21,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Clubid" Type="int" Nullable="false" />
-          <Property Name="Prijs" Type="money" Nullable="false" />
+          <Property Name="Prijs" Type="decimal" Precision="12" Scale="2" Nullable="false" />
           <Property Name="Bezoekerrijksregisternummer" Type="varchar" MaxLength="255" />
           <Property Name="VakId" Type="int" Nullable="false" />
           <Property Name="AspNetUsersId" Type="nvarchar" MaxLength="128" Nullable="false" />
@@ -109,8 +109,8 @@
           <Property Name="Naam" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Logo" Type="varchar" MaxLength="255" />
           <Property Name="Stadionid" Type="int" Nullable="false" />
-          <Property Name="TicketPrijsCoefficient" Type="money" Nullable="false" />
-          <Property Name="AbonnementPrijsCoefficient" Type="money" Nullable="false" />
+          <Property Name="TicketPrijsCoefficient" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="AbonnementPrijsCoefficient" Type="decimal" Precision="12" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="ShoppingCartData">
           <Key>
@@ -118,7 +118,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BestellingId" Type="int" Nullable="false" />
-          <Property Name="Prijs" Type="money" Nullable="false" />
+          <Property Name="Prijs" Type="decimal" Precision="12" Scale="2" Nullable="false" />
           <Property Name="WedstrijdId" Type="int" />
           <Property Name="Hoeveelheid" Type="int" Nullable="false" />
           <Property Name="VakId" Type="int" Nullable="false" />
@@ -165,7 +165,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Gebruikerid" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="Prijs" Type="money" Nullable="false" />
+          <Property Name="Prijs" Type="decimal" Precision="12" Scale="2" Nullable="false" />
           <Property Name="Bezoekerrijksregisternummer" Type="varchar" MaxLength="255" />
           <Property Name="Vakid" Type="int" Nullable="false" />
           <Property Name="Bevestigd" Type="bit" Nullable="false" />
@@ -199,8 +199,8 @@
           <Property Name="Club1id" Type="int" Nullable="false" />
           <Property Name="Club2id" Type="int" Nullable="false" />
           <Property Name="DatumEnTijd" Type="datetime" Nullable="false" />
-          <Property Name="Beschrijving" Type="nvarchar(max)" />
           <Property Name="Afbeelding" Type="nvarchar" MaxLength="255" />
+          <Property Name="Beschrijving" Type="nvarchar(max)" />
         </EntityType>
         <Association Name="Abonnement gekocht door gebruiker">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
@@ -238,7 +238,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Abonnement voor type vak">
+        <Association Name="Abonnement voor vak">
           <End Role="Vak" Type="Self.Vak" Multiplicity="1" />
           <End Role="Abonnement" Type="Self.Abonnement" Multiplicity="*" />
           <ReferentialConstraint>
@@ -336,7 +336,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_AspNetUsers_Club">
+        <Association Name="Favoriet team van gebruiker">
           <End Role="Club" Type="Self.Club" Multiplicity="0..1" />
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
           <ReferentialConstraint>
@@ -580,7 +580,7 @@
             <End Role="Club" EntitySet="Club" />
             <End Role="Abonnement" EntitySet="Abonnement" />
           </AssociationSet>
-          <AssociationSet Name="Abonnement voor type vak" Association="Self.Abonnement voor type vak">
+          <AssociationSet Name="Abonnement voor vak" Association="Self.Abonnement voor vak">
             <End Role="Vak" EntitySet="Vak" />
             <End Role="Abonnement" EntitySet="Abonnement" />
           </AssociationSet>
@@ -612,7 +612,7 @@
             <End Role="Stadion" EntitySet="Stadion" />
             <End Role="Club" EntitySet="Club" />
           </AssociationSet>
-          <AssociationSet Name="FK_AspNetUsers_Club" Association="Self.FK_AspNetUsers_Club">
+          <AssociationSet Name="Favoriet team van gebruiker" Association="Self.Favoriet team van gebruiker">
             <End Role="Club" EntitySet="Club" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
@@ -701,7 +701,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Clubid" Type="Int32" Nullable="false" />
-          <Property Name="Prijs" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Prijs" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
           <Property Name="Bezoekerrijksregisternummer" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="VakId" Type="Int32" Nullable="false" />
           <Property Name="AspNetUsersId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
@@ -802,8 +802,8 @@
           <Property Name="Naam" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Logo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Stadionid" Type="Int32" Nullable="false" />
-          <Property Name="TicketPrijsCoefficient" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="AbonnementPrijsCoefficient" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="TicketPrijsCoefficient" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="AbonnementPrijsCoefficient" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
           <NavigationProperty Name="Abonnements" Relationship="Self.Abonnement_voor_een_club" FromRole="Club" ToRole="Abonnement" />
           <NavigationProperty Name="Wedstrijds" Relationship="Self.Bezoekers" FromRole="Club" ToRole="Wedstrijd" />
           <NavigationProperty Name="Stadion" Relationship="Self.Club_speelt_in_een_stadion" FromRole="Club" ToRole="Stadion" />
@@ -818,7 +818,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BestellingId" Type="Int32" Nullable="false" />
-          <Property Name="Prijs" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Prijs" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
           <Property Name="WedstrijdId" Type="Int32" />
           <Property Name="Hoeveelheid" Type="Int32" Nullable="false" />
           <Property Name="VakId" Type="Int32" Nullable="false" />
@@ -875,7 +875,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Gebruikerid" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Prijs" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Prijs" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
           <Property Name="Bezoekerrijksregisternummer" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Vakid" Type="Int32" Nullable="false" />
           <Property Name="Bevestigd" Type="Boolean" Nullable="false" />

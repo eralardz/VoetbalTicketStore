@@ -12,3 +12,22 @@ img.wedstrijd {
     height: auto;
 }
 
+div.stadion {
+    background-image: url('../img/stadion-janbreydel.png');
+    opacity: 0.2;
+    width: 100%;
+    height: 200px;
+}
+
+div#second {
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+div.over div{
+    opacity: 1.0 !important;
+    background-color: red;
+}

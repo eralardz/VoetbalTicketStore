@@ -29,7 +29,7 @@ namespace VoetbalTicketStore.DAO
             }
         }
 
-        public IEnumerable<Wedstrijd> GetAanTeRadenWedstrijdenVoorClub(int clubId, int aantal)
+        public IEnumerable<Wedstrijd> GetAanTeRadenWedstrijdenVoorClub(int? clubId, int aantal)
         {
             using (var db = new VoetbalstoreEntities())
             {

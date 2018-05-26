@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using VoetbalTicketStore.Helpers;
 using VoetbalTicketStore.Models;
 using VoetbalTicketStore.Service;
+using VoetbalTicketStore.ViewModel;
 
 namespace VoetbalTicketStore.Controllers
 {
@@ -28,12 +29,11 @@ namespace VoetbalTicketStore.Controllers
             // get aangeraden wedstrijden
             wedstrijdService = new WedstrijdService();
 
-            // viewmodel opvullen
-            HomeVM homeVM = new HomeVM
-            {
-                //HighlightList = wedstrijdService.GetAanTeRadenWedstrijdenVoorClub(user.FavorietTeam, 3)
-            };
 
+            // viewmodel opvullen
+            HomeVM homeVM = new HomeVM();
+
+            if (user != null) { homeVM.HighlightList = wedstrijdService.GetAanTeRadenWedstrijdenVoorClub(user.FavorietTeam, 3); }
             return View(homeVM);
         }
 

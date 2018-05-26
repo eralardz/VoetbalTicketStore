@@ -95,14 +95,14 @@ else
 
             @using (Html.BeginForm("Finalise", "ShoppingCart", FormMethod.Post, new { @class = "shoppingCartButtons" }))
             {
-                @*<input type="submit" value="Betalen" class="btn btn-primary formButtons" />*@
+                @Html.AntiForgeryToken()
                 <button type="submit" class="btn btn-primary formButtons">
                     <span class="glyphicon glyphicon-euro"></span> Betalen
                 </button>
             }
             @using (Html.BeginForm("Clear", "ShoppingCart", new { GeselecteerdeBestelling = Model.Bestelling.Id }, FormMethod.Post, new { @class = "shoppingCartButtons" }))
             {
-                @*<input type="submit" value="Leegmaken" class="btn btn-primary" />*@
+                @Html.AntiForgeryToken()
                 <button type="submit" class="btn btn-danger formButtons">
                     <span class="glyphicon glyphicon-trash"></span> Leegmaken
                 </button>

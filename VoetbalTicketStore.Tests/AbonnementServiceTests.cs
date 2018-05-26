@@ -15,8 +15,6 @@ namespace VoetbalTicketStore.Service.Tests
         public void GetAantalAbonnementenPerVakVoorThuisPloegTest()
         {
             AbonnementService abonnementService = new AbonnementService();
-
-
             // arrange
 
             // act

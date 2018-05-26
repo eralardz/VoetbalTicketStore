@@ -39,7 +39,7 @@ namespace VoetbalTicketStore.Service
             return wedstrijdDAO.getWedstrijdById(id);
         }
 
-        public IEnumerable<Wedstrijd> GetAanTeRadenWedstrijdenVoorClub(int clubId, int aantal)
+        public IEnumerable<Wedstrijd> GetAanTeRadenWedstrijdenVoorClub(int? clubId, int aantal)
         {
             // meest recente wedstrijden voor het favoriete team van de gebruiker
             return wedstrijdDAO.GetAanTeRadenWedstrijdenVoorClub(clubId, aantal);

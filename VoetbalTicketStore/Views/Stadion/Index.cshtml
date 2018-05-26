@@ -41,6 +41,7 @@
 @foreach (var item in Model)
 {
     <div class="row">
+        <hr />
         <div class="col-md-3">
             @Html.DisplayFor(modelItem => item.Naam)
         </div>
@@ -50,14 +51,13 @@
                 @club.Naam;
             }
         </div>
-
-
         <div class="col-md-4">
             @Html.DisplayFor(modelItem => item.Adres)
         </div>
         <div class="col-md-2">
             @Html.DisplayFor(modelItem => item.AantalZitplaatsen)
         </div>
+        <hr />
     </div>
 }
 

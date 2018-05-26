@@ -8,7 +8,7 @@ using VoetbalTicketStore.Service;
 
 namespace VoetbalTicketStore.Controllers
 {
-    public class StadionController : Controller
+    public class StadionController : BaseController
     {
 
         private StadionService stadionService;

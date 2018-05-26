@@ -72,5 +72,14 @@ namespace VoetbalTicketStore.DAO
                 db.SaveChanges();
             }
         }
+
+        public IEnumerable<IGrouping<int, Ticket>> GetMeestGekochteThuisploeg(string user)
+        {
+            using (var db = new VoetbalstoreEntities())
+            {
+                // gebruiker heeft het meest tickets gekocht voor dit vak, ergo de thuisploeg waarvoor hij supportert
+                return db.Tickets.Where(t => t.Gebruikerid.Equals(user)).OrderByDescending(x => x.Vakid).GroupBy(v => v.Vakid);
+            }
+        }
     }
 }

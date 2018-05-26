@@ -216,7 +216,7 @@
     <Compile Include="ModelBinder\DecimalModelBinder.cs" />
     <Compile Include="Models\AbonnementPDF.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\HomeVM.cs" />
+    <Compile Include="ViewModel\HomeVM.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\TicketPDF.cs" />
@@ -424,6 +424,7 @@
     <Content Include="Content\img\genk-carousel.jpg" />
     <Content Include="Content\img\gent-carousel.jpg" />
     <Content Include="Content\img\oostende-carousel.jpg" />
+    <Content Include="Content\img\stadion-janbreydel.png" />
     <Content Include="Content\img\zultewaregem-carousel.jpg" />
     <Content Include="Content\voucher\logo.png" />
     <Content Include="Content\voucher\abonnement.html">

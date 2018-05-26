@@ -140,6 +140,11 @@ namespace VoetbalTicketStore.Service
             bestellingDAO.BevestigBestelling(bestelling);
         }
 
+        public Club GetMeestGekochteThuisploeg(string user)
+        {
+            return bestellingDAO.GetMeestGekochteThuisploeg(user);
+        }
+
         public void PlaatsBestelling(Bestelling bestelling, string user)
         {
             // services

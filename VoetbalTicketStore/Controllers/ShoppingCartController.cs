@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,7 +64,8 @@ namespace VoetbalTicketStore.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Add(TicketConfirm ticketConfirm)
         {
-            if (ModelState.IsValid) { 
+            if (ModelState.IsValid)
+            {
                 // Nieuwe bestelling aanmaken indien nodig
                 Bestelling bestelling = CreateNieuweBestellingIndienNodig();
 
@@ -124,6 +126,7 @@ namespace VoetbalTicketStore.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Clear(ShoppingCart shoppingCart)
         {
             shoppingCartDataService = new ShoppingCartDataService();
@@ -134,6 +137,7 @@ namespace VoetbalTicketStore.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Finalise(ShoppingCart shoppingCart)
         {
             try
@@ -143,10 +147,16 @@ namespace VoetbalTicketStore.Controllers
                 Bestelling bestelling = bestellingService.FindOpenstaandeBestellingDoorUser(User.Identity.GetUserId());
                 bestellingService.PlaatsBestelling(bestelling, User.Identity.GetUserId());
 
+                // alle bestellingen overlopen, en meest gekochte team + aantal ophalen
+                Club club = bestellingService.GetMeestGekochteThuisploeg(User.Identity.GetUserId());
 
-                // pas profiel aan
-
-
+                // Find & update user
+                var manager = new UserManager<ApplicationUser>(
+               new UserStore<ApplicationUser>(
+                   new ApplicationDbContext()));
+                var user = manager.FindById(User.Identity.GetUserId());
+                user.FavorietTeam = club.Id;
+                manager.Update(user);
             }
             catch (BestelException ex)
             {
