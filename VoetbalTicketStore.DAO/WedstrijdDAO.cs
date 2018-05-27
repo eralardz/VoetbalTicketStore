@@ -33,7 +33,7 @@ namespace VoetbalTicketStore.DAO
         {
             using (var db = new VoetbalstoreEntities())
             {
-                return db.Wedstrijds.Where(w => w.Club1id == clubId).OrderBy(w => w.DatumEnTijd).Take(aantal);
+                return db.Wedstrijds.Where(w => w.Club1id == clubId).OrderBy(w => w.DatumEnTijd).Take(aantal).Include(w => w.Club).Include(w => w.Club1).ToList();
             }
         }
 

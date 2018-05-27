@@ -12,7 +12,7 @@ namespace VoetbalTicketStore.ViewModel
 
 
         // Lijst met highlights
-        public IEnumerable<Wedstrijd> HighlightList { get; set; }
+        public IList<Wedstrijd> HighlightList { get; set; }
 
         // foto-url
         // tekstje

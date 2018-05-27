@@ -33,7 +33,7 @@ namespace VoetbalTicketStore.Controllers
             // viewmodel opvullen
             HomeVM homeVM = new HomeVM();
 
-            if (user != null) { homeVM.HighlightList = wedstrijdService.GetAanTeRadenWedstrijdenVoorClub(user.FavorietTeam, 3); }
+            if (user != null) { homeVM.HighlightList = wedstrijdService.GetAanTeRadenWedstrijdenVoorClub(user.FavorietTeam, 3).ToList(); }
             return View(homeVM);
         }
 

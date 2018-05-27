@@ -73,13 +73,33 @@ namespace VoetbalTicketStore.DAO
             }
         }
 
-        public IEnumerable<IGrouping<int, Ticket>> GetMeestGekochteThuisploeg(string user)
+        public int GetMeestGekochteThuisploeg(string user)
         {
             using (var db = new VoetbalstoreEntities())
             {
-                // gebruiker heeft het meest tickets gekocht voor dit vak, ergo de thuisploeg waarvoor hij supportert
-                return db.Tickets.Where(t => t.Gebruikerid.Equals(user)).OrderByDescending(x => x.Vakid).GroupBy(v => v.Vakid);
+                var id = (from Tickets in db.Tickets
+                          join Clubs in db.Clubs on new { Club1id = Tickets.Wedstrijd.Club1id } equals new { Club1id = Clubs.Id }
+                          where
+                            Tickets.Gebruikerid.Equals(user)
+                          group Clubs by new
+                          {
+                              Clubs.Id,
+                              Clubs.Naam
+                          } into g
+                          orderby
+                            g.Count(p => p.Id != null) descending
+                          select new MeestGekochteThuisPloeg
+                          {
+                              ClubId = g.Key.Id
+                          }).Take(1);
+
+                return id.FirstOrDefault().ClubId;
             }
+        }
+
+        private class MeestGekochteThuisPloeg
+        {
+            public int ClubId { get; set; }
         }
     }
 }

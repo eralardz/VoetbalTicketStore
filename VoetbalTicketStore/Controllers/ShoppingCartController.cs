@@ -147,15 +147,12 @@ namespace VoetbalTicketStore.Controllers
                 Bestelling bestelling = bestellingService.FindOpenstaandeBestellingDoorUser(User.Identity.GetUserId());
                 bestellingService.PlaatsBestelling(bestelling, User.Identity.GetUserId());
 
-                // alle bestellingen overlopen, en meest gekochte team + aantal ophalen
-                Club club = bestellingService.GetMeestGekochteThuisploeg(User.Identity.GetUserId());
-
-                // Find & update user
+                // Find & update user (meest favoriete team)
                 var manager = new UserManager<ApplicationUser>(
                new UserStore<ApplicationUser>(
                    new ApplicationDbContext()));
                 var user = manager.FindById(User.Identity.GetUserId());
-                user.FavorietTeam = club.Id;
+                user.FavorietTeam = bestellingService.GetMeestGekochteThuisploeg(User.Identity.GetUserId());
                 manager.Update(user);
             }
             catch (BestelException ex)

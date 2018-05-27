@@ -425,6 +425,10 @@
     <Content Include="Content\img\gent-carousel.jpg" />
     <Content Include="Content\img\oostende-carousel.jpg" />
     <Content Include="Content\img\stadion-janbreydel.png" />
+    <Content Include="Content\img\wedstrijd-11.jpg" />
+    <Content Include="Content\img\wedstrijd-23.jpg" />
+    <Content Include="Content\img\wedstrijd-24.JPG" />
+    <Content Include="Content\img\wedstrijd-placeholder.JPG" />
     <Content Include="Content\img\zultewaregem-carousel.jpg" />
     <Content Include="Content\voucher\logo.png" />
     <Content Include="Content\voucher\abonnement.html">

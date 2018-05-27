@@ -51,6 +51,9 @@ namespace VoetbalTicketStore.Models
         [Display(Name = "Wanneer")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime BestelDatum { get; set; }
+        [DisplayFormat(DataFormatString = "{0:C}")]
+        public decimal TotaalPrijs { get; set; }
+
     }
 
     public class StadionMetadata

@@ -4,6 +4,8 @@
     ViewBag.Title = "Startpagina";
 }
 
+
+
 <div class="jk-slider">
     <div id="carousel-example" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -12,42 +14,55 @@
             <li data-target="#carousel-example" data-slide-to="2"></li>
         </ol>
         <div class="carousel-inner">
+            @if (Model.HighlightList != null)
+            {
+                for (var i = 0; i < Model.HighlightList.Count(); i++)
+                {
+                    if (i == 0)
+                    {
+                        <div class="item active">
+                            <div class="hero">
+                                <h4>@Html.DisplayFor(modelItem => modelItem.HighlightList[i].DatumEnTijd)</h4>
+                                <h1>@Html.DisplayFor(modelItem => modelItem.HighlightList[i].Club.Naam) - @Html.DisplayFor(modelItem => modelItem.HighlightList[i].Club1.Naam)</h1>
+                                <h2>@Html.DisplayFor(modelItem => modelItem.HighlightList[i].Beschrijving)  </h2>
+                                @Html.ActionLink("Koop tickets", "Buy", "Ticket", new { id = Model.HighlightList[i].Id }, htmlAttributes: new { @class = "btn btn-success btn-lg" })
 
-            <div class="item active">
-                <div class="hero">
-                    <h1>Club Brugge - Anderlecht</h1>
-                    <h2>Pakt Brugge de titel?   </h2>
-                </div>
-                <div class="overlay"></div>
-                <a href="#"><img src="~/Content/img/anderlecht-carousel.jpg" alt="Anderlecht"></a>
+                            </div>
+                            <div class="overlay"></div>
+                            @if (Model.HighlightList[i].Afbeelding != null)
+                            {
+                                <a href="/Ticket/Buy/Model.HighlightList[i].Id"><img src=@Model.HighlightList[i].Afbeelding alt="Afbeelding"></a>
+                            }
+                            else
+                            {
+                                <img src="~/Content/img/wedstrijd-placeholder.JPG" />
+                            }
 
-            </div>
-            <div class="item">
-                <div class="hero">
-                    <hgroup>
-                        <h1>Search for</h1>
-                        <h3>the books you need and save ! </h3>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged</p>
-                    </hgroup>
 
-                </div>
-
-                <div class="overlay"></div>
-                <a href="#"><img src="~/Content/img/clubbrugge-carousel.jpg" alt="Anderlecht"></a>
-
-            </div>
-            <div class="item">
-                <div class="hero">
-                    <hgroup>
-                        <h1>Search for</h1>
-                        <h3>the books you need and save ! </h3>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged</p>
-                    </hgroup>
-                </div>
-                <div class="overlay"></div>
-                <a href="#"><img src="~/Content/img/oostende-carousel.jpg" alt="Anderlecht"></a>
-
-            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="item">
+                            <div class="hero">
+                                <h4>@Html.DisplayFor(modelItem => modelItem.HighlightList[i].DatumEnTijd)</h4>
+                                <h1>@Html.DisplayFor(modelItem => modelItem.HighlightList[i].Club.Naam) - @Html.DisplayFor(modelItem => modelItem.HighlightList[i].Club1.Naam)</h1>
+                                <h2>@Html.DisplayFor(modelItem => modelItem.HighlightList[i].Beschrijving)  </h2>
+                                @Html.ActionLink("Koop tickets", "Buy", "Ticket", new { id = Model.HighlightList[i].Id }, htmlAttributes: new { @class = "btn btn-success btn-lg" })
+                            </div>
+                            <div class="overlay"></div>
+                            @if (Model.HighlightList[i].Afbeelding != null)
+                            {
+                                <a href="/Ticket/Buy/Model.HighlightList[i].Id"><img src=@Model.HighlightList[i].Afbeelding alt="Afbeelding"></a>
+                            }
+                            else
+                            {
+                                <img src="~/Content/img/wedstrijd-placeholder.JPG" />
+                            }
+                        </div>
+                    }
+                }
+            }
         </div>
     </div>
 </div>
