@@ -72,7 +72,9 @@ namespace VoetbalTicketStore.DAO
                 db.SaveChanges();
             }
         }
-
+        // SQL Query
+        //SELECT TOP(1) Club.Id as ClubId
+        //FROM[voetbalstore].[dbo].[Ticket] JOIN Wedstrijd ON Wedstrijd.Id = Ticket.Wedstrijdid JOIN Club ON Wedstrijd.Club1id = Club.Id WHERE Ticket.Gebruikerid = 'f42bf7d5-9a65-4466-b665-e10576b2939d' GROUP BY Club.Id, Club.Naam ORDER BY COUNT(Club.Id) DESC
         public int GetMeestGekochteThuisploeg(string user)
         {
             using (var db = new VoetbalstoreEntities())
