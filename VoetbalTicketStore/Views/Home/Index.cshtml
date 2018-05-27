@@ -9,62 +9,88 @@
 <div class="jk-slider">
     <div id="carousel-example" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
-            <li data-target="#carousel-example" data-slide-to="0" class="active"></li>
-            <li data-target="#carousel-example" data-slide-to="1"></li>
-            <li data-target="#carousel-example" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner">
+
             @if (Model.HighlightList != null)
             {
-                for (var i = 0; i < Model.HighlightList.Count(); i++)
+                <li data-target="#carousel-example" data-slide-to="0" class="active"></li>
+
+                //met default slide
+                if (Model.HighlightList.Count < 3)
                 {
-                    if (i == 0)
+                    for (int i = 0; i < Model.HighlightList.Count(); i++)
                     {
-                        <div class="item active">
-                            <div class="hero">
-                                <h4>@Html.DisplayFor(modelItem => modelItem.HighlightList[i].DatumEnTijd)</h4>
-                                <h1>@Html.DisplayFor(modelItem => modelItem.HighlightList[i].Club.Naam) - @Html.DisplayFor(modelItem => modelItem.HighlightList[i].Club1.Naam)</h1>
-                                <h2>@Html.DisplayFor(modelItem => modelItem.HighlightList[i].Beschrijving)  </h2>
-                                @Html.ActionLink("Koop tickets", "Buy", "Ticket", new { id = Model.HighlightList[i].Id }, htmlAttributes: new { @class = "btn btn-success btn-lg" })
-
-                            </div>
-                            <div class="overlay"></div>
-                            @if (Model.HighlightList[i].Afbeelding != null)
-                            {
-                                <a href="/Ticket/Buy/Model.HighlightList[i].Id"><img src=@Model.HighlightList[i].Afbeelding alt="Afbeelding"></a>
-                            }
-                            else
-                            {
-                                <img src="~/Content/img/wedstrijd-placeholder.JPG" />
-                            }
-
-
-                        </div>
+                        <li data-target="#carousel-example" data-slide-to=@(i+1)></li>
                     }
-                    else
+                }
+
+                //zonder default slide - andere manier van tellen
+                else
+                {
+                    for (int i = 1; i < Model.HighlightList.Count(); i++)
                     {
-                        <div class="item">
-                            <div class="hero">
-                                <h4>@Html.DisplayFor(modelItem => modelItem.HighlightList[i].DatumEnTijd)</h4>
-                                <h1>@Html.DisplayFor(modelItem => modelItem.HighlightList[i].Club.Naam) - @Html.DisplayFor(modelItem => modelItem.HighlightList[i].Club1.Naam)</h1>
-                                <h2>@Html.DisplayFor(modelItem => modelItem.HighlightList[i].Beschrijving)  </h2>
-                                @Html.ActionLink("Koop tickets", "Buy", "Ticket", new { id = Model.HighlightList[i].Id }, htmlAttributes: new { @class = "btn btn-success btn-lg" })
-                            </div>
-                            <div class="overlay"></div>
-                            @if (Model.HighlightList[i].Afbeelding != null)
-                            {
-                                <a href="/Ticket/Buy/Model.HighlightList[i].Id"><img src=@Model.HighlightList[i].Afbeelding alt="Afbeelding"></a>
-                            }
-                            else
-                            {
-                                <img src="~/Content/img/wedstrijd-placeholder.JPG" />
-                            }
-                        </div>
+                        <li data-target="#carousel-example" data-slide-to=@(i)></li>
                     }
                 }
             }
+
+
+        </ol>
+        <div class="carousel-inner">
+
+            @*Geen favorieten of minder dan 3 -> voeg een default slide in.*@
+            @if (Model.HighlightList == null || Model.HighlightList.Count() < 3)
+            {
+                <div class="item active">
+                    <div class="hero">
+                        <h1>Welkom!</h1>
+                        <h2>Koop uw voetbaltickets hier!</h2>
+                        @Html.ActionLink("Koop tickets", "Buy", "Ticket", new { }, htmlAttributes: new { @class = "btn btn-success btn-lg" })
+                    </div>
+                    <div class="overlay"></div>
+                    <img src="~/Content/img/wedstrijd-placeholder.JPG" />
+                </div>
+            }
+
+            @if (Model.HighlightList != null && Model.HighlightList.Count() > 0)
+            {
+                for (var i = 0; i < Model.HighlightList.Count(); i++)
+                {
+                    if (Model.HighlightList.Count == 3 && i == 0)
+                    {
+                        @:<div class="item active">
+                        }
+                        else
+                        {
+                            @:<div class="item">
+                            }
+                            <div class="hero">
+                                <h4>@Html.DisplayFor(modelItem => modelItem.HighlightList[i].DatumEnTijd)</h4>
+                                <h1>@Html.DisplayFor(modelItem => modelItem.HighlightList[i].Club.Naam) - @Html.DisplayFor(modelItem => modelItem.HighlightList[i].Club1.Naam)</h1>
+                                @if (Model.HighlightList[i].Beschrijving != null)
+                                {
+                                    <h2>@Html.DisplayFor(modelItem => modelItem.HighlightList[i].Beschrijving)  </h2>
+                                }
+                                else
+                                {
+                                    <h2>Aangeraden voor jou!</h2>
+                                }
+                                @Html.ActionLink("Koop tickets", "Buy", "Ticket", new { id = Model.HighlightList[i].Id }, htmlAttributes: new { @class = "btn btn-success btn-lg" })
+                            </div>
+                            <div class="overlay"></div>
+                            if (Model.HighlightList[i].Afbeelding != null)
+                            {
+                                <a href="/Ticket/Buy/Model.HighlightList[i].Id"><img src=@Model.HighlightList[i].Afbeelding alt="Afbeelding"></a>
+                            }
+                            else
+                            {
+                                <img src="~/Content/img/wedstrijd-placeholder.JPG" />
+                            }
+                        @:</div>
+                    }
+                }
         </div>
     </div>
+</div>
 </div>
 <div class="row">
     <div class="col-md-4">
