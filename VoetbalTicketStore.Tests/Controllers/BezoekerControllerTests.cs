@@ -51,7 +51,7 @@ namespace VoetbalTicketStore.Controllers.Tests
         [Test]
         public void KoppelTest()
         {
-           // TODO mock user manager... needs more research
+            // TODO mock user manager... needs more research
         }
 
         [Test]
@@ -69,6 +69,23 @@ namespace VoetbalTicketStore.Controllers.Tests
             var httpResult = result as HttpStatusCodeResult;
             Assert.AreEqual(400, httpResult.StatusCode);
         }
+
+        [Test]
+        public async Task KoppelPostAsyncTestViewModelNull()
+        {
+            // arrange
+            BezoekerController bezoekerController = new BezoekerController();
+
+            // act
+            var result = await bezoekerController.KoppelPostAsync(null);
+
+            // assert
+            Assert.IsInstanceOf(typeof(HttpStatusCodeResult), result);
+
+            var httpResult = result as HttpStatusCodeResult;
+            Assert.AreEqual(400, httpResult.StatusCode);
+        }
+
 
         [Test]
         public void KoppelPostAsyncTest()

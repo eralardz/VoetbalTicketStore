@@ -117,11 +117,19 @@ namespace VoetbalTicketStore.Controllers
         [ActionName("Koppel")]
         public async System.Threading.Tasks.Task<ActionResult> KoppelPostAsync(BezoekerKoppelen bezoekerKoppelen)
         {
+            if(bezoekerKoppelen == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            }
             if (ModelState.IsValid)
             {
                 bezoekerService = new BezoekerService();
                 // bezoeker aanmaken indien nodig
                 Bezoeker bezoeker = bezoekerService.AddBezoekerIndienNodig(bezoekerKoppelen.TeWijzigenBezoeker.Rijksregisternummer, bezoekerKoppelen.TeWijzigenBezoeker.Naam, bezoekerKoppelen.TeWijzigenBezoeker.Voornaam, bezoekerKoppelen.TeWijzigenBezoeker.Email);
+
+                MailService mailService = new MailService();
+                mailService.SendMail();
 
                 // gegevens mail
                 var message = new MailMessage();
