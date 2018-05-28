@@ -82,7 +82,7 @@ namespace VoetbalTicketStore.Controllers
         [HttpGet]
         public ActionResult Koppel(BezoekerKoppelen bezoekerKoppelen)
         {
-            if(bezoekerKoppelen == null)
+            if (bezoekerKoppelen == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -128,8 +128,8 @@ namespace VoetbalTicketStore.Controllers
                 message.To.Add(new MailAddress(bezoekerKoppelen.TeWijzigenBezoeker.Email));
                 message.From = new MailAddress("vbtstore2018@gmail.com");
                 message.Subject = "Uw bestelling bij VoetbalTicketStore";
-                var body = "<p>Bedankt voor uw bestelling!: {0} ({1})</p><p>Message:</p><p>{2}</p>";
-                message.Body = string.Format(body, bezoekerKoppelen.TeWijzigenBezoeker.Naam, bezoekerKoppelen.TeWijzigenBezoeker.Email, "bla");
+                var body = "<h1>Beste {0}, </h1><p>Bedankt voor uw bestelling!<p><p>In bijlage vindt u uw voucher terug, vergeet ze niet mee te nemen naar het stadion!</p>";
+                message.Body = string.Format(body, bezoekerKoppelen.TeWijzigenBezoeker.Voornaam);
                 message.IsBodyHtml = true;
 
                 // GEVAL TICKET
@@ -279,12 +279,12 @@ namespace VoetbalTicketStore.Controllers
 
                         if (ticketPDF != null)
                         {
-                            html = String.Format(System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/voucher/vouchernew.html")), ticketPDF.TicketId, ticketPDF.BestellingId, ticketPDF.Prijs, ticketPDF.ThuisploegNaam, ticketPDF.TegenstandersNaam, ticketPDF.StadionNaam, ticketPDF.WedstrijdDatumEnTijd, ticketPDF.StadionAdres, ticketPDF.BezoekerVoornaam, ticketPDF.BezoekerNaam, ticketPDF.BezoekerRijksregisternummer, ticketPDF.BezoekerEmail, DateTime.Now.ToString());
+                            html = String.Format(System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/voucher/vouchernew.html")), ticketPDF.TicketId, ticketPDF.BestellingId, String.Format("{0:0.00}", ticketPDF.Prijs), ticketPDF.ThuisploegNaam, ticketPDF.TegenstandersNaam, ticketPDF.StadionNaam, ticketPDF.WedstrijdDatumEnTijd, ticketPDF.StadionAdres, ticketPDF.BezoekerVoornaam, ticketPDF.BezoekerNaam, ticketPDF.BezoekerRijksregisternummer, ticketPDF.BezoekerEmail, DateTime.Now.ToString());
 
                         }
                         if (abonnementPDF != null)
                         {
-                            html = String.Format(System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/voucher/abonnement.html")), abonnementPDF.AbonnementId, abonnementPDF.BestellingId, abonnementPDF.Prijs, abonnementPDF.ClubNaam, abonnementPDF.StadionNaam, abonnementPDF.SeizoenJaar, abonnementPDF.BezoekerVoornaam, abonnementPDF.BezoekerNaam, abonnementPDF.BezoekerRijksregisternummer, abonnementPDF.BezoekerEmail, DateTime.Now.ToString());
+                            html = String.Format(System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/voucher/abonnement.html")), abonnementPDF.AbonnementId, abonnementPDF.BestellingId, String.Format("{0:0.00}", abonnementPDF.Prijs), abonnementPDF.ClubNaam, abonnementPDF.StadionNaam, abonnementPDF.SeizoenJaar, abonnementPDF.BezoekerVoornaam, abonnementPDF.BezoekerNaam, abonnementPDF.BezoekerRijksregisternummer, abonnementPDF.BezoekerEmail, DateTime.Now.ToString());
                         }
                         /**************************************************
                          * Use the XMLWorker to parse HTML and CSS        *
