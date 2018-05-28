@@ -83,6 +83,7 @@
     <Compile Include="IBestellingService.cs" />
     <Compile Include="IBezoekerService.cs" />
     <Compile Include="IMailService.cs" />
+    <Compile Include="IPDFService.cs" />
     <Compile Include="ITicketService.cs" />
     <Compile Include="MailService.cs" />
     <Compile Include="PDFService.cs" />

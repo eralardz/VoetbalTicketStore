@@ -12,21 +12,82 @@ using System.Web.Hosting;
 
 namespace VoetbalTicketStore.Service
 {
-    public class PDFService
+    public class PDFService : IPDFService
     {
 
-        class TicketPDF
+
+        public class TicketPDF
         {
+            public int TicketId { get; set; }
+            public int BestellingId { get; set; }
+            public decimal Prijs { get; set; }
+            public string ThuisploegNaam { get; set; }
+            public string TegenstandersNaam { get; set; }
+            public string StadionNaam { get; set; }
+            public string StadionAdres { get; set; }
+            public DateTime WedstrijdDatumEnTijd { get; set; }
+            public string BezoekerVoornaam { get; set; }
+            public string BezoekerNaam { get; set; }
+            public string BezoekerRijksregisternummer { get; set; }
+            public string BezoekerEmail { get; set; }
+        }
+        public class AbonnementPDF
+        {
+            public int AbonnementId { get; set; }
+            public int BestellingId { get; set; }
+            public decimal Prijs { get; set; }
+            public string ClubNaam { get; set; }
+            public string StadionNaam { get; set; }
+            public int SeizoenJaar { get; set; }
+            public string BezoekerVoornaam { get; set; }
+            public string BezoekerNaam { get; set; }
+            public string BezoekerRijksregisternummer { get; set; }
+            public string BezoekerEmail { get; set; }
         }
 
-        class AbonnementPDF
-        {
+        private TicketPDF ticketPDF;
+        private AbonnementPDF abonnementPDF;
 
+        public void setPDFInfo(bool ticket, int id, int bestellingId, decimal prijs, string thuisploegNaam, string tegenstandersNaam, string adres, string stadionNaam, DateTime datumEnTijd, string bezoekerVoornaam, string bezoekerNaam, string bezoekerRijksregisternummer, string bezoekerEmail)
+        {
+            if (ticket)
+            {
+                ticketPDF = new TicketPDF()
+                {
+                    TicketId = id,
+                    BestellingId = id,
+                    Prijs = prijs,
+                    ThuisploegNaam = thuisploegNaam,
+                    TegenstandersNaam = tegenstandersNaam,
+                    StadionAdres = adres,
+                    WedstrijdDatumEnTijd = datumEnTijd,
+                    BezoekerVoornaam = bezoekerVoornaam,
+                    BezoekerNaam = bezoekerNaam,
+                    BezoekerEmail = bezoekerEmail,
+                    BezoekerRijksregisternummer = bezoekerRijksregisternummer
+                };
+            }
+            else
+            {
+                abonnementPDF = new AbonnementPDF()
+                {
+                    AbonnementId = id,
+                    BestellingId = bestellingId,
+                    Prijs = prijs,
+                    ClubNaam = thuisploegNaam,
+                    StadionNaam = stadionNaam,
+                    SeizoenJaar = datumEnTijd.Year,
+                    BezoekerVoornaam = bezoekerVoornaam,
+                    BezoekerNaam = bezoekerNaam,
+                    BezoekerEmail = bezoekerEmail,
+                    BezoekerRijksregisternummer = bezoekerRijksregisternummer
+                };
+            }
         }
 
-        Attachment GetAttachment(TicketPDF ticketPDF, AbonnementPDF abonnementPDF)
+        public Attachment GetAttachment()
         {
-            var file = new MemoryStream(ConvertHtmlToPDF(ticketPDF, abonnementPDF));
+            var file = new MemoryStream(ConvertHtmlToPDF());
             file.Seek(0, SeekOrigin.Begin);
             Attachment attachment = new Attachment(file, "voucher.pdf", "application/pdf");
             ContentDisposition disposition = attachment.ContentDisposition;
@@ -37,7 +98,7 @@ namespace VoetbalTicketStore.Service
         }
 
 
-        private Byte[] ConvertHtmlToPDF(TicketPDF ticketPDF, AbonnementPDF abonnementPDF)
+        public Byte[] ConvertHtmlToPDF()
         {
             //Create a byte array that will eventually hold our final PDF
             Byte[] bytes;

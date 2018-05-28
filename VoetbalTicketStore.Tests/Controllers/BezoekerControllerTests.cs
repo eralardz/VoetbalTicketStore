@@ -12,6 +12,11 @@ using FakeItEasy;
 using VoetbalTicketStore.ViewModel;
 using VoetbalTicketStore.Service;
 using VoetbalTicketStore.Models;
+using System.Web.Mail;
+using System.Net.Mail;
+using System.Web.Hosting;
+using System.Net.Mime;
+using System.IO;
 
 namespace VoetbalTicketStore.Controllers.Tests
 {
@@ -129,18 +134,29 @@ namespace VoetbalTicketStore.Controllers.Tests
                     Rijksregisternummer = "90050207940",
                     Email = "laurens.dewispelaere@gmail.com"
                 }
-
-
             });
+
+            var fakePDFService = A.Fake<IPDFService>();
+            A.CallTo(() => fakePDFService.setPDFInfo(true, 1337, 1337, new decimal(13.37), "FakeTeamThuis", "FakeTeamBezoek", "FakeAdres", "FakeStadion", DateTime.Now, "Laurens", "De Wispelaere", "90050207940", "laurens.dewispelaere@gmail.com")).DoesNothing();
+            A.CallTo(() => fakePDFService.GetAttachment()).Returns(new Attachment(Path.Combine(TestContext.CurrentContext.TestDirectory, @"Content\attachment.txt"), MediaTypeNames.Text.Plain));
 
             var fakeBestellingService = A.Fake<IBestellingService>();
 
+            var fakeMailService = A.Fake<IMailService>();
+            A.CallTo(() => fakeMailService.SendMailAsync(new System.Net.Mail.MailMessage())).Returns(null);
+
             var fakeAbonnementService = A.Fake<IAbonnementService>();
+            BezoekerController bezoekerController = new BezoekerController(fakeBezoekerService, fakeBestellingService, fakeTicketService, fakeAbonnementService, fakePDFService, fakeMailService);
 
-            BezoekerController bezoekerController = new BezoekerController(fakeBezoekerService, fakeBestellingService, fakeTicketService, fakeAbonnementService);
+            // act
+            var result = await bezoekerController.KoppelPostAsync(new BezoekerKoppelen() { TeWijzigenBezoeker = new Bezoeker() { Rijksregisternummer = "90050207940", Naam = "De Wispelaere", Voornaam = "Laurens", Email = "laurens.dewispelaere@gmail.com" } });
 
-            await bezoekerController.KoppelPostAsync(new BezoekerKoppelen() { TeWijzigenBezoeker = new Bezoeker() { Rijksregisternummer = "90050207940", Naam = "De Wispelaere", Voornaam = "Laurens", Email = "laurens.dewispelaere@gmail.com" } });
+            // assert
+            Assert.IsInstanceOf(typeof(RedirectToRouteResult), result);
+            Assert.IsTrue(bezoekerController.TempData["msg"].ToString().StartsWith("Uw ticket werd bevestigd."));
 
+            var resultCast = (RedirectToRouteResult)result;
+            Assert.AreEqual("Index", resultCast.RouteValues["action"]);
         }
 
         [Test]

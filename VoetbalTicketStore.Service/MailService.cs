@@ -23,5 +23,13 @@ namespace VoetbalTicketStore.Service
 
             return message;
         }
+
+        public async Task SendMailAsync(MailMessage message)
+        {
+            using (var smtp = new SmtpClient())
+            {
+                await smtp.SendMailAsync(message);
+            }
+        }
     }
 }

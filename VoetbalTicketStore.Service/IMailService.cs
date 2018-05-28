@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace VoetbalTicketStore.Service
 {
-    interface IMailService
+    public interface IMailService
     {
         MailMessage GenerateMail(string email, string voornaam);
+
+        Task SendMailAsync(MailMessage message);
     }
 }

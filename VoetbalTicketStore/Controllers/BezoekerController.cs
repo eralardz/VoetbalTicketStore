@@ -28,6 +28,8 @@ namespace VoetbalTicketStore.Controllers
         private IBestellingService bestellingService;
         private ITicketService ticketService;
         private IAbonnementService abonnementService;
+        private IPDFService pdfService;
+        private IMailService mailService;
 
         // GET: Bezoeker
         //public ActionResult Index()
@@ -61,12 +63,14 @@ namespace VoetbalTicketStore.Controllers
         }
 
         // Gebruikt voor tests
-        public BezoekerController(IBezoekerService bezoekerService, IBestellingService bestellingService, ITicketService ticketService, IAbonnementService abonnementService)
+        public BezoekerController(IBezoekerService bezoekerService, IBestellingService bestellingService, ITicketService ticketService, IAbonnementService abonnementService, IPDFService pdfService, IMailService mailService)
         {
             this.bezoekerService = bezoekerService;
             this.bestellingService = bestellingService;
             this.ticketService = ticketService;
             this.abonnementService = abonnementService;
+            this.pdfService = pdfService;
+            this.mailService = mailService;
         }
 
 
@@ -140,14 +144,18 @@ namespace VoetbalTicketStore.Controllers
             }
             if (ModelState.IsValid)
             {
-                if(bezoekerService == null)
+                if (bezoekerService == null)
                 {
                     bezoekerService = new BezoekerService();
                 }
                 // bezoeker aanmaken indien nodig
                 Bezoeker bezoeker = bezoekerService.AddBezoekerIndienNodig(bezoekerKoppelen.TeWijzigenBezoeker.Rijksregisternummer, bezoekerKoppelen.TeWijzigenBezoeker.Naam, bezoekerKoppelen.TeWijzigenBezoeker.Voornaam, bezoekerKoppelen.TeWijzigenBezoeker.Email);
 
-                MailService mailService = new MailService();
+                if (mailService == null)
+                {
+                    mailService = new MailService();
+                }
+
                 MailMessage message = mailService.GenerateMail(bezoekerKoppelen.TeWijzigenBezoeker.Email, bezoekerKoppelen.TeWijzigenBezoeker.Voornaam);
 
                 // geval ticket
@@ -163,29 +171,19 @@ namespace VoetbalTicketStore.Controllers
                     // ticket + alle info nodig om voucher te genereren
                     Ticket ticket = ticketService.FindTicket(bezoekerKoppelen.TeWijzigenTicket);
 
-                    TicketPDF ticketPDF = new TicketPDF()
+                    if (pdfService == null)
                     {
-                        TicketId = ticket.Id,
-                        BestellingId = ticket.BestellingId,
-                        Prijs = ticket.Prijs,
-                        ThuisploegNaam = ticket.Wedstrijd.Club.Naam,
-                        TegenstandersNaam = ticket.Wedstrijd.Club1.Naam,
-                        StadionNaam = ticket.Wedstrijd.Stadion.Naam,
-                        StadionAdres = ticket.Wedstrijd.Stadion.Adres,
-                        WedstrijdDatumEnTijd = ticket.Wedstrijd.DatumEnTijd,
-                        BezoekerVoornaam = ticket.Bezoeker.Voornaam,
-                        BezoekerNaam = ticket.Bezoeker.Naam,
-                        BezoekerRijksregisternummer = ticket.Bezoekerrijksregisternummer,
-                        BezoekerEmail = ticket.Bezoeker.Email
-                    };
+                        pdfService = new PDFService();
+                    }
+                    pdfService.setPDFInfo(true, ticket.Id, ticket.BestellingId, ticket.Prijs, ticket.Wedstrijd.Club.Naam, ticket.Wedstrijd.Club1.Naam, ticket.Wedstrijd.Stadion.Adres, null, ticket.Wedstrijd.DatumEnTijd, ticket.Bezoeker.Voornaam, ticket.Bezoeker.Naam, ticket.Bezoekerrijksregisternummer, ticket.Bezoeker.Email);
 
-                    message.Attachments.Add(GetAttachment(ticketPDF, null));
+                    message.Attachments.Add(pdfService.GetAttachment());
                 }
 
                 // geval abonnement
                 else
                 {
-                    if(abonnementService == null)
+                    if (abonnementService == null)
                     {
                         abonnementService = new AbonnementService();
                     }
@@ -193,28 +191,17 @@ namespace VoetbalTicketStore.Controllers
 
                     Abonnement abonnement = abonnementService.FindAbonnement(bezoekerKoppelen.TeWijzigenAbonnement);
 
-                    AbonnementPDF abonnementPDF = new AbonnementPDF()
+                    if (pdfService == null)
                     {
-                        AbonnementId = abonnement.Id,
-                        BestellingId = abonnement.BestellingId,
-                        Prijs = abonnement.Prijs,
-                        ClubNaam = abonnement.Club.Naam,
-                        StadionNaam = abonnement.Club.Stadion.Naam,
-                        SeizoenJaar = abonnement.Bestelling.BestelDatum.Year,
-                        BezoekerVoornaam = abonnement.Bezoeker.Voornaam,
-                        BezoekerNaam = abonnement.Bezoeker.Naam,
-                        BezoekerRijksregisternummer = abonnement.Bezoekerrijksregisternummer,
-                        BezoekerEmail = abonnement.Bezoeker.Email
-                    };
+                        pdfService = new PDFService();
+                    }
+                    pdfService.setPDFInfo(false, abonnement.Id, abonnement.BestellingId, abonnement.Prijs, abonnement.Club.Naam, null, null, abonnement.Club.Stadion.Naam, abonnement.Bestelling.BestelDatum, abonnement.Bezoeker.Voornaam, abonnement.Bezoeker.Naam, abonnement.Bezoekerrijksregisternummer, abonnement.Bezoeker.Email);
 
-                    message.Attachments.Add(GetAttachment(null, abonnementPDF));
+                    message.Attachments.Add(pdfService.GetAttachment());
                 }
 
-                using (var smtp = new SmtpClient())
-                {
-                    await smtp.SendMailAsync(message);
-                }
 
+                await mailService.SendMailAsync(message);
 
                 TempData["msg"] = "Uw ticket werd bevestigd. De voucher werd verstuurd naar " +
                     bezoekerKoppelen.TeWijzigenBezoeker.Email + ". De voucher is ook beschikbaar op deze website.";
@@ -228,23 +215,15 @@ namespace VoetbalTicketStore.Controllers
         [ValidateAntiForgeryToken]
         public FileContentResult GenerateTicketPDF(BestellingVM bestellingVM)
         {
-            TicketPDF ticketPDF = new TicketPDF()
+            if (pdfService == null)
             {
-                TicketId = bestellingVM.TicketId,
-                BestellingId = bestellingVM.BestellingId,
-                Prijs = bestellingVM.Prijs,
-                ThuisploegNaam = bestellingVM.ThuisploegNaam,
-                TegenstandersNaam = bestellingVM.TegenstandersNaam,
-                StadionNaam = bestellingVM.StadionNaam,
-                StadionAdres = bestellingVM.StadionAdres,
-                WedstrijdDatumEnTijd = bestellingVM.WedstrijdDatumEnTijd,
-                BezoekerVoornaam = bestellingVM.BezoekerVoornaam,
-                BezoekerNaam = bestellingVM.BezoekerNaam,
-                BezoekerRijksregisternummer = bestellingVM.BezoekerRijksregisternummer,
-                BezoekerEmail = bestellingVM.BezoekerEmail
-            };
+                pdfService = new PDFService();
+            }
 
-            Byte[] bytes = ConvertHtmlToPDF(ticketPDF, null);
+            pdfService.setPDFInfo(true, bestellingVM.TicketId, bestellingVM.BestellingId, bestellingVM.Prijs, bestellingVM.ThuisploegNaam, bestellingVM.TegenstandersNaam, bestellingVM.StadionAdres, bestellingVM.StadionNaam, bestellingVM.WedstrijdDatumEnTijd, bestellingVM.BezoekerVoornaam, bestellingVM.BezoekerNaam, bestellingVM.BezoekerRijksregisternummer, bestellingVM.BezoekerEmail);
+
+
+            Byte[] bytes = pdfService.ConvertHtmlToPDF();
             // openen in browser
             return File(bytes, "application/pdf", "voucher.pdf");
         }
@@ -253,21 +232,14 @@ namespace VoetbalTicketStore.Controllers
         [ValidateAntiForgeryToken]
         public FileContentResult GenerateAbonnementPDF(BestellingVM bestellingVM)
         {
-            AbonnementPDF abonnementPDF = new AbonnementPDF()
+            if (pdfService == null)
             {
-                AbonnementId = bestellingVM.AbonnementId,
-                BestellingId = bestellingVM.BestellingId,
-                Prijs = bestellingVM.Prijs,
-                ClubNaam = bestellingVM.ThuisploegNaam,
-                StadionNaam = bestellingVM.StadionNaam,
-                SeizoenJaar = bestellingVM.BestelDatum.Year,
-                BezoekerVoornaam = bestellingVM.BezoekerVoornaam,
-                BezoekerNaam = bestellingVM.BezoekerNaam,
-                BezoekerRijksregisternummer = bestellingVM.BezoekerRijksregisternummer,
-                BezoekerEmail = bestellingVM.BezoekerEmail
-            };
+                pdfService = new PDFService();
+            }
 
-            Byte[] bytes = ConvertHtmlToPDF(null, abonnementPDF);
+            pdfService.setPDFInfo(false, bestellingVM.AbonnementId, bestellingVM.BestellingId, bestellingVM.Prijs, bestellingVM.ThuisploegNaam, null, null, bestellingVM.StadionNaam, bestellingVM.BestelDatum, bestellingVM.BezoekerVoornaam, bestellingVM.BezoekerNaam, bestellingVM.BezoekerRijksregisternummer, bestellingVM.BezoekerEmail);
+
+            Byte[] bytes = pdfService.ConvertHtmlToPDF();
             // openen in browser
             return File(bytes, "application/pdf", "abonnement.pdf");
         }
@@ -352,7 +324,7 @@ namespace VoetbalTicketStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(bezoekerService == null)
+                if (bezoekerService == null)
                 {
                     bezoekerService = new BezoekerService();
                 }
