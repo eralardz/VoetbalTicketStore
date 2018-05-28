@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Web;
@@ -63,7 +64,6 @@ namespace VoetbalTicketStore.Controllers
             abonnementService = new AbonnementService();
             IEnumerable<Abonnement> abonnementen = abonnementService.GetNietGekoppeldeAbonnementen(User.Identity.GetUserId());
 
-
             BezoekerKoppelen bezoekerKoppelen = new BezoekerKoppelen()
             {
                 NietGekoppeldeTickets = tickets,
@@ -82,6 +82,11 @@ namespace VoetbalTicketStore.Controllers
         [HttpGet]
         public ActionResult Koppel(BezoekerKoppelen bezoekerKoppelen)
         {
+            if(bezoekerKoppelen == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             List<SelectListItem> list = new List<SelectListItem>
             {
                 new SelectListItem { Text = "Mezelf", Value = "0", Selected = true },
@@ -90,9 +95,6 @@ namespace VoetbalTicketStore.Controllers
 
             // ViewModel opvullen
             bezoekerKoppelen.TypeBezoekerList = list;
-
-            // 
-
 
             // Create manager
             var manager = new UserManager<ApplicationUser>(

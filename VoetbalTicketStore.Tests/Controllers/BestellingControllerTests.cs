@@ -31,16 +31,15 @@ namespace VoetbalTicketStore.Controllers.Tests
             // act
             var result = bestellingController.Index();
 
-            // assert
-            // result
+            // assert result
             Assert.IsNotNull(result);
             Assert.IsInstanceOf(typeof(ViewResult), result);
 
-            // viewmodel
+            // assert viewmodel
             ViewResult resultView = (ViewResult)result;
             Assert.IsInstanceOf(typeof(BestellingVM), resultView.Model);
 
-            // message (geen redirect hier na het kopen)
+            // assert message (geen redirect hier na het kopen)
             Assert.IsNull(resultView.ViewBag.Msg);
         }
 
@@ -57,9 +56,9 @@ namespace VoetbalTicketStore.Controllers.Tests
             // act
             var result = bestellingController.Annuleren(new BestellingVM() { TicketId = 0 });
 
-
             // assert
             Assert.IsInstanceOf(typeof(RedirectToRouteResult), result);
+            Assert.AreEqual(bestellingController.TempData["msg"], "Uw ticket werd geannuleerd.");
 
             var resultCast = (RedirectToRouteResult)result;
             Assert.AreEqual("Index", resultCast.RouteValues["action"]);

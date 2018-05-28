@@ -78,7 +78,7 @@
     <Compile Include="BestellingService.cs" />
     <Compile Include="BezoekerService.cs" />
     <Compile Include="ClubService.cs" />
-    <Compile Include="IService.cs" />
+    <Compile Include="ITicketService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShoppingCartDataService.cs" />
     <Compile Include="StadionService.cs" />
