@@ -10,6 +10,8 @@ using System.Security.Principal;
 using System.Security.Claims;
 using FakeItEasy;
 using VoetbalTicketStore.ViewModel;
+using VoetbalTicketStore.Service;
+using VoetbalTicketStore.Models;
 
 namespace VoetbalTicketStore.Controllers.Tests
 {
@@ -88,9 +90,59 @@ namespace VoetbalTicketStore.Controllers.Tests
 
 
         [Test]
-        public void KoppelPostAsyncTest()
+        public async Task KoppelPostAsyncTest()
         {
-            Assert.Fail();
+            // arrange
+            // fake bezoekerservice
+            var fakeBezoekerService = A.Fake<IBezoekerService>();
+            A.CallTo(() => fakeBezoekerService.AddBezoekerIndienNodig("90050207940", ("De Wispelaere"), "Laurens", "laurens.dewispelaere@gmail.com")).Returns(new Bezoeker());
+
+            var fakeTicketService = A.Fake<ITicketService>();
+            A.CallTo(() => fakeTicketService.KoppelBezoekerAanTicket(0, "90050207940")).DoesNothing();
+            A.CallTo(() => fakeTicketService.FindTicket(0)).Returns(new Ticket()
+            {
+                Id = 1337,
+                Gebruikerid = new Guid().ToString(),
+                Prijs = new decimal(13.37),
+                BestellingId = 1337,
+                Wedstrijd = new Wedstrijd()
+                {
+                    Club = new Club()
+                    {
+                        Naam = "FakeTeamThuis"
+                    },
+                    Club1 = new Club()
+                    {
+                        Naam = "FakeTeamBezoek"
+                    },
+                    Stadion = new Stadion()
+                    {
+                        Naam = "FakeStadion",
+                        Adres = "FakeAdres"
+                    },
+                    DatumEnTijd = DateTime.Now
+                },
+                Bezoeker = new Bezoeker()
+                {
+                    Voornaam = "Laurens",
+                    Naam = "De Wiseplaere",
+                    Rijksregisternummer = "90050207940",
+                    Email = "laurens.dewispelaere@gmail.com"
+                }
+
+
+            });
+
+            var fakeBestellingService = A.Fake<IBestellingService>();
+
+            var fakeAbonnementService = A.Fake<IAbonnementService>();
+
+
+
+            BezoekerController bezoekerController = new BezoekerController(fakeBezoekerService, fakeBestellingService, fakeTicketService, fakeAbonnementService);
+
+            await bezoekerController.KoppelPostAsync(new BezoekerKoppelen() { TeWijzigenBezoeker = new Bezoeker() { Rijksregisternummer = "90050207940", Naam = "De Wispelaere", Voornaam = "Laurens", Email = "laurens.dewispelaere@gmail.com" } });
+
         }
 
         [Test]

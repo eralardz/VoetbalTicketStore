@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace VoetbalTicketStore.Service
 {
-    public class BestellingService
+    public class BestellingService : IBestellingService
     {
         private BestellingDAO bestellingDAO;
         private TicketService ticketService;

@@ -15,10 +15,10 @@ namespace VoetbalTicketStore.Controllers
     public class BestellingController : BaseController
     {
 
-        private BestellingService bestellingService;
+        private IBestellingService bestellingService;
         private ITicketService ticketService;
 
-        public BestellingController(ITicketService ticketService, BestellingService bestellingService)
+        public BestellingController(ITicketService ticketService, IBestellingService bestellingService)
         {
             this.bestellingService = bestellingService;
             this.ticketService = ticketService;
@@ -26,13 +26,16 @@ namespace VoetbalTicketStore.Controllers
 
         public BestellingController()
         {
-            bestellingService = new BestellingService();
-            ticketService = new TicketService();
+
         }
 
         // GET: Bestelling
         public ActionResult Index()
         {
+            if(bestellingService == null)
+            {
+                bestellingService = new BestellingService();
+            }
             //bestellingService = new BestellingService();
             IEnumerable<Bestelling> bestellingen = bestellingService.All(User.Identity.GetUserId());
 
@@ -56,6 +59,11 @@ namespace VoetbalTicketStore.Controllers
             if (bestellingVM == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            if (ticketService == null)
+            {
+                ticketService = new TicketService();
             }
 
             //ticketService = new TicketService();

@@ -8,7 +8,7 @@ using VoetbalTicketStore.Models;
 
 namespace VoetbalTicketStore.Service
 {
-    public class AbonnementService
+    public class AbonnementService : IAbonnementService
     {
         private AbonnementDAO abonnementDAO;
 

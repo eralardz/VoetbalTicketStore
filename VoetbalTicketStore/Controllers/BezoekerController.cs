@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
@@ -23,10 +24,10 @@ namespace VoetbalTicketStore.Controllers
     public class BezoekerController : BaseController
     {
 
-        private BezoekerService bezoekerService;
-        private BestellingService bestellingService;
-        private TicketService ticketService;
-        private AbonnementService abonnementService;
+        private IBezoekerService bezoekerService;
+        private IBestellingService bestellingService;
+        private ITicketService ticketService;
+        private IAbonnementService abonnementService;
 
         // GET: Bezoeker
         //public ActionResult Index()
@@ -53,6 +54,21 @@ namespace VoetbalTicketStore.Controllers
 
         //    return View(bezoekerKoppelen);
         //}
+
+        public BezoekerController()
+        {
+
+        }
+
+        // Gebruikt voor tests
+        public BezoekerController(IBezoekerService bezoekerService, IBestellingService bestellingService, ITicketService ticketService, IAbonnementService abonnementService)
+        {
+            this.bezoekerService = bezoekerService;
+            this.bestellingService = bestellingService;
+            this.ticketService = ticketService;
+            this.abonnementService = abonnementService;
+        }
+
 
         public ActionResult Index()
         {
@@ -115,7 +131,7 @@ namespace VoetbalTicketStore.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Koppel")]
-        public async System.Threading.Tasks.Task<ActionResult> KoppelPostAsync(BezoekerKoppelen bezoekerKoppelen)
+        public async Task<ActionResult> KoppelPostAsync(BezoekerKoppelen bezoekerKoppelen)
         {
             if (bezoekerKoppelen == null)
             {
@@ -124,7 +140,10 @@ namespace VoetbalTicketStore.Controllers
             }
             if (ModelState.IsValid)
             {
-                bezoekerService = new BezoekerService();
+                if(bezoekerService == null)
+                {
+                    bezoekerService = new BezoekerService();
+                }
                 // bezoeker aanmaken indien nodig
                 Bezoeker bezoeker = bezoekerService.AddBezoekerIndienNodig(bezoekerKoppelen.TeWijzigenBezoeker.Rijksregisternummer, bezoekerKoppelen.TeWijzigenBezoeker.Naam, bezoekerKoppelen.TeWijzigenBezoeker.Voornaam, bezoekerKoppelen.TeWijzigenBezoeker.Email);
 
@@ -134,7 +153,10 @@ namespace VoetbalTicketStore.Controllers
                 // geval ticket
                 if (bezoekerKoppelen.TeWijzigenTicket != 0)
                 {
-                    TicketService ticketService = new TicketService();
+                    if (ticketService == null)
+                    {
+                        ticketService = new TicketService();
+                    }
                     // koppelen
                     ticketService.KoppelBezoekerAanTicket(bezoekerKoppelen.TeWijzigenTicket, bezoeker.Rijksregisternummer);
 
@@ -163,7 +185,10 @@ namespace VoetbalTicketStore.Controllers
                 // geval abonnement
                 else
                 {
-                    abonnementService = new AbonnementService();
+                    if(abonnementService == null)
+                    {
+                        abonnementService = new AbonnementService();
+                    }
                     abonnementService.KoppelBezoekerAanAbonnement(bezoekerKoppelen.TeWijzigenAbonnement, bezoeker.Rijksregisternummer);
 
                     Abonnement abonnement = abonnementService.FindAbonnement(bezoekerKoppelen.TeWijzigenAbonnement);
@@ -219,7 +244,6 @@ namespace VoetbalTicketStore.Controllers
                 BezoekerEmail = bestellingVM.BezoekerEmail
             };
 
-
             Byte[] bytes = ConvertHtmlToPDF(ticketPDF, null);
             // openen in browser
             return File(bytes, "application/pdf", "voucher.pdf");
@@ -242,7 +266,6 @@ namespace VoetbalTicketStore.Controllers
                 BezoekerRijksregisternummer = bestellingVM.BezoekerRijksregisternummer,
                 BezoekerEmail = bestellingVM.BezoekerEmail
             };
-
 
             Byte[] bytes = ConvertHtmlToPDF(null, abonnementPDF);
             // openen in browser
@@ -311,8 +334,6 @@ namespace VoetbalTicketStore.Controllers
             return bytes;
         }
 
-
-
         private Attachment GetAttachment(TicketPDF ticketPDF, AbonnementPDF abonnementPDF)
         {
             var file = new MemoryStream(ConvertHtmlToPDF(ticketPDF, abonnementPDF));
@@ -331,8 +352,10 @@ namespace VoetbalTicketStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                bezoekerService = new BezoekerService();
-
+                if(bezoekerService == null)
+                {
+                    bezoekerService = new BezoekerService();
+                }
 
                 // WERKWIJZE MET LIST
                 ticketService = new TicketService();
@@ -344,9 +367,6 @@ namespace VoetbalTicketStore.Controllers
                 {
                     NietGekoppeldeTicketsList = tickets.ToList()
                 };
-
-                // leg de koppeling
-                Debug.WriteLine("valid");
             }
             return View(bezoekerKoppelenIn);
         }

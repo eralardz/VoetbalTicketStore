@@ -8,7 +8,7 @@ using VoetbalTicketStore.Models;
 
 namespace VoetbalTicketStore.Service
 {
-    public class BezoekerService
+    public class BezoekerService : IBezoekerService
     {
 
         private BezoekerDAO bezoekerDAO;
@@ -16,10 +16,6 @@ namespace VoetbalTicketStore.Service
         public BezoekerService()
         {
             bezoekerDAO = new BezoekerDAO();
-        }
-        public void AddBezoekerIndienNodig()
-        {
-            throw new NotImplementedException();
         }
 
         public Bezoeker AddBezoekerIndienNodig(string rijksregisternummer, string naam, string voornaam, string email)

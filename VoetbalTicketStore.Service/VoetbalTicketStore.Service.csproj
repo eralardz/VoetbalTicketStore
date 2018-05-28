@@ -78,6 +78,9 @@
     <Compile Include="BestellingService.cs" />
     <Compile Include="BezoekerService.cs" />
     <Compile Include="ClubService.cs" />
+    <Compile Include="IAbonnementService.cs" />
+    <Compile Include="IBestellingService.cs" />
+    <Compile Include="IBezoekerService.cs" />
     <Compile Include="IMailService.cs" />
     <Compile Include="ITicketService.cs" />
     <Compile Include="MailService.cs" />
