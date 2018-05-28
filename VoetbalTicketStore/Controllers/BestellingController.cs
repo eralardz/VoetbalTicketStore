@@ -21,10 +21,6 @@ namespace VoetbalTicketStore.Controllers
         // GET: Bestelling
         public ActionResult Index()
         {
-            // Lijst met vorige bestellingen
-            // Bestellingen die nog niet verlopen zijn -> ticket opvragen via pdf
-            // Mogelijkheid om te annuleren, week vooraf (wordt post)
-
             bestellingService = new BestellingService();
             IEnumerable<Bestelling> bestellingen = bestellingService.All(User.Identity.GetUserId());
 
