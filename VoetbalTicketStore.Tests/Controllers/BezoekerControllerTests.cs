@@ -137,8 +137,6 @@ namespace VoetbalTicketStore.Controllers.Tests
 
             var fakeAbonnementService = A.Fake<IAbonnementService>();
 
-
-
             BezoekerController bezoekerController = new BezoekerController(fakeBezoekerService, fakeBestellingService, fakeTicketService, fakeAbonnementService);
 
             await bezoekerController.KoppelPostAsync(new BezoekerKoppelen() { TeWijzigenBezoeker = new Bezoeker() { Rijksregisternummer = "90050207940", Naam = "De Wispelaere", Voornaam = "Laurens", Email = "laurens.dewispelaere@gmail.com" } });

@@ -275,7 +275,7 @@ namespace VoetbalTicketStore.Controllers
 
         // This tool parses (X)HTML snippets and the associated CSS and converts them to PDF.
         // XMLWorker is an extra component for iText®. The first XML to PDF implementation, is a new version of the old HTMLWorker that used to be shipped with iText.
-        private Byte[] ConvertHtmlToPDF(TicketPDF ticketPDF, AbonnementPDF abonnementPDF)
+        public Byte[] ConvertHtmlToPDF(TicketPDF ticketPDF, AbonnementPDF abonnementPDF)
         {
             //Create a byte array that will eventually hold our final PDF
             Byte[] bytes;
