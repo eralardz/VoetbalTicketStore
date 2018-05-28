@@ -9,7 +9,7 @@ using VoetbalTicketStore.Models;
 
 namespace VoetbalTicketStore.Service
 {
-    public class TicketService
+    public class TicketService : ITicketService
     {
         private TicketDAO ticketDAO;
         private AbonnementService abonnementService;

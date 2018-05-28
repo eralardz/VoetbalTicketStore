@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using VoetbalTicketStore.Models;
@@ -15,13 +16,24 @@ namespace VoetbalTicketStore.Controllers
     {
 
         private BestellingService bestellingService;
-        private TicketService ticketService;
+        private ITicketService ticketService;
 
+        public BestellingController(ITicketService ticketService, BestellingService bestellingService)
+        {
+            this.bestellingService = bestellingService;
+            this.ticketService = ticketService;
+        }
+
+        public BestellingController()
+        {
+            bestellingService = new BestellingService();
+            ticketService = new TicketService();
+        }
 
         // GET: Bestelling
         public ActionResult Index()
         {
-            bestellingService = new BestellingService();
+            //bestellingService = new BestellingService();
             IEnumerable<Bestelling> bestellingen = bestellingService.All(User.Identity.GetUserId());
 
             BestellingVM bestellingVM = new BestellingVM()
@@ -41,9 +53,13 @@ namespace VoetbalTicketStore.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Annuleren(BestellingVM bestellingVM)
         {
-            ticketService = new TicketService();
-            ticketService.AnnuleerTicket(bestellingVM.TicketId);
+            if (bestellingVM == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
 
+            //ticketService = new TicketService();
+            ticketService.AnnuleerTicket(bestellingVM.TicketId);
 
             TempData["msg"] = "Uw ticket werd geannuleerd.";
             return RedirectToAction("Index");
