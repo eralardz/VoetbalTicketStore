@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using VoetbalTicketStore.Models;
@@ -19,6 +20,11 @@ namespace VoetbalTicketStore.Controllers
         // GET: Abonnement
         public ActionResult Buy(ClubOverview clubOverview)
         {
+            if(clubOverview == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             vakService = new VakService();
             clubService = new ClubService();
 

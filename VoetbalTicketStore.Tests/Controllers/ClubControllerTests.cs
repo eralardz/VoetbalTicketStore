@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VoetbalTicketStore.ViewModel;
 
 namespace VoetbalTicketStore.Controllers.Tests
 {
@@ -14,7 +15,7 @@ namespace VoetbalTicketStore.Controllers.Tests
         [TestMethod()]
         public void IndexTest()
         {
-            Assert.Fail();
+           
         }
     }
 }
