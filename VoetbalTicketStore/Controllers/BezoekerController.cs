@@ -117,7 +117,7 @@ namespace VoetbalTicketStore.Controllers
         [ActionName("Koppel")]
         public async System.Threading.Tasks.Task<ActionResult> KoppelPostAsync(BezoekerKoppelen bezoekerKoppelen)
         {
-            if(bezoekerKoppelen == null)
+            if (bezoekerKoppelen == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -129,22 +129,13 @@ namespace VoetbalTicketStore.Controllers
                 Bezoeker bezoeker = bezoekerService.AddBezoekerIndienNodig(bezoekerKoppelen.TeWijzigenBezoeker.Rijksregisternummer, bezoekerKoppelen.TeWijzigenBezoeker.Naam, bezoekerKoppelen.TeWijzigenBezoeker.Voornaam, bezoekerKoppelen.TeWijzigenBezoeker.Email);
 
                 MailService mailService = new MailService();
-                mailService.SendMail();
+                MailMessage message = mailService.GenerateMail(bezoekerKoppelen.TeWijzigenBezoeker.Email, bezoekerKoppelen.TeWijzigenBezoeker.Voornaam);
 
-                // gegevens mail
-                var message = new MailMessage();
-                message.To.Add(new MailAddress(bezoekerKoppelen.TeWijzigenBezoeker.Email));
-                message.From = new MailAddress("vbtstore2018@gmail.com");
-                message.Subject = "Uw bestelling bij VoetbalTicketStore";
-                var body = "<h1>Beste {0}, </h1><p>Bedankt voor uw bestelling!<p><p>In bijlage vindt u uw voucher terug, vergeet ze niet mee te nemen naar het stadion!</p>";
-                message.Body = string.Format(body, bezoekerKoppelen.TeWijzigenBezoeker.Voornaam);
-                message.IsBodyHtml = true;
-
-                // GEVAL TICKET
+                // geval ticket
                 if (bezoekerKoppelen.TeWijzigenTicket != 0)
                 {
-                    // rijksregisternummer aan ticket koppelen
-                    ticketService = new TicketService();
+                    TicketService ticketService = new TicketService();
+                    // koppelen
                     ticketService.KoppelBezoekerAanTicket(bezoekerKoppelen.TeWijzigenTicket, bezoeker.Rijksregisternummer);
 
                     // ticket + alle info nodig om voucher te genereren
@@ -169,7 +160,7 @@ namespace VoetbalTicketStore.Controllers
                     message.Attachments.Add(GetAttachment(ticketPDF, null));
                 }
 
-                // GEVAL ABONNEMENT
+                // geval abonnement
                 else
                 {
                     abonnementService = new AbonnementService();
@@ -194,11 +185,11 @@ namespace VoetbalTicketStore.Controllers
                     message.Attachments.Add(GetAttachment(null, abonnementPDF));
                 }
 
-
                 using (var smtp = new SmtpClient())
                 {
                     await smtp.SendMailAsync(message);
                 }
+
 
                 TempData["msg"] = "Uw ticket werd bevestigd. De voucher werd verstuurd naar " +
                     bezoekerKoppelen.TeWijzigenBezoeker.Email + ". De voucher is ook beschikbaar op deze website.";
