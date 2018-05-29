@@ -16,6 +16,5 @@ namespace VoetbalTicketStore.Service
         void AdjustAmount(int id, int newAmount, string user, int wedstrijdId);
         void RemoveShoppingCartDataVanBestelling(int geselecteerdeBestelling);
         void RemoveAllShoppingCartData(string user);
-        void IncrementShoppingCartData(int id);
     }
 }

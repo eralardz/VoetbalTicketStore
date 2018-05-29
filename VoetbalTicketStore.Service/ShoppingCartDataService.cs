@@ -123,10 +123,5 @@ namespace VoetbalTicketStore.Service
         {
             shoppingCartDataDAO.RemoveAllShoppingCartData(user);
         }
-
-        public void IncrementShoppingCartData(int id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
