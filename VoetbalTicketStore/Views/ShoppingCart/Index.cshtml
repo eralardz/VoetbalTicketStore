@@ -69,6 +69,8 @@ else
             <div class="col-md-3">
                 @using (Html.BeginForm("AdjustAmount", "ShoppingCart", new { SelectedShoppingCartData = item.Id, NieuweHoeveelheid = Model.NieuweHoeveelheid, GeselecteerdeWedstrijd = item.WedstrijdId }, FormMethod.Post, new { @class = "shoppingCartButtons" }))
                 {
+                    @Html.AntiForgeryToken()
+
                     @Html.DropDownListFor(modelItem => Model.NieuweHoeveelheid, Model.HoeveelheidList, "Aantal", new { @class = "" })
                     <button type="submit" class="btn btn-primary btn-sm">
                         <i class="glyphicon glyphicon-pencil"></i>
@@ -76,6 +78,8 @@ else
                 }
                 @using (Html.BeginForm("Remove", "ShoppingCart", new { id = item.Id }, FormMethod.Post, new { @class = "shoppingCartButtons" }))
                 {
+                    @Html.AntiForgeryToken()
+
                     <button type="submit" class="btn btn-danger btn-sm">
                         <i class="glyphicon glyphicon-trash	"></i>
                     </button>

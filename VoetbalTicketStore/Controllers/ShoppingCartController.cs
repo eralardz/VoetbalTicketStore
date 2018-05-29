@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using VoetbalTicketStore.Exceptions;
@@ -18,16 +19,19 @@ namespace VoetbalTicketStore.Controllers
 
         private IBestellingService bestellingService;
         private IShoppingCartDataService shoppingCartDataService;
+        private UserManager<ApplicationUser> userManager;
+
 
         public ShoppingCartController()
         {
 
         }
 
-        public ShoppingCartController(IBestellingService bestellingService, IShoppingCartDataService shoppingCartDataService)
+        public ShoppingCartController(IBestellingService bestellingService, IShoppingCartDataService shoppingCartDataService, UserManager<ApplicationUser> userManager)
         {
             this.bestellingService = bestellingService;
             this.shoppingCartDataService = shoppingCartDataService;
+            this.userManager = userManager;
         }
 
         // GET: ShoppingCart
@@ -43,7 +47,7 @@ namespace VoetbalTicketStore.Controllers
             }
 
             // Openstaande bestelling ophalen
-            if(bestellingService == null)
+            if (bestellingService == null)
             {
                 bestellingService = new BestellingService();
             }
@@ -68,7 +72,6 @@ namespace VoetbalTicketStore.Controllers
                     ShoppingCartEntries = bestelling.ShoppingCartDatas.ToList(),
                     TotaalPrijs = bestellingService.BerekenTotaalPrijs(bestelling.ShoppingCartDatas),
                     HoeveelheidList = list
-
                 };
             }
             return View(shoppingCart);
@@ -78,18 +81,23 @@ namespace VoetbalTicketStore.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Add(TicketConfirm ticketConfirm)
         {
-            if (ModelState.IsValid)
+            if (ticketConfirm == null)
             {
-                // Nieuwe bestelling aanmaken indien nodig
-                Bestelling bestelling = CreateNieuweBestellingIndienNodig();
-
-                // ShoppingCartData toevoegen
-                shoppingCartDataService = new ShoppingCartDataService();
-                shoppingCartDataService.AddToShoppingCart(bestelling.Id, ticketConfirm.Prijs, ticketConfirm.WedstrijdId, ticketConfirm.ThuisploegId, ticketConfirm.BezoekersId, ticketConfirm.AantalTickets, ticketConfirm.VakId, User.Identity.GetUserId());
-
-                // Success message meegeven
-                SetSuccessfulAddMessage("Uw winkelwagentje werd aangepast!");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            // Nieuwe bestelling aanmaken indien nodig
+            Bestelling bestelling = CreateNieuweBestellingIndienNodig();
+
+            // ShoppingCartData toevoegen
+            if (shoppingCartDataService == null)
+            {
+                shoppingCartDataService = new ShoppingCartDataService();
+            }
+            shoppingCartDataService.AddToShoppingCart(bestelling.Id, ticketConfirm.Prijs, ticketConfirm.WedstrijdId, ticketConfirm.ThuisploegId, ticketConfirm.BezoekersId, ticketConfirm.AantalTickets, ticketConfirm.VakId, User.Identity.GetUserId());
+
+            // Success message meegeven
+            SetSuccessfulAddMessage("Uw winkelwagentje werd aangepast!");
             // RedirectToAction ipv View, anders wordt geen model meegegeven!
             return RedirectToAction("Index");
         }
@@ -98,11 +106,19 @@ namespace VoetbalTicketStore.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddAbonnement(AbonnementBuy abonnementBuy)
         {
+            if (abonnementBuy == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             // Nieuwe bestelling aanmaken indien nodig
             Bestelling bestelling = CreateNieuweBestellingIndienNodig();
 
             // ShoppingCartData toevoegen
-            shoppingCartDataService = new ShoppingCartDataService();
+            if (shoppingCartDataService == null)
+            {
+                shoppingCartDataService = new ShoppingCartDataService();
+            }
             shoppingCartDataService.AddAbonnementToShoppingCart(bestelling.Id, abonnementBuy.Prijs, abonnementBuy.AantalAbonnementen, abonnementBuy.GeselecteerdVakId, abonnementBuy.PloegId, User.Identity.GetUserId());
 
             // Success message meegeven
@@ -118,23 +134,43 @@ namespace VoetbalTicketStore.Controllers
 
         private Bestelling CreateNieuweBestellingIndienNodig()
         {
-            bestellingService = new BestellingService();
+            if (bestellingService == null)
+            {
+                bestellingService = new BestellingService();
+            }
             return bestellingService.CreateNieuweBestellingIndienNodig(User.Identity.GetUserId());
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Remove(int id)
         {
-            shoppingCartDataService = new ShoppingCartDataService();
+            if (id < 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            if (shoppingCartDataService == null)
+            {
+                shoppingCartDataService = new ShoppingCartDataService();
+            }
             shoppingCartDataService.RemoveShoppingCartData(id);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult AdjustAmount(ShoppingCart shoppingCart)
         {
+            if (shoppingCart == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             // hoeveelheid aanpassen
-            shoppingCartDataService = new ShoppingCartDataService();
+            if (shoppingCartDataService == null)
+            {
+                shoppingCartDataService = new ShoppingCartDataService();
+            }
             shoppingCartDataService.AdjustAmount(shoppingCart.SelectedShoppingCartData, shoppingCart.NieuweHoeveelheid, User.Identity.GetUserId(), shoppingCart.GeselecteerdeWedstrijd);
             return RedirectToAction("Index");
         }
@@ -143,7 +179,16 @@ namespace VoetbalTicketStore.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Clear(ShoppingCart shoppingCart)
         {
-            shoppingCartDataService = new ShoppingCartDataService();
+
+            if (shoppingCart == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            if (shoppingCartDataService == null)
+            {
+                shoppingCartDataService = new ShoppingCartDataService();
+            }
             // Bestelling deleten en dan de bestellijnen cascaden zou handig zijn, maar lukt niet aangezien de FK constraint voor de tickets dan overtreden wordt
             shoppingCartDataService.RemoveShoppingCartDataVanBestelling(shoppingCart.GeselecteerdeBestelling);
 
@@ -154,20 +199,32 @@ namespace VoetbalTicketStore.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Finalise(ShoppingCart shoppingCart)
         {
+            if (shoppingCart == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             try
             {
                 // Plaats bestelling
-                bestellingService = new BestellingService();
+                if (bestellingService == null)
+                {
+                    bestellingService = new BestellingService();
+                }
                 Bestelling bestelling = bestellingService.FindOpenstaandeBestellingDoorUser(User.Identity.GetUserId());
                 bestellingService.PlaatsBestelling(bestelling, User.Identity.GetUserId());
 
                 // Find & update user (meest favoriete team)
-                var manager = new UserManager<ApplicationUser>(
-               new UserStore<ApplicationUser>(
-                   new ApplicationDbContext()));
-                var user = manager.FindById(User.Identity.GetUserId());
+
+                if (userManager == null)
+                {
+                    userManager = new UserManager<ApplicationUser>(
+                    new UserStore<ApplicationUser>(
+                        new ApplicationDbContext()));
+                }
+                var user = userManager.FindById(User.Identity.GetUserId());
                 user.FavorietTeam = bestellingService.GetMeestGekochteThuisploeg(User.Identity.GetUserId());
-                manager.Update(user);
+                userManager.Update(user);
             }
             catch (BestelException ex)
             {

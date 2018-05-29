@@ -153,6 +153,7 @@
     <Compile Include="Controllers\BezoekerControllerTests.cs" />
     <Compile Include="Controllers\ClubControllerTests.cs" />
     <Compile Include="Controllers\ShoppingCartControllerTests.cs" />
+    <Compile Include="Controllers\StadionControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
   </ItemGroup>
