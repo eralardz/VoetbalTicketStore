@@ -16,7 +16,7 @@
 @if (Model.NietGekoppeldeTickets.Count() == 0)
 {
     <div class="alert alert-info" role="alert">
-        Je hebt nog geen tickets gekocht. Van zodra je tickets bestelt kan je er hier een bezoeker aan koppelen via zijn of haar rijksregisternummer.
+        Je hebt nog geen tickets gekocht, of alle tickets werden gekoppeld aan een bezoeker. Van zodra je nieuwe tickets bestelt kan je er hier een bezoeker aan koppelen via zijn of haar rijksregisternummer.
         <hr />
         <h4 class="alert-heading">Let op!</h4>Deze koppeling is <strong>verplicht</strong>. Een ticket zonder gekoppelde bezoeker is ongeldig in het stadion!
     </div>
@@ -67,37 +67,36 @@
 @if (Model.NietGekoppeldeAbonnementen.Count() == 0)
 {
     <div class="alert alert-info" role="alert">
-        Je hebt nog geen abonnementen gekocht. Van zodra een abonnement bestelt kan je er hier een bezoeker aan koppelen via zijn of haar rijksregisternummer.
-        <hr />
+        Je hebt nog geen abonnementen gekocht, of alle abonnementen werden gekoppeld aan een bezoeker. Van zodra je een nieuw abonnement bestelt kan je er hier een bezoeker aan koppelen via zijn of haar rijksregisternummer.        <hr />
         <h4 class="alert-heading">Let op!</h4>Deze koppeling is <strong>verplicht</strong>. Een abonnement zonder gekoppelde bezoeker is ongeldig in het stadion!
     </div>
 }
 <div class="row">
     @foreach (VoetbalTicketStore.Models.Abonnement abonnement in Model.NietGekoppeldeAbonnementen)
     {
-    <div class="col-md-3">
-        @using (Html.BeginForm("Koppel", "Bezoeker", FormMethod.Get))
-        {
-            <h4>Abonnement #@Html.DisplayFor(t => abonnement.Id) (@Html.DisplayFor(t => abonnement.Prijs))</h4>
-            <ul class="list-group">
-                <li class="list-group-item">
-                    @Html.DisplayFor(t => abonnement.Club.Naam)
-                </li>
-                <li class="list-group-item">
-                    @Html.DisplayFor(t => abonnement.Club.Stadion.Naam)
-                </li>
-                <li class="list-group-item">
-                    @Html.DisplayFor(t => abonnement.Vak.VakType.Beschrijving)
-                </li>
-                <li class="list-group-item">
-                    <button type="submit" class="btn btn-primary">
-                        <span class="glyphicon glyphicon-user"></span> Koppel bezoeker
-                    </button>
-                </li>
-            </ul>
-            @Html.Hidden("TeWijzigenAbonnement", abonnement.Id)
-        }
-    </div>
+        <div class="col-md-3">
+            @using (Html.BeginForm("Koppel", "Bezoeker", FormMethod.Get))
+            {
+                <h4>Abonnement #@Html.DisplayFor(t => abonnement.Id) (@Html.DisplayFor(t => abonnement.Prijs))</h4>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        @Html.DisplayFor(t => abonnement.Club.Naam)
+                    </li>
+                    <li class="list-group-item">
+                        @Html.DisplayFor(t => abonnement.Club.Stadion.Naam)
+                    </li>
+                    <li class="list-group-item">
+                        @Html.DisplayFor(t => abonnement.Vak.VakType.Beschrijving)
+                    </li>
+                    <li class="list-group-item">
+                        <button type="submit" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-user"></span> Koppel bezoeker
+                        </button>
+                    </li>
+                </ul>
+                @Html.Hidden("TeWijzigenAbonnement", abonnement.Id)
+            }
+        </div>
     }
 </div>
 

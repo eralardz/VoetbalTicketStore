@@ -74,7 +74,6 @@ namespace VoetbalTicketStore.Controllers
 
         // POST: Confirm
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Confirm(int vakId, int aantalVrijePlaatsen, decimal prijs, int wedstrijdId, int thuisploegId, int bezoekersId, string vakNaam)
         {
 

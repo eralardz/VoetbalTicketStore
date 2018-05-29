@@ -40,6 +40,7 @@ namespace VoetbalTicketStore.Service
                     VakId = vakId,
                     Thuisploeg = thuisploegId,
                     Bezoekers = bezoekersId,
+                    ToegevoegdOp = DateTime.Now,
 
                     // Voorlopig enkel support voor aankopen tickets (id = 1) TODO: enum van maken
                     ShoppingCartDataTypeId = 1
@@ -68,7 +69,8 @@ namespace VoetbalTicketStore.Service
                     Hoeveelheid = aantalAbonnementen,
                     VakId = vakId,
                     Thuisploeg = ploegId,
-                    ShoppingCartDataTypeId = 2
+                    ShoppingCartDataTypeId = 2,
+                    ToegevoegdOp = DateTime.Now
                 };
 
 

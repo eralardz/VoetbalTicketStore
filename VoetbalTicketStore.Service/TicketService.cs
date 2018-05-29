@@ -12,7 +12,6 @@ namespace VoetbalTicketStore.Service
     public class TicketService : ITicketService
     {
         private TicketDAO ticketDAO;
-        private AbonnementService abonnementService;
 
         public TicketService()
         {

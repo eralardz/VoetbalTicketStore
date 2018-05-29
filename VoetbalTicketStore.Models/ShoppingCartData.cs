@@ -23,6 +23,7 @@ namespace VoetbalTicketStore.Models
         public int Thuisploeg { get; set; }
         public Nullable<int> Bezoekers { get; set; }
         public int ShoppingCartDataTypeId { get; set; }
+        public System.DateTime ToegevoegdOp { get; set; }
     
         public virtual Bestelling Bestelling { get; set; }
         public virtual Club Club { get; set; }

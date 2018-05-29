@@ -18,11 +18,11 @@ namespace VoetbalTicketStore.Models
         public Club()
         {
             this.Abonnements = new HashSet<Abonnement>();
+            this.AspNetUsers = new HashSet<AspNetUser>();
             this.Wedstrijds = new HashSet<Wedstrijd>();
             this.ShoppingCartDatas = new HashSet<ShoppingCartData>();
             this.ShoppingCartDatas1 = new HashSet<ShoppingCartData>();
             this.Wedstrijds1 = new HashSet<Wedstrijd>();
-            this.AspNetUsers = new HashSet<AspNetUser>();
         }
     
         public int Id { get; set; }
@@ -35,6 +35,8 @@ namespace VoetbalTicketStore.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Abonnement> Abonnements { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Wedstrijd> Wedstrijds { get; set; }
         public virtual Stadion Stadion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -43,7 +45,5 @@ namespace VoetbalTicketStore.Models
         public virtual ICollection<ShoppingCartData> ShoppingCartDatas1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Wedstrijd> Wedstrijds1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
     }
 }

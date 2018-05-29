@@ -114,7 +114,26 @@ namespace VoetbalTicketStore.Service
 
         public Bestelling FindOpenstaandeBestellingDoorUser(string user)
         {
-            return bestellingDAO.FindOpenstaandeBestellingDoorUser(user);
+            Bestelling bestelling = bestellingDAO.FindOpenstaandeBestellingDoorUser(user);
+
+            // ongeldige shoppingcartdata eruit filteren
+            if (bestelling != null)
+            {
+                List<ShoppingCartData> temp = new List<ShoppingCartData>();
+                foreach (ShoppingCartData s in bestelling.ShoppingCartDatas)
+                {
+                    // verwijderen wedstrijd die voorbij zijn, wordt schoongemaakt bij het finalizen van de shopping cart EN ten slotte bij DB maintenance
+                    if (s.Wedstrijd != null && DateTime.Now > s.Wedstrijd.DatumEnTijd)
+                    {
+                        temp.Add(s);
+                    }
+                }
+                foreach (var item in temp)
+                {
+                    bestelling.ShoppingCartDatas.Remove(item);
+                }
+            }
+            return bestelling;
         }
 
         public decimal BerekenTotaalPrijs(ICollection<ShoppingCartData> shoppingCartDatas)

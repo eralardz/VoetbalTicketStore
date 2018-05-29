@@ -19,7 +19,6 @@ namespace VoetbalTicketStore.Models
         public decimal Prijs { get; set; }
         public string Bezoekerrijksregisternummer { get; set; }
         public int Vakid { get; set; }
-        public bool Bevestigd { get; set; }
         public int BestellingId { get; set; }
         public int Wedstrijdid { get; set; }
     
