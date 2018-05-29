@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using VoetbalTicketStore.Models;
 using VoetbalTicketStore.Service;
+using VoetbalTicketStore.Service.Interfaces;
 using VoetbalTicketStore.ViewModel;
 
 namespace VoetbalTicketStore.Controllers
@@ -13,18 +15,42 @@ namespace VoetbalTicketStore.Controllers
     public class TicketController : BaseController
     {
 
-        private WedstrijdService wedstrijdService;
-        private VakService vakService;
+        private IWedstrijdService wedstrijdService;
+        private IVakService vakService;
+
+        public TicketController()
+        {
+
+        }
+
+        public TicketController(IWedstrijdService wedstrijdService, IVakService vakService)
+        {
+            this.wedstrijdService = wedstrijdService;
+            this.vakService = vakService;
+        }
 
         // GET: Ticket
         public ActionResult Buy(int id)
         {
+            if (id < 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             // Wedstrijd ophalen
-            wedstrijdService = new WedstrijdService();
+            if (wedstrijdService == null)
+            {
+                wedstrijdService = new WedstrijdService();
+            }
             Wedstrijd wedstrijd = wedstrijdService.GetWedstrijdById(id);
 
             // Vakken ophalen van stadion
-            vakService = new VakService();
+
+            if (vakService == null)
+            {
+                vakService = new VakService();
+            }
+
             IEnumerable<Vak> vakken = vakService.GetVakkenInStadion(wedstrijd.Stadionid);
 
             // Prijzen bepalen per vak (thuisploeg)
@@ -48,8 +74,15 @@ namespace VoetbalTicketStore.Controllers
 
         // POST: Confirm
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Confirm(int vakId, int aantalVrijePlaatsen, decimal prijs, int wedstrijdId, int thuisploegId, int bezoekersId, string vakNaam)
         {
+
+            if (vakId < 0 || aantalVrijePlaatsen < 0 || prijs < 0 || wedstrijdId < 0 || thuisploegId < 0 || bezoekersId < 0 || vakNaam == null || vakNaam.Equals(""))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
 
             // Lijst voor aantal tickets
             List<SelectListItem> list = new List<SelectListItem>();

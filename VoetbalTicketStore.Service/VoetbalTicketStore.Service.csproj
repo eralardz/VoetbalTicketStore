@@ -87,6 +87,7 @@
     <Compile Include="Interfaces\IShoppingCartDataService.cs" />
     <Compile Include="Interfaces\IStadionService.cs" />
     <Compile Include="Interfaces\ITicketService.cs" />
+    <Compile Include="Interfaces\IVakService.cs" />
     <Compile Include="Interfaces\IWedstrijdService.cs" />
     <Compile Include="MailService.cs" />
     <Compile Include="PDFService.cs" />

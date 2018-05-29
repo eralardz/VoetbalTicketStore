@@ -87,6 +87,24 @@ namespace VoetbalTicketStore.Controllers.Tests
             Assert.AreEqual(400, httpResult.StatusCode);
         }
 
+        [Test]
+        public async Task KoppelPostAsyncTestInvalidModelState()
+        {
+            BezoekerController bezoekerController = new BezoekerController();
+            bezoekerController.ModelState.AddModelError("test", "test");
+
+            var result = await bezoekerController.KoppelPostAsync(new BezoekerKoppelen());
+
+
+            // assert result
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf(typeof(ViewResult), result);
+
+            // assert viewmodel
+            ViewResult resultView = (ViewResult)result;
+            Assert.IsInstanceOf(typeof(BezoekerKoppelen), resultView.Model);
+        }
+
 
         [Test]
         public async Task KoppelPostAsyncTest()

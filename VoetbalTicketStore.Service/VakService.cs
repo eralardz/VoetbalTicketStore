@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using VoetbalTicketStore.DAO;
 using VoetbalTicketStore.Models;
+using VoetbalTicketStore.Service.Interfaces;
 
 namespace VoetbalTicketStore.Service
 {
-    public class VakService
+    public class VakService : IVakService
     {
         private VakDAO vakDAO;
         private TicketService ticketService;

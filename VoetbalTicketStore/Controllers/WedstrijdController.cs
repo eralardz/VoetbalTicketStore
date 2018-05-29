@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using VoetbalTicketStore.Models;
@@ -12,12 +13,28 @@ namespace VoetbalTicketStore.Controllers
     public class WedstrijdController : BaseController
     {
 
-        WedstrijdService wedstrijdService;
+        IWedstrijdService wedstrijdService;
+
+
+        public WedstrijdController()
+        {
+
+        }
+
+        public WedstrijdController(IWedstrijdService wedstrijdService)
+        {
+            this.wedstrijdService = wedstrijdService;
+        }
+
+
 
         // GET: Wedstrijd
         public ActionResult Index()
         {
-            wedstrijdService = new WedstrijdService();
+            if(wedstrijdService == null)
+            {
+                wedstrijdService = new WedstrijdService();
+            }
             var wedstrijden = wedstrijdService.GetUpcomingWedstrijden();
             // we geven de lijst met wedstrijden mee aan de view
             return View(wedstrijden);
@@ -25,7 +42,15 @@ namespace VoetbalTicketStore.Controllers
 
         public ActionResult WedstrijdKalender(Club club)
         {
-            wedstrijdService = new WedstrijdService();
+            if (club == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            if (wedstrijdService == null)
+            {
+                wedstrijdService = new WedstrijdService();
+            }
             var wedstrijden = wedstrijdService.GetWedstrijdKalenderVanPloeg(club);
             return View(wedstrijden);
         }
