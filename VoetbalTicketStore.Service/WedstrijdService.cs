@@ -8,7 +8,7 @@ using VoetbalTicketStore.Models;
 
 namespace VoetbalTicketStore.Service
 {
-    public class WedstrijdService
+    public class WedstrijdService : IWedstrijdService
     {
         //DAO
         private WedstrijdDAO wedstrijdDAO;

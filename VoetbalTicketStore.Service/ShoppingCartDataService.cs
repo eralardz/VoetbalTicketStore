@@ -8,7 +8,7 @@ using VoetbalTicketStore.Models.Constants;
 
 namespace VoetbalTicketStore.Service
 {
-    public class ShoppingCartDataService
+    public class ShoppingCartDataService : IShoppingCartDataService
     {
         private ShoppingCartDataDAO shoppingCartDataDAO;
         private TicketService ticketService;

@@ -140,7 +140,6 @@ namespace VoetbalTicketStore.Controllers
             if (bezoekerKoppelen == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
             }
             if (ModelState.IsValid)
             {
@@ -213,8 +212,13 @@ namespace VoetbalTicketStore.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public FileContentResult GenerateTicketPDF(BestellingVM bestellingVM)
+        public ActionResult GenerateTicketPDF(BestellingVM bestellingVM)
         {
+            if (bestellingVM == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             if (pdfService == null)
             {
                 pdfService = new PDFService();
@@ -230,8 +234,13 @@ namespace VoetbalTicketStore.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public FileContentResult GenerateAbonnementPDF(BestellingVM bestellingVM)
+        public ActionResult GenerateAbonnementPDF(BestellingVM bestellingVM)
         {
+            if (bestellingVM == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             if (pdfService == null)
             {
                 pdfService = new PDFService();
@@ -243,81 +252,6 @@ namespace VoetbalTicketStore.Controllers
             // openen in browser
             return File(bytes, "application/pdf", "abonnement.pdf");
         }
-
-
-        // This tool parses (X)HTML snippets and the associated CSS and converts them to PDF.
-        // XMLWorker is an extra component for iText®. The first XML to PDF implementation, is a new version of the old HTMLWorker that used to be shipped with iText.
-        public Byte[] ConvertHtmlToPDF(TicketPDF ticketPDF, AbonnementPDF abonnementPDF)
-        {
-            //Create a byte array that will eventually hold our final PDF
-            Byte[] bytes;
-
-            //Boilerplate iTextSharp setup here
-            //Create a stream that we can write to, in this case a MemoryStream
-            using (var ms = new MemoryStream())
-            {
-
-                //Create an iTextSharp Document which is an abstraction of a PDF but **NOT** a PDF
-                using (var doc = new Document())
-                {
-
-                    //Create a writer that's bound to our PDF abstraction and our stream
-                    using (var writer = PdfWriter.GetInstance(doc, ms))
-                    {
-
-                        //Open the document for writing
-                        doc.Open();
-
-                        string html = "";
-                        string css = System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/voucher/vouchernew.css"));
-
-                        if (ticketPDF != null)
-                        {
-                            html = String.Format(System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/voucher/vouchernew.html")), ticketPDF.TicketId, ticketPDF.BestellingId, String.Format("{0:0.00}", ticketPDF.Prijs), ticketPDF.ThuisploegNaam, ticketPDF.TegenstandersNaam, ticketPDF.StadionNaam, ticketPDF.WedstrijdDatumEnTijd, ticketPDF.StadionAdres, ticketPDF.BezoekerVoornaam, ticketPDF.BezoekerNaam, ticketPDF.BezoekerRijksregisternummer, ticketPDF.BezoekerEmail, DateTime.Now.ToString());
-
-                        }
-                        if (abonnementPDF != null)
-                        {
-                            html = String.Format(System.IO.File.ReadAllText(HostingEnvironment.MapPath(@"~/Content/voucher/abonnement.html")), abonnementPDF.AbonnementId, abonnementPDF.BestellingId, String.Format("{0:0.00}", abonnementPDF.Prijs), abonnementPDF.ClubNaam, abonnementPDF.StadionNaam, abonnementPDF.SeizoenJaar, abonnementPDF.BezoekerVoornaam, abonnementPDF.BezoekerNaam, abonnementPDF.BezoekerRijksregisternummer, abonnementPDF.BezoekerEmail, DateTime.Now.ToString());
-                        }
-                        /**************************************************
-                         * Use the XMLWorker to parse HTML and CSS        *
-                         * ************************************************/
-
-                        //In order to read CSS as a string we need to switch to a different constructor
-                        //that takes Streams instead of TextReaders.
-                        //Below we convert the strings into UTF8 byte array and wrap those in MemoryStreams
-                        using (var msCss = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(css)))
-                        {
-                            using (var msHtml = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(html)))
-                            {
-                                //Parse the HTML
-                                iTextSharp.tool.xml.XMLWorkerHelper.GetInstance().ParseXHtml(writer, doc, msHtml, msCss);
-                            }
-                        }
-                        doc.Close();
-                    }
-                }
-
-                //After all of the PDF "stuff" above is done and closed but **before** we
-                //close the MemoryStream, grab all of the active bytes from the stream
-                bytes = ms.ToArray();
-            }
-            return bytes;
-        }
-
-        private Attachment GetAttachment(TicketPDF ticketPDF, AbonnementPDF abonnementPDF)
-        {
-            var file = new MemoryStream(ConvertHtmlToPDF(ticketPDF, abonnementPDF));
-            file.Seek(0, SeekOrigin.Begin);
-            Attachment attachment = new Attachment(file, "voucher.pdf", "application/pdf");
-            ContentDisposition disposition = attachment.ContentDisposition;
-            disposition.CreationDate = System.DateTime.Now;
-            disposition.ModificationDate = System.DateTime.Now;
-            disposition.DispositionType = DispositionTypeNames.Attachment;
-            return attachment;
-        }
-
 
         [HttpPost]
         public ActionResult Index(BezoekerKoppelen bezoekerKoppelenIn)

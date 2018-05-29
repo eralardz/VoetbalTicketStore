@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -15,25 +14,47 @@ namespace VoetbalTicketStore.Controllers
     public class HomeController : BaseController
     {
 
-        private WedstrijdService wedstrijdService;
+        private IWedstrijdService wedstrijdService;
+        private UserManager<ApplicationUser> userManager;
+
+        public HomeController()
+        {
+
+        }
+
+        public HomeController(IWedstrijdService wedstrijdService, UserManager<ApplicationUser> userManager)
+        {
+            this.wedstrijdService = wedstrijdService;
+            this.userManager = userManager;
+        }
+
 
         public ViewResult Index()
         {
-            // get favoriet team
-            var manager = new UserManager<ApplicationUser>(
+            if (userManager == null)
+            {
+                userManager = new UserManager<ApplicationUser>(
                new UserStore<ApplicationUser>(
                    new ApplicationDbContext()));
+            }
 
             // Find user
-            var user = manager.FindById(User.Identity.GetUserId());
+            var user = userManager.FindByIdAsync(User.Identity.GetUserId());
+            
             // get aangeraden wedstrijden
-            wedstrijdService = new WedstrijdService();
 
+            if (wedstrijdService == null)
+            {
+                wedstrijdService = new WedstrijdService();
+            }
 
             // viewmodel opvullen
             HomeVM homeVM = new HomeVM();
 
-            if (user != null) { homeVM.HighlightList = wedstrijdService.GetAanTeRadenWedstrijdenVoorClub(user.FavorietTeam, 3).ToList(); }
+            if (user != null)
+            {
+                homeVM.HighlightList = wedstrijdService.GetAanTeRadenWedstrijdenVoorClub(user.Result.FavorietTeam, 3).ToList();
+            }
             return View(homeVM);
         }
 

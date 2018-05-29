@@ -16,8 +16,19 @@ namespace VoetbalTicketStore.Controllers
     public class ShoppingCartController : BaseController
     {
 
-        private BestellingService bestellingService;
-        private ShoppingCartDataService shoppingCartDataService;
+        private IBestellingService bestellingService;
+        private IShoppingCartDataService shoppingCartDataService;
+
+        public ShoppingCartController()
+        {
+
+        }
+
+        public ShoppingCartController(IBestellingService bestellingService, IShoppingCartDataService shoppingCartDataService)
+        {
+            this.bestellingService = bestellingService;
+            this.shoppingCartDataService = shoppingCartDataService;
+        }
 
         // GET: ShoppingCart
         public ActionResult Index()
@@ -32,7 +43,10 @@ namespace VoetbalTicketStore.Controllers
             }
 
             // Openstaande bestelling ophalen
-            bestellingService = new BestellingService();
+            if(bestellingService == null)
+            {
+                bestellingService = new BestellingService();
+            }
             Bestelling bestelling = bestellingService.FindOpenstaandeBestellingDoorUser(User.Identity.GetUserId());
 
             // Lijst voor aantallen

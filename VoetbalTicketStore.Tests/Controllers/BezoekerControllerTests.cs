@@ -1,8 +1,4 @@
-﻿using VoetbalTicketStore.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using System.Web.Mvc;
@@ -12,9 +8,7 @@ using FakeItEasy;
 using VoetbalTicketStore.ViewModel;
 using VoetbalTicketStore.Service;
 using VoetbalTicketStore.Models;
-using System.Web.Mail;
 using System.Net.Mail;
-using System.Web.Hosting;
 using System.Net.Mime;
 using System.IO;
 
@@ -98,7 +92,6 @@ namespace VoetbalTicketStore.Controllers.Tests
         public async Task KoppelPostAsyncTest()
         {
             // arrange
-            // fake bezoekerservice
             var fakeBezoekerService = A.Fake<IBezoekerService>();
             A.CallTo(() => fakeBezoekerService.AddBezoekerIndienNodig("90050207940", ("De Wispelaere"), "Laurens", "laurens.dewispelaere@gmail.com")).Returns(new Bezoeker());
 
@@ -159,22 +152,77 @@ namespace VoetbalTicketStore.Controllers.Tests
             Assert.AreEqual("Index", resultCast.RouteValues["action"]);
         }
 
+
         [Test]
         public void GenerateTicketPDFTest()
         {
-            Assert.Fail();
+            // arrange
+            var fakePDFService = A.Fake<IPDFService>();
+            A.CallTo(() => fakePDFService.setPDFInfo(true, 1337, 1337, new decimal(13.37), "FakeTeamThuis", "FakeTeamBezoek", "FakeAdres", "FakeStadion", DateTime.Now, "Laurens", "De Wispelaere", "90050207940", "laurens.dewispelaere@gmail.com")).DoesNothing();
+
+            BezoekerController bezoekerController = new BezoekerController(new BezoekerService(), new BestellingService(), new TicketService(), new AbonnementService(), fakePDFService, new MailService());
+
+            // act
+            var result = bezoekerController.GenerateTicketPDF(new BestellingVM());
+
+            // assert
+            Assert.IsInstanceOf(typeof(FileContentResult), result);
+
+            var resultCast = (FileContentResult)result;
+            Assert.AreEqual(resultCast.ContentType, "application/pdf");
+            Assert.AreEqual(resultCast.FileDownloadName, "voucher.pdf");
+        }
+
+        [Test]
+        public void GenerateTicketPDFTestViewModelNull()
+        {
+            // arrange
+            BezoekerController bezoekerController = new BezoekerController();
+
+            // act
+            var result = bezoekerController.GenerateTicketPDF(null);
+
+            // assert
+            Assert.IsInstanceOf(typeof(HttpStatusCodeResult), result);
+
+            var httpResult = result as HttpStatusCodeResult;
+            Assert.AreEqual(400, httpResult.StatusCode);
         }
 
         [Test]
         public void GenerateAbonnementPDFTest()
         {
-            Assert.Fail();
+            // arrange
+            var fakePDFService = A.Fake<IPDFService>();
+            A.CallTo(() => fakePDFService.setPDFInfo(true, 1337, 1337, new decimal(13.37), "FakeTeamThuis", "FakeTeamBezoek", "FakeAdres", "FakeStadion", DateTime.Now, "Laurens", "De Wispelaere", "90050207940", "laurens.dewispelaere@gmail.com")).DoesNothing();
+
+            BezoekerController bezoekerController = new BezoekerController(new BezoekerService(), new BestellingService(), new TicketService(), new AbonnementService(), fakePDFService, new MailService());
+
+            // act
+            var result = bezoekerController.GenerateAbonnementPDF(new BestellingVM());
+
+            // assert
+            Assert.IsInstanceOf(typeof(FileContentResult), result);
+
+            var resultCast = (FileContentResult)result;
+            Assert.AreEqual(resultCast.ContentType, "application/pdf");
+            Assert.AreEqual(resultCast.FileDownloadName, "abonnement.pdf");
         }
 
         [Test]
-        public void IndexTest1()
+        public void GenerateAbonnementPDFTestViewModelNull()
         {
-            Assert.Fail();
+            // arrange
+            BezoekerController bezoekerController = new BezoekerController();
+
+            // act
+            var result = bezoekerController.GenerateAbonnementPDF(null);
+
+            // assert
+            Assert.IsInstanceOf(typeof(HttpStatusCodeResult), result);
+
+            var httpResult = result as HttpStatusCodeResult;
+            Assert.AreEqual(400, httpResult.StatusCode);
         }
     }
 }
