@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Claims;
 using System.Security.Principal;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using FakeItEasy;
@@ -21,7 +22,7 @@ namespace VoetbalTicketStore.Controllers.Tests
     public class HomeControllerTest
     {
         [Test]
-        public void IndexTest()
+        public async Task IndexTestAsync()
         {
             // arrange
             // hier gebruik van Moq ipv FakeItEasy om de usermanager zelf te mocken (statische methode FindById niet mogelijk in FakeItEasy)
@@ -64,7 +65,7 @@ namespace VoetbalTicketStore.Controllers.Tests
             A.CallTo(() => homeController.ControllerContext.HttpContext.User).Returns(fakePrincipal);
 
             // act
-            var result = homeController.Index();
+            var result = await homeController.Index();
 
             // assert result
             Assert.IsNotNull(result);

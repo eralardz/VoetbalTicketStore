@@ -423,6 +423,7 @@
     </Content>
     <Content Include="Content\img\genk-carousel.jpg" />
     <Content Include="Content\img\gent-carousel.jpg" />
+    <Content Include="Content\img\logo.png" />
     <Content Include="Content\img\oostende-carousel.jpg" />
     <Content Include="Content\img\stadion-janbreydel.png" />
     <Content Include="Content\img\wedstrijd-11.jpg" />

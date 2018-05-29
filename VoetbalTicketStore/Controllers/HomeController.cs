@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using VoetbalTicketStore.Helpers;
@@ -29,7 +30,7 @@ namespace VoetbalTicketStore.Controllers
         }
 
 
-        public ViewResult Index()
+        public async Task<ViewResult> Index()
         {
             if (userManager == null)
             {
@@ -39,7 +40,7 @@ namespace VoetbalTicketStore.Controllers
             }
 
             // Find user
-            var user = userManager.FindByIdAsync(User.Identity.GetUserId());
+            var user = await userManager.FindByIdAsync(User.Identity.GetUserId());
             
             // get aangeraden wedstrijden
 
@@ -53,7 +54,7 @@ namespace VoetbalTicketStore.Controllers
 
             if (user != null)
             {
-                homeVM.HighlightList = wedstrijdService.GetAanTeRadenWedstrijdenVoorClub(user.Result.FavorietTeam, 3).ToList();
+                homeVM.HighlightList = wedstrijdService.GetAanTeRadenWedstrijdenVoorClub(user.FavorietTeam, 3).ToList();
             }
             return View(homeVM);
         }
