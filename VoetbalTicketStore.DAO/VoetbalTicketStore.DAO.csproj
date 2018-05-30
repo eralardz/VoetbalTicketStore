@@ -78,6 +78,7 @@
     <Compile Include="BestellingDAO.cs" />
     <Compile Include="BezoekerDAO.cs" />
     <Compile Include="ClubDAO.cs" />
+    <Compile Include="Interfaces\IBezoekerDAO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShoppingCartDataDAO.cs" />
     <Compile Include="StadionDAO.cs" />

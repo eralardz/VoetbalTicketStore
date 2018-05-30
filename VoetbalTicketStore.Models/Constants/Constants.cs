@@ -12,5 +12,8 @@ namespace VoetbalTicketStore.Models.Constants
         public const int MaximaalAantalTicketsPerGebruikerPerWedstrijd = 4;
 
         public const bool SeizoenIsBegonnen = false;
+
+        // Exception strings
+        public const string ParameterNull = "Er ging iets mis! Probeer het later opnieuw.";
     }
 }
