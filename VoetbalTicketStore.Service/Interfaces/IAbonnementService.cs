@@ -10,7 +10,7 @@ namespace VoetbalTicketStore.Service
     public interface IAbonnementService
     {
         int GetAantalAbonnementenPerVakVoorThuisPloeg(Club thuisploeg, Vak vak);
-        void AddAbonnementen(IList<Abonnement> abonnementen);
+        IEnumerable<Abonnement> AddAbonnementen(IList<Abonnement> abonnementen);
         IEnumerable<Abonnement> GetNietGekoppeldeAbonnementen(string user);
         void KoppelBezoekerAanAbonnement(int teWijzigenAbonnement, string rijksregisternummer);
         Abonnement FindAbonnement(int teWijzigenAbonnement);

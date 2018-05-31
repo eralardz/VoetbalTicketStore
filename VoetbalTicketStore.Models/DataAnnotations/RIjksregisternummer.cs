@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace VoetbalTicketStore.Models.DataAnnotations
@@ -12,9 +9,11 @@ namespace VoetbalTicketStore.Models.DataAnnotations
     {
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
         {
-            ModelClientValidationRule mvr = new ModelClientValidationRule();
-            mvr.ErrorMessage = "Birth Date can not be greater than current date";
-            mvr.ValidationType = "validbirthdate";
+            ModelClientValidationRule mvr = new ModelClientValidationRule
+            {
+                ErrorMessage = "Birth Date can not be greater than current date",
+                ValidationType = "validbirthdate"
+            };
             return new[] { mvr };
         }
 
@@ -40,6 +39,7 @@ namespace VoetbalTicketStore.Models.DataAnnotations
                 }
 
             }
+           
             else
             {
                 // ongeldig rrn - parsing loopt mis

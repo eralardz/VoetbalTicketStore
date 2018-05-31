@@ -15,5 +15,8 @@ namespace VoetbalTicketStore.Models.Constants
 
         // Exception strings
         public const string ParameterNull = "Er ging iets mis! Probeer het later opnieuw.";
+
+        public const string RijksregisternummerKomtAlvoor = "Dit rijksregisternummer komt al voor in ons systeem!";
+        public const string RijksregisternummerOngeldig = "Ongeldig gevormd rijksregisternummer!";
     }
 }

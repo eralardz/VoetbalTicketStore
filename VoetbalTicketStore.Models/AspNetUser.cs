@@ -55,5 +55,7 @@ namespace VoetbalTicketStore.Models
         public virtual ICollection<Ticket> Tickets { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
+        public virtual AspNetUser AspNetUsers1 { get; set; }
+        public virtual AspNetUser AspNetUser1 { get; set; }
     }
 }

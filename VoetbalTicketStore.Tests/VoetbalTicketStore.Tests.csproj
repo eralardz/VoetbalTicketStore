@@ -175,6 +175,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Resources\VoetbalTicketStore.Resources.csproj">
+      <Project>{52511665-1E48-4E7B-8F96-2D829985BC52}</Project>
+      <Name>VoetbalTicketStore.Resources</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VoetbalTicketStore.DAO\VoetbalTicketStore.DAO.csproj">
       <Project>{181D5AA2-D66D-4B0E-9745-C2A201522C81}</Project>
       <Name>VoetbalTicketStore.DAO</Name>

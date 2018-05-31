@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using VoetbalTicketStore.DataAnnotations;
 using VoetbalTicketStore.Models.DataAnnotations;
 
 namespace VoetbalTicketStore.Models
@@ -81,6 +82,7 @@ namespace VoetbalTicketStore.Models
         [Required]
         [StringLength(11)]
         [Rijksregisternummer]
+        [RijksregisternummerUniek]
         public string Rijksregisternummer { get; set; }
 
         [Required]

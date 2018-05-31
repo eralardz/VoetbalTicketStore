@@ -18,12 +18,15 @@ namespace VoetbalTicketStore.DAO
             }
         }
 
-        public void AddAbonnementen(IList<Abonnement> abonnementen)
+        public IEnumerable<Abonnement> AddAbonnementen(IList<Abonnement> abonnementen)
         {
             using (var db = new VoetbalstoreEntities())
             {
                 db.Abonnements.AddRange(abonnementen);
                 db.SaveChanges();
+
+                return abonnementen;
+
             }
         }
 
@@ -54,5 +57,17 @@ namespace VoetbalTicketStore.DAO
             }
         }
 
+        public void RemoveAbonnement(int teVerwijderenAbonnement)
+        {
+            if (teVerwijderenAbonnement > 0)
+            {
+                using (var db = new VoetbalstoreEntities())
+                {
+                    Abonnement toRemove = new Abonnement { Id = teVerwijderenAbonnement };
+                    db.Entry(toRemove).State = EntityState.Deleted;
+                    db.SaveChanges();
+                }
+            }
+        }
     }
 }

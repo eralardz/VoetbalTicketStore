@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="VoetbalstoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="VoetbalstoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -336,6 +336,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_AspNetUsers_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="AspNetUsers1" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUsers1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_AspNetUsers_Club">
           <End Role="Club" Type="Self.Club" Multiplicity="0..1" />
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
@@ -612,6 +624,10 @@
             <End Role="Stadion" EntitySet="Stadion" />
             <End Role="Club" EntitySet="Club" />
           </AssociationSet>
+          <AssociationSet Name="FK_AspNetUsers_AspNetUsers" Association="Self.FK_AspNetUsers_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUsers1" EntitySet="AspNetUsers" />
+          </AssociationSet>
           <AssociationSet Name="FK_AspNetUsers_Club" Association="Self.FK_AspNetUsers_Club">
             <End Role="Club" EntitySet="Club" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -681,8 +697,7 @@
             <End Role="ShoppingCartData" EntitySet="ShoppingCartData" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="VoetbalstoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -769,6 +784,8 @@
           <NavigationProperty Name="Club" Relationship="Self.FK_AspNetUsers_Club" FromRole="AspNetUsers" ToRole="Club" />
           <NavigationProperty Name="Tickets" Relationship="Self.Ticket_besteld_door_ASP_user" FromRole="AspNetUsers" ToRole="Ticket" />
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+          <NavigationProperty Name="AspNetUsers1" Relationship="VoetbalstoreModel.FK_AspNetUsers_AspNetUsers" FromRole="AspNetUser" ToRole="AspNetUser1" />
+          <NavigationProperty Name="AspNetUser1" Relationship="VoetbalstoreModel.FK_AspNetUsers_AspNetUsers" FromRole="AspNetUser1" ToRole="AspNetUser" />
         </EntityType>
         <EntityType Name="Bestelling">
           <Key>
@@ -1378,7 +1395,23 @@
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <AssociationSet Name="FK_AspNetUsers_AspNetUsers" Association="VoetbalstoreModel.FK_AspNetUsers_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUser1" EntitySet="AspNetUsers" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_AspNetUsers_AspNetUsers">
+          <End Type="VoetbalstoreModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="VoetbalstoreModel.AspNetUser" Role="AspNetUser1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUser1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

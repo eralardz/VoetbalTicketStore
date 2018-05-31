@@ -1,12 +1,4 @@
-﻿using VoetbalTicketStore.Service;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
-using FakeItEasy;
-using VoetbalTicketStore.DAO;
+﻿using NUnit.Framework;
 using VoetbalTicketStore.Exceptions;
 using VoetbalTicketStore.Models;
 using VoetbalTicketStore.Models.Constants;

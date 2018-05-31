@@ -87,6 +87,7 @@
     <Compile Include="Interfaces\IShoppingCartDataService.cs" />
     <Compile Include="Interfaces\IStadionService.cs" />
     <Compile Include="Interfaces\ITicketService.cs" />
+    <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Interfaces\IVakService.cs" />
     <Compile Include="Interfaces\IWedstrijdService.cs" />
     <Compile Include="MailService.cs" />
@@ -95,11 +96,16 @@
     <Compile Include="ShoppingCartDataService.cs" />
     <Compile Include="StadionService.cs" />
     <Compile Include="TicketService.cs" />
+    <Compile Include="UserService.cs" />
     <Compile Include="VakService.cs" />
     <Compile Include="VakTypeService.cs" />
     <Compile Include="WedstrijdService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Resources\VoetbalTicketStore.Resources.csproj">
+      <Project>{52511665-1E48-4E7B-8F96-2D829985BC52}</Project>
+      <Name>VoetbalTicketStore.Resources</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VoetbalTicketStore.DAO\VoetbalTicketStore.DAO.csproj">
       <Project>{181d5aa2-d66d-4b0e-9745-c2a201522c81}</Project>
       <Name>VoetbalTicketStore.DAO</Name>

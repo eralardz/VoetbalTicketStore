@@ -208,6 +208,7 @@
     <Compile Include="Controllers\StadionController.cs" />
     <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Controllers\WedstrijdController.cs" />
+    <Compile Include="DataAnnotations\RijksregisternummerUniek.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
