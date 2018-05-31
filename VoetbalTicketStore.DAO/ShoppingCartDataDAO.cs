@@ -9,12 +9,14 @@ namespace VoetbalTicketStore.DAO
 {
     public class ShoppingCartDataDAO
     {
-        public void AddToShoppingCart(ShoppingCartData shoppingCartData)
+        public ShoppingCartData AddToShoppingCart(ShoppingCartData shoppingCartData)
         {
             using (var db = new VoetbalstoreEntities())
             {
                 db.ShoppingCartDatas.Add(shoppingCartData);
                 db.SaveChanges();
+
+                return shoppingCartData;
             }
         }
 

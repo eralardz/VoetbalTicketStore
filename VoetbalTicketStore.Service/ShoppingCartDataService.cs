@@ -18,14 +18,19 @@ namespace VoetbalTicketStore.Service
             shoppingCartDataDAO = new ShoppingCartDataDAO();
         }
 
-        public void AddToShoppingCart(int bestellingId, decimal prijs, int wedstrijdId, int thuisploegId, int bezoekersId, int aantalTickets, int vakId, string user)
+        public ShoppingCartData AddToShoppingCart(int bestellingId, decimal prijs, int wedstrijdId, int thuisploegId, int bezoekersId, int aantalTickets, int vakId, string user)
         {
+            if(bestellingId < 0 || prijs < 0 || wedstrijdId < 0 || thuisploegId < 0 || bezoekersId < 0 || aantalTickets < 1 || vakId < 0 || user == null)
+            {
+                throw new BestelException(Constants.ParameterNull);
+            }
 
             // Hoeveelheid in ShoppingCartData verhogen als exact hetzelfde toegevoegd wordt
             ShoppingCartData shoppingCartData = shoppingCartDataDAO.GetShoppingCartEntry(wedstrijdId, bestellingId, vakId);
             if (shoppingCartData != null)
             {
                 IncrementAmount(shoppingCartData);
+                return shoppingCartData;
             }
 
             else
@@ -42,13 +47,13 @@ namespace VoetbalTicketStore.Service
                     Bezoekers = bezoekersId,
                     ToegevoegdOp = DateTime.Now,
 
-                    // Voorlopig enkel support voor aankopen tickets (id = 1) TODO: enum van maken
+                    // ticket
                     ShoppingCartDataTypeId = 1
 
                 };
 
                 // Toevoegen aan DB
-                shoppingCartDataDAO.AddToShoppingCart(shoppingCartData);
+                return shoppingCartDataDAO.AddToShoppingCart(shoppingCartData);
             }
         }
 

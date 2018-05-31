@@ -9,13 +9,13 @@ using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Hosting;
+using VoetbalTicketStore.Exceptions;
+using VoetbalTicketStore.Models.Constants;
 
 namespace VoetbalTicketStore.Service
 {
     public class PDFService : IPDFService
     {
-
-
         public class TicketPDF
         {
             public int TicketId { get; set; }
@@ -45,21 +45,28 @@ namespace VoetbalTicketStore.Service
             public string BezoekerEmail { get; set; }
         }
 
-        private TicketPDF ticketPDF;
-        private AbonnementPDF abonnementPDF;
+
+        public TicketPDF ticketPDF { get; set; }
+        public AbonnementPDF abonnementPDF{ get; set; }
 
         public void setPDFInfo(bool ticket, int id, int bestellingId, decimal prijs, string thuisploegNaam, string tegenstandersNaam, string adres, string stadionNaam, DateTime datumEnTijd, string bezoekerVoornaam, string bezoekerNaam, string bezoekerRijksregisternummer, string bezoekerEmail)
         {
+            if(id < 0 || bestellingId < 0 || prijs < 0 || thuisploegNaam == null || datumEnTijd == null || bezoekerVoornaam == null || bezoekerNaam == null || bezoekerRijksregisternummer == null || bezoekerEmail == null)
+            {
+                throw new BestelException(Constants.ParameterNull);
+            }
+
             if (ticket)
             {
                 ticketPDF = new TicketPDF()
                 {
                     TicketId = id,
-                    BestellingId = id,
+                    BestellingId = bestellingId,
                     Prijs = prijs,
                     ThuisploegNaam = thuisploegNaam,
                     TegenstandersNaam = tegenstandersNaam,
                     StadionAdres = adres,
+                    StadionNaam = stadionNaam,
                     WedstrijdDatumEnTijd = datumEnTijd,
                     BezoekerVoornaam = bezoekerVoornaam,
                     BezoekerNaam = bezoekerNaam,

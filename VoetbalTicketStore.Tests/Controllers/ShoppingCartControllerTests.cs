@@ -69,7 +69,7 @@ namespace VoetbalTicketStore.Controllers.Tests
             A.CallTo(() => fakeBestellingService.CreateNieuweBestellingIndienNodig(new Guid().ToString())).Returns(new Bestelling());
 
             var fakeShoppingCartDataService = A.Fake<IShoppingCartDataService>();
-            A.CallTo(() => fakeShoppingCartDataService.AddToShoppingCart(0, new decimal(0.0), 0, 0, 0, 0, 0, "")).DoesNothing();
+            A.CallTo(() => fakeShoppingCartDataService.AddToShoppingCart(0, new decimal(0.0), 0, 0, 0, 0, 0, "")).Returns(null);
 
 
             var shoppingCartController = new ShoppingCartController(fakeBestellingService, fakeShoppingCartDataService, null)

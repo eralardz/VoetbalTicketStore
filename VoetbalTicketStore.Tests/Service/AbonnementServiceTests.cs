@@ -121,7 +121,7 @@ namespace VoetbalTicketStore.Service.Tests
             // gekoppeld abonnement
             Abonnement abo1 = new Abonnement()
             {
-                AspNetUsersId = "f42bf7d5-9a65-4466-b665-e10576b2939d",
+                AspNetUsersId = "19ce82ed-fda7-4aa5-a28d-72b4b76d6bbb",
                 Clubid = 1,
                 Prijs = 100,
                 VakId = 22,
@@ -132,16 +132,18 @@ namespace VoetbalTicketStore.Service.Tests
             // niet gekoppeld abonnement
             Abonnement abo2 = new Abonnement()
             {
-                AspNetUsersId = "f42bf7d5-9a65-4466-b665-e10576b2939d",
+                AspNetUsersId = "19ce82ed-fda7-4aa5-a28d-72b4b76d6bbb",
                 Clubid = 4,
                 Prijs = 200,
                 VakId = 22,
                 BestellingId = 77
             };
 
-            List<Abonnement> abonnements = new List<Abonnement>();
-            abonnements.Add(abo1);
-            abonnements.Add(abo2);
+            List<Abonnement> abonnements = new List<Abonnement>
+            {
+                abo1,
+                abo2
+            };
 
             try
             {
@@ -151,26 +153,69 @@ namespace VoetbalTicketStore.Service.Tests
                 int abo1Id = abonnementsWeggechreven.ToArray()[0].Id;
                 int abo2Id = abonnementsWeggechreven.ToArray()[1].Id;
 
-                Abonnement abo1opgehaald = abonnementService.FindAbonnement(abo1Id);
-                Abonnement abo2opgehaald = abonnementService.FindAbonnement(abo2Id);
+                // act
+                List<Abonnement> resultaat = abonnementService.GetNietGekoppeldeAbonnementen("19ce82ed-fda7-4aa5-a28d-72b4b76d6bbb").ToList();
 
-                // assert
-                // abonnement1
-                Assert.AreEqual(abo1opgehaald.Clubid, abo1.Clubid);
-                Assert.AreEqual(abo1opgehaald.AspNetUsersId, abo1.AspNetUsersId);
-                Assert.AreEqual(abo1opgehaald.VakId, abo1.VakId);
-                Assert.AreEqual(abo1opgehaald.Prijs, abo1.Prijs);
+                // assert aantal
+                Assert.AreEqual(1, resultaat.Count());
 
-                // abonnement2
-                Assert.AreEqual(abo2opgehaald.Clubid, abo2.Clubid);
-                Assert.AreEqual(abo2opgehaald.AspNetUsersId, abo2.AspNetUsersId);
-                Assert.AreEqual(abo2opgehaald.VakId, abo2.VakId);
-                Assert.AreEqual(abo2opgehaald.Prijs, abo2.Prijs);
+                Abonnement aboOpgehaald = resultaat.First();
+
+                // assert gegevens abbo
+                Assert.AreEqual(aboOpgehaald.Clubid, abo2.Clubid);
+                Assert.AreEqual(aboOpgehaald.AspNetUsersId, abo2.AspNetUsersId);
+                Assert.AreEqual(aboOpgehaald.VakId, abo2.VakId);
+                Assert.AreEqual(aboOpgehaald.Prijs, abo2.Prijs);
             }
             finally
             {
                 abonnementService.RemoveAbonnement(abo1.Id);
                 abonnementService.RemoveAbonnement(abo2.Id);
+            }
+        }
+
+        [Test]
+        public void KoppelBezoekerAanAbonnementTest()
+        {
+            // arrange
+            AbonnementService abonnementService = new AbonnementService();
+
+            string rijksregisternummer = "90050207940";
+
+            Abonnement abo1 = new Abonnement()
+            {
+                AspNetUsersId = "f42bf7d5-9a65-4466-b665-e10576b2939d",
+                Clubid = 1,
+                Prijs = 100,
+                VakId = 22,
+                BestellingId = 77
+            };
+
+            try
+            {
+                List<Abonnement> abonnements = new List<Abonnement>();
+                abonnements.Add(abo1);
+
+                List<Abonnement> abonnementsWeggechreven =
+                    abonnementService.AddAbonnementen(abonnements).ToList();
+
+                // terug ophalen
+                Abonnement aboOpgehaald = abonnementsWeggechreven.First();
+
+                // act
+                abonnementService.KoppelBezoekerAanAbonnement(aboOpgehaald.Id, rijksregisternummer);
+                Abonnement aboOpgehaaldMetBezoeker = abonnementService.FindAbonnement(aboOpgehaald.Id);
+
+                Assert.IsNotNull(aboOpgehaaldMetBezoeker);
+                Assert.AreEqual(aboOpgehaaldMetBezoeker.Clubid, abo1.Clubid);
+                Assert.AreEqual(aboOpgehaaldMetBezoeker.AspNetUsersId, abo1.AspNetUsersId);
+                Assert.AreEqual(aboOpgehaaldMetBezoeker.VakId, abo1.VakId);
+                Assert.AreEqual(aboOpgehaaldMetBezoeker.Prijs, abo1.Prijs);
+                Assert.AreEqual(aboOpgehaaldMetBezoeker.Bezoekerrijksregisternummer, rijksregisternummer);
+            }
+            finally
+            {
+                abonnementService.RemoveAbonnement(abo1.Id);
             }
         }
     }

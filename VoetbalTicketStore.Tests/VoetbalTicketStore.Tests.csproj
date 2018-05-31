@@ -147,9 +147,9 @@
     <Reference Include="System.Net.Http.WebRequest" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbonnementServiceTests.cs" />
-    <Compile Include="BezoekerServiceTests.cs" />
-    <Compile Include="ClubServiceTests.cs" />
+    <Compile Include="Service\AbonnementServiceTests.cs" />
+    <Compile Include="Service\BezoekerServiceTests.cs" />
+    <Compile Include="Service\ClubServiceTests.cs" />
     <Compile Include="Controllers\AbonnementControllerTests.cs" />
     <Compile Include="Controllers\BestellingControllerTests.cs" />
     <Compile Include="Controllers\BezoekerControllerTests.cs" />
@@ -158,9 +158,11 @@
     <Compile Include="Controllers\StadionControllerTests.cs" />
     <Compile Include="Controllers\TicketControllerTests.cs" />
     <Compile Include="Controllers\WedstrijdControllerTests.cs" />
-    <Compile Include="MailServiceTests.cs" />
+    <Compile Include="Service\MailServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
+    <Compile Include="Service\PDFServiceTest.cs" />
+    <Compile Include="Service\ShoppingCartDataServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
