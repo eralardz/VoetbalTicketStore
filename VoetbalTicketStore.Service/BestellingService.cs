@@ -23,6 +23,10 @@ namespace VoetbalTicketStore.Service
 
         public Bestelling CreateNieuweBestellingIndienNodig(string user)
         {
+            if (user == null)
+            {
+                throw new BestelException(Constants.ParameterNull);
+            }
             Bestelling gevondenBestelling = bestellingDAO.FindOpenstaandeBestelling(user);
 
             if (gevondenBestelling != null)
@@ -48,11 +52,19 @@ namespace VoetbalTicketStore.Service
 
         public IEnumerable<Bestelling> All(string user)
         {
+            if (user == null)
+            {
+                throw new BestelException(Constants.ParameterNull);
+            }
             return bestellingDAO.All(user);
         }
 
         private bool BestellingMagGeplaatstWorden(Bestelling bestelling, string user)
         {
+            if (user == null || bestelling == null)
+            {
+                throw new BestelException(Constants.ParameterNull);
+            }
             bool go = true;
 
             ticketService = new TicketService();
@@ -114,6 +126,10 @@ namespace VoetbalTicketStore.Service
 
         public Bestelling FindOpenstaandeBestellingDoorUser(string user)
         {
+            if (user == null)
+            {
+                throw new BestelException(Constants.ParameterNull);
+            }
             Bestelling bestelling = bestellingDAO.FindOpenstaandeBestellingDoorUser(user);
 
             // ongeldige shoppingcartdata eruit filteren
@@ -138,6 +154,10 @@ namespace VoetbalTicketStore.Service
 
         public decimal BerekenTotaalPrijs(ICollection<ShoppingCartData> shoppingCartDatas)
         {
+            if (shoppingCartDatas == null)
+            {
+                throw new BestelException(Constants.ParameterNull);
+            }
             decimal totaalPrijs = 0;
 
             foreach (ShoppingCartData shoppingCartData in shoppingCartDatas)
@@ -150,22 +170,38 @@ namespace VoetbalTicketStore.Service
 
         public void RemoveBestelling(string user)
         {
+            if (user == null)
+            {
+                throw new BestelException(Constants.ParameterNull);
+            }
             bestellingDAO.RemoveBestelling(user);
         }
 
         public void BevestigBestelling(int id, decimal totaalPrijs)
         {
+            if (id < 0 || totaalPrijs < 0)
+            {
+                throw new BestelException(Constants.ParameterNull);
+            }
             Bestelling bestelling = new Bestelling { Id = id, Bevestigd = true, TotaalPrijs = totaalPrijs };
             bestellingDAO.BevestigBestelling(bestelling);
         }
 
         public int GetMeestGekochteThuisploeg(string user)
         {
+            if (user == null)
+            {
+                throw new BestelException(Constants.ParameterNull);
+            }
             return bestellingDAO.GetMeestGekochteThuisploeg(user);
         }
 
         public void PlaatsBestelling(Bestelling bestelling, string user)
         {
+            if (bestelling == null || user == null)
+            {
+                throw new BestelException(Constants.ParameterNull);
+            }
             // services
             ticketService = new TicketService();
             abonnementService = new AbonnementService();

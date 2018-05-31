@@ -89,12 +89,12 @@ namespace VoetbalTicketStore.DAO
             }
         }
 
-        public void RemoveAllShoppingCartData(string user)
-        {
-            using (var db = new VoetbalstoreEntities())
-            {
-            }
-        }
+        //public void RemoveAllShoppingCartData(string user)
+        //{
+        //    using (var db = new VoetbalstoreEntities())
+        //    {
+        //    }
+        //}
 
         public void RemoveShoppingCartDataVanBestelling(int geselecteerdeBestelling)
         {

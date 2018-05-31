@@ -171,7 +171,7 @@ namespace VoetbalTicketStore.Controllers
             {
                 shoppingCartDataService = new ShoppingCartDataService();
             }
-            shoppingCartDataService.AdjustAmount(shoppingCart.SelectedShoppingCartData, shoppingCart.NieuweHoeveelheid, User.Identity.GetUserId(), shoppingCart.GeselecteerdeWedstrijd);
+            shoppingCartDataService.AdjustAmount(shoppingCart.SelectedShoppingCartData, shoppingCart.NieuweHoeveelheid);
             return RedirectToAction("Index");
         }
 

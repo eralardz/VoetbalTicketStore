@@ -148,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Service\AbonnementServiceTests.cs" />
+    <Compile Include="Service\BestellingServiceTest.cs" />
     <Compile Include="Service\BezoekerServiceTests.cs" />
     <Compile Include="Service\ClubServiceTests.cs" />
     <Compile Include="Controllers\AbonnementControllerTests.cs" />

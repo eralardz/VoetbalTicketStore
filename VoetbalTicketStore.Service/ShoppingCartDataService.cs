@@ -12,6 +12,7 @@ namespace VoetbalTicketStore.Service
     {
         private ShoppingCartDataDAO shoppingCartDataDAO;
         private TicketService ticketService;
+        private WedstrijdService wedstrijdService;
 
         public ShoppingCartDataService()
         {
@@ -20,9 +21,21 @@ namespace VoetbalTicketStore.Service
 
         public ShoppingCartData AddToShoppingCart(int bestellingId, decimal prijs, int wedstrijdId, int thuisploegId, int bezoekersId, int aantalTickets, int vakId, string user)
         {
-            if(bestellingId < 0 || prijs < 0 || wedstrijdId < 0 || thuisploegId < 0 || bezoekersId < 0 || aantalTickets < 1 || vakId < 0 || user == null)
+            if (bestellingId < 0 || prijs < 0 || wedstrijdId < 0 || thuisploegId < 0 || bezoekersId < 0 || aantalTickets < 1 || vakId < 0 || user == null)
             {
                 throw new BestelException(Constants.ParameterNull);
+            }
+
+            if (wedstrijdService == null)
+            {
+                wedstrijdService = new WedstrijdService();
+            }
+            Wedstrijd wedstrijd = wedstrijdService.GetWedstrijdById(wedstrijdId);
+
+            // Vroeger dan 1 maand voor de wedstrijd
+            if (DateTime.Now < wedstrijd.DatumEnTijd - TimeSpan.FromDays(Constants.TicketVerkoopOpentAantalDagenVoorDeWedstrijd))
+            {
+                throw new BestelException(Constants.VroegerDanEenMaand);
             }
 
             // Hoeveelheid in ShoppingCartData verhogen als exact hetzelfde toegevoegd wordt
@@ -57,12 +70,13 @@ namespace VoetbalTicketStore.Service
             }
         }
 
-        public void AddAbonnementToShoppingCart(int bestellingId, decimal prijs, int aantalAbonnementen, int vakId, int ploegId, string user)
+        public ShoppingCartData AddAbonnementToShoppingCart(int bestellingId, decimal prijs, int aantalAbonnementen, int vakId, int ploegId, string user)
         {
             ShoppingCartData shoppingCartData = shoppingCartDataDAO.GetShoppingCartAbonnementEntry(bestellingId, ploegId, vakId);
             if (shoppingCartData != null)
             {
                 IncrementAmount(shoppingCartData);
+                return shoppingCartData;
             }
             else
             {
@@ -80,7 +94,7 @@ namespace VoetbalTicketStore.Service
 
 
                 // Toevoegen aan DB
-                shoppingCartDataDAO.AddToShoppingCart(shoppingCartData);
+                return shoppingCartDataDAO.AddToShoppingCart(shoppingCartData);
             }
         }
 
@@ -111,22 +125,38 @@ namespace VoetbalTicketStore.Service
 
         public void RemoveShoppingCartData(int id)
         {
+            if (id < 0)
+            {
+                throw new BestelException(Constants.ParameterNull);
+            }
             shoppingCartDataDAO.RemoveShoppingCartData(id);
         }
 
-        public void AdjustAmount(int id, int newAmount, string user, int wedstrijdId)
+        public void AdjustAmount(int id, int newAmount)
         {
-            shoppingCartDataDAO.AdjustAmount(id, newAmount);
+            if (id < 0 || newAmount < 0)
+            {
+                throw new BestelException(Constants.ParameterNull);
+            }
+            // Kan normaal niet in de UI
+            if (newAmount == 0)
+            {
+                RemoveShoppingCartData(id);
+            }
+            else
+            {
+                shoppingCartDataDAO.AdjustAmount(id, newAmount);
+            }
         }
 
         public void RemoveShoppingCartDataVanBestelling(int geselecteerdeBestelling)
         {
-            shoppingCartDataDAO.RemoveShoppingCartDataVanBestelling(geselecteerdeBestelling);
-        }
+            if (geselecteerdeBestelling < 0)
+            {
+                throw new BestelException(Constants.ParameterNull);
 
-        public void RemoveAllShoppingCartData(string user)
-        {
-            shoppingCartDataDAO.RemoveAllShoppingCartData(user);
+            }
+            shoppingCartDataDAO.RemoveShoppingCartDataVanBestelling(geselecteerdeBestelling);
         }
     }
 }

@@ -138,7 +138,7 @@ namespace VoetbalTicketStore.Controllers.Tests
             A.CallTo(() => fakeBestellingService.CreateNieuweBestellingIndienNodig(new Guid().ToString())).Returns(new Bestelling());
 
             var fakeShoppingCartDataService = A.Fake<IShoppingCartDataService>();
-            A.CallTo(() => fakeShoppingCartDataService.AddAbonnementToShoppingCart(0, new decimal(0.0), 0, 0, 0, "")).DoesNothing();
+            A.CallTo(() => fakeShoppingCartDataService.AddAbonnementToShoppingCart(0, new decimal(0.0), 0, 0, 0, "")).Returns(null);
 
 
             var shoppingCartController = new ShoppingCartController(fakeBestellingService, fakeShoppingCartDataService, null)
@@ -221,7 +221,7 @@ namespace VoetbalTicketStore.Controllers.Tests
             A.CallTo(() => fakePrincipal.Identity).Returns(identity);
 
             var fakeShoppingCartDataService = A.Fake<IShoppingCartDataService>();
-            A.CallTo(() => fakeShoppingCartDataService.AdjustAmount(0, 0, "", 0)).DoesNothing();
+            A.CallTo(() => fakeShoppingCartDataService.AdjustAmount(0, 0)).DoesNothing();
 
             var shoppingCartController = new ShoppingCartController(new BestellingService(), fakeShoppingCartDataService, null)
             {

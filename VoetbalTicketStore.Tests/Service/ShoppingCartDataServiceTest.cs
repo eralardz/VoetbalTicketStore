@@ -14,6 +14,13 @@ namespace VoetbalTicketStore.Tests.Service
     [TestFixture]
     public class ShoppingCartDataServiceTest
     {
+        private BestellingService bestellingService;
+
+        [SetUp]
+        public void Setup()
+        {
+            bestellingService = new BestellingService();
+        }
 
         [Test]
         public void AddToShoppingCartTestParametersNull()
@@ -25,6 +32,21 @@ namespace VoetbalTicketStore.Tests.Service
             Assert.Throws<BestelException>(() => shoppingCartDataService.AddToShoppingCart(-1, -1, -1, -1, -1, -1, -1, null), Constants.ParameterNull);
         }
 
+        [Test]
+        public void AddToShoppingCartTicketVoorWedstrijdVroegerDanToegelatenTest()
+        {
+            // arrange
+            ShoppingCartDataService shoppingCartDataService = new ShoppingCartDataService();
+
+            // nieuwe bestelling maken
+            string user = "19ce82ed-fda7-4aa5-a28d-72b4b76d6bbb";
+
+            // User heeft geen bestellingen, zal sowieso moeten aangemaakt worden
+            Bestelling bestelling = bestellingService.CreateNieuweBestellingIndienNodig(user);
+
+            // act + assert
+            Assert.Throws<BestelException>(() => shoppingCartDataService.AddToShoppingCart(bestelling.Id, 1337, 2, 5, 6, 2, 23, user), Constants.VroegerDanEenMaand);
+        }
 
         [Test]
         public void AddToShoppingCartTestNewItem()
@@ -33,7 +55,6 @@ namespace VoetbalTicketStore.Tests.Service
             ShoppingCartDataService shoppingCartDataService = new ShoppingCartDataService();
 
             // nieuwe bestelling maken
-            BestellingService bestellingService = new BestellingService();
             string user = "19ce82ed-fda7-4aa5-a28d-72b4b76d6bbb";
 
             // User heeft geen bestellingen, zal sowieso moeten aangemaakt worden
@@ -64,7 +85,6 @@ namespace VoetbalTicketStore.Tests.Service
             }
             finally
             {
-                shoppingCartDataService.RemoveAllShoppingCartData(user);
                 bestellingService.RemoveBestelling(user);
             }
         }
@@ -76,7 +96,6 @@ namespace VoetbalTicketStore.Tests.Service
             ShoppingCartDataService shoppingCartDataService = new ShoppingCartDataService();
 
             // nieuwe bestelling maken
-            BestellingService bestellingService = new BestellingService();
             string user = "19ce82ed-fda7-4aa5-a28d-72b4b76d6bbb";
 
             // User heeft geen bestellingen, zal sowieso moeten aangemaakt worden
@@ -109,7 +128,6 @@ namespace VoetbalTicketStore.Tests.Service
             }
             finally
             {
-                shoppingCartDataService.RemoveAllShoppingCartData(user);
                 bestellingService.RemoveBestelling(user);
             }
         }
@@ -121,7 +139,6 @@ namespace VoetbalTicketStore.Tests.Service
             ShoppingCartDataService shoppingCartDataService = new ShoppingCartDataService();
 
             // nieuwe bestelling maken
-            BestellingService bestellingService = new BestellingService();
             string user = "19ce82ed-fda7-4aa5-a28d-72b4b76d6bbb";
 
             // User heeft geen bestellingen, zal sowieso moeten aangemaakt worden
@@ -149,7 +166,6 @@ namespace VoetbalTicketStore.Tests.Service
             }
             finally
             {
-                shoppingCartDataService.RemoveAllShoppingCartData(user);
                 bestellingService.RemoveBestelling(user);
             }
         }
@@ -161,7 +177,6 @@ namespace VoetbalTicketStore.Tests.Service
             ShoppingCartDataService shoppingCartDataService = new ShoppingCartDataService();
 
             // nieuwe bestelling maken
-            BestellingService bestellingService = new BestellingService();
             string user = "19ce82ed-fda7-4aa5-a28d-72b4b76d6bbb";
 
             // User heeft geen bestellingen, zal sowieso moeten aangemaakt worden
@@ -191,7 +206,6 @@ namespace VoetbalTicketStore.Tests.Service
             }
             finally
             {
-                shoppingCartDataService.RemoveAllShoppingCartData(user);
                 bestellingService.RemoveBestelling(user);
             }
         }
@@ -199,19 +213,174 @@ namespace VoetbalTicketStore.Tests.Service
         [Test]
         public void RemoveShoppingCartDataTest()
         {
+            // arrange
+            ShoppingCartDataService shoppingCartDataService = new ShoppingCartDataService();
 
-        }
+            // nieuwe bestelling maken
+            string user = "19ce82ed-fda7-4aa5-a28d-72b4b76d6bbb";
 
-        [Test]
-        public void RemoveAllShoppingCartDataTest()
-        {
+            // User heeft geen bestellingen, zal sowieso moeten aangemaakt worden
+            Bestelling bestelling = bestellingService.CreateNieuweBestellingIndienNodig(user);
+            try
+            {
+                decimal prijs = 55;
+                int ploegId = 4;
+                int aantalAbonnementen = 1;
+                int vakId = 22;
+                ShoppingCartData shoppingCartData = shoppingCartDataService.AddAbonnementToShoppingCart(bestelling.Id, prijs, aantalAbonnementen, vakId, ploegId, user);
 
+                // act - verwijderen abonnement
+                shoppingCartDataService.RemoveShoppingCartData(shoppingCartData.Id);
+
+
+                // assert
+                List<ShoppingCartData> shoppingCartDatas = bestellingService.FindOpenstaandeBestellingDoorUser(user).ShoppingCartDatas.ToList();
+                Assert.AreEqual(0, shoppingCartDatas.Count());
+            }
+            finally
+            {
+                bestellingService.RemoveBestelling(user);
+            }
         }
 
         [Test]
         public void AdjustAmountShoppingCartDataTest()
         {
+            // arrange
+            ShoppingCartDataService shoppingCartDataService = new ShoppingCartDataService();
 
+            // nieuwe bestelling maken
+            string user = "19ce82ed-fda7-4aa5-a28d-72b4b76d6bbb";
+
+            // User heeft geen bestellingen, zal sowieso moeten aangemaakt worden
+            Bestelling bestelling = bestellingService.CreateNieuweBestellingIndienNodig(user);
+            try
+            {
+                decimal prijs = 55;
+                int ploegId = 4;
+                int aantalAbonnementen = 1;
+                int vakId = 22;
+                ShoppingCartData shoppingCartData = shoppingCartDataService.AddAbonnementToShoppingCart(bestelling.Id, prijs, aantalAbonnementen, vakId, ploegId, user);
+
+                int nieuweHoeveelheid = 3;
+                // act - aanpassen hoeveelheid
+                shoppingCartDataService.AdjustAmount(shoppingCartData.Id, nieuweHoeveelheid);
+
+
+                // assert
+                List<ShoppingCartData> shoppingCartDatas = bestellingService.FindOpenstaandeBestellingDoorUser(user).ShoppingCartDatas.ToList();
+                Assert.AreEqual(nieuweHoeveelheid, shoppingCartDatas.First().Hoeveelheid);
+            }
+            finally
+            {
+                bestellingService.RemoveBestelling(user);
+            }
+        }
+
+        [Test]
+        public void AdjustAmountShoppingCartDataToZeroTest()
+        {
+            // arrange
+            ShoppingCartDataService shoppingCartDataService = new ShoppingCartDataService();
+
+            // nieuwe bestelling maken
+            string user = "19ce82ed-fda7-4aa5-a28d-72b4b76d6bbb";
+
+            // User heeft geen bestellingen, zal sowieso moeten aangemaakt worden
+            Bestelling bestelling = bestellingService.CreateNieuweBestellingIndienNodig(user);
+            try
+            {
+                decimal prijs = 55;
+                int ploegId = 4;
+                int aantalAbonnementen = 1;
+                int vakId = 22;
+                ShoppingCartData shoppingCartData = shoppingCartDataService.AddAbonnementToShoppingCart(bestelling.Id, prijs, aantalAbonnementen, vakId, ploegId, user);
+
+                int nieuweHoeveelheid = 0;
+                // act - aanpassen hoeveelheid
+                shoppingCartDataService.AdjustAmount(shoppingCartData.Id, nieuweHoeveelheid);
+
+
+                // assert
+                List<ShoppingCartData> shoppingCartDatas = bestellingService.FindOpenstaandeBestellingDoorUser(user).ShoppingCartDatas.ToList();
+                Assert.AreEqual(0, shoppingCartDatas.Count());
+            }
+            finally
+            {
+                bestellingService.RemoveBestelling(user);
+            }
+        }
+
+        [Test]
+        public void RemoveShoppingCartDataVanBestellingTest()
+        {
+            // arrange
+            ShoppingCartDataService shoppingCartDataService = new ShoppingCartDataService();
+
+            // nieuwe bestelling maken
+            string user = "19ce82ed-fda7-4aa5-a28d-72b4b76d6bbb";
+
+            // User heeft geen bestellingen, zal sowieso moeten aangemaakt worden
+            Bestelling bestelling = bestellingService.CreateNieuweBestellingIndienNodig(user);
+            try
+            {
+                decimal prijs = 55;
+                int ploegId = 4;
+                int aantalAbonnementen = 1;
+                int vakId = 22;
+
+                // act - abonnement en ticket toevoegen
+                ShoppingCartData shoppingCartData = shoppingCartDataService.AddAbonnementToShoppingCart(bestelling.Id, prijs, aantalAbonnementen, vakId, ploegId, user);
+                ShoppingCartData shoppingCartData2 = shoppingCartDataService.AddToShoppingCart(bestelling.Id, 44, 24, 1, 4, 1, 21, user);
+
+                // assert - 2 elementen in de shoppingcart
+                List<ShoppingCartData> shoppingCartDatas = bestellingService.FindOpenstaandeBestellingDoorUser(user).ShoppingCartDatas.ToList();
+                Assert.AreEqual(2, shoppingCartDatas.Count());
+
+                // act
+                shoppingCartDataService.RemoveShoppingCartDataVanBestelling(bestelling.Id);
+
+                // assert - shoppingcart leeg
+                List<ShoppingCartData> shoppingCartDatas2 = bestellingService.FindOpenstaandeBestellingDoorUser(user).ShoppingCartDatas.ToList();
+                Assert.AreEqual(0, shoppingCartDatas2.Count());
+            }
+            finally
+            {
+                bestellingService.RemoveBestelling(user);
+            }
+        }
+
+        [Test]
+        public void IncrementAmountTest()
+        {
+            // arrange
+            ShoppingCartDataService shoppingCartDataService = new ShoppingCartDataService();
+
+            // nieuwe bestelling maken
+            string user = "19ce82ed-fda7-4aa5-a28d-72b4b76d6bbb";
+
+            // User heeft geen bestellingen, zal sowieso moeten aangemaakt worden
+            Bestelling bestelling = bestellingService.CreateNieuweBestellingIndienNodig(user);
+            try
+            {
+                decimal prijs = 55;
+                int ploegId = 4;
+                int aantalAbonnementen = 1;
+                int vakId = 22;
+
+                // act - abonnement en ticket toevoegen
+                ShoppingCartData shoppingCartData = shoppingCartDataService.AddAbonnementToShoppingCart(bestelling.Id, prijs, aantalAbonnementen, vakId, ploegId, user);
+
+                // act
+                shoppingCartDataService.IncrementAmount(shoppingCartData);
+                // assert
+                List<ShoppingCartData> shoppingCartDatas2 = bestellingService.FindOpenstaandeBestellingDoorUser(user).ShoppingCartDatas.ToList();
+                Assert.AreEqual(2, shoppingCartDatas2.First().Hoeveelheid);
+            }
+            finally
+            {
+                bestellingService.RemoveBestelling(user);
+            }
         }
     }
 }

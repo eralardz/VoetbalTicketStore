@@ -2,23 +2,24 @@
 @{
     ViewBag.Title = "Clubs";
 }
-
-
-<h2>Index</h2>
-
+<div class="page-header">
+    <h1>Clubs <small>Onze competitie</small></h1>
+</div>
 <table class="table">
     <tr>
         <th>
-            Naam
+            @Html.DisplayNameFor(modelItem => modelItem.Clubs)
         </th>
         <th>
-            Logo
+            @Html.DisplayNameFor(modelItem => modelItem.Logo)
+
         </th>
         <th>
-            Stadion
+            @Html.DisplayNameFor(modelItem => modelItem.StadionNaam)
+
         </th>
         <th>
-            Abonnement kopen
+            Abonnementen
         </th>
         <th>
             Wedstrijdkalender
@@ -38,7 +39,7 @@
                     {
                         imagePath = item.Logo;
                     }
-                    <img src="@imagePath" alt="logo" />
+                    <img src="@imagePath" alt="logo" style="width:30%;"/>
                 }
             </td>
             <td>
