@@ -164,6 +164,8 @@
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="Service\PDFServiceTest.cs" />
     <Compile Include="Service\ShoppingCartDataServiceTest.cs" />
+    <Compile Include="Service\TicketControllerTest.cs" />
+    <Compile Include="Service\VakServicetest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />

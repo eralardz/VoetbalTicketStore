@@ -71,8 +71,8 @@ namespace VoetbalTicketStore.Service
             abonnementService = new AbonnementService();
 
             // geen tickets in de bestelling
-            int aantalTickets = bestelling.ShoppingCartDatas.Where(s => s.WedstrijdId != null).Count();
-            int aantalAbonnementen = bestelling.ShoppingCartDatas.Where(s => s.WedstrijdId == null).Count();
+            int aantalTickets = bestelling.ShoppingCartDatas.Where(s => s.Wedstrijd != null).Count();
+            int aantalAbonnementen = bestelling.ShoppingCartDatas.Where(s => s.Wedstrijd == null).Count();
 
             if (aantalTickets > 0 && aantalAbonnementen == 0)
             {
@@ -105,7 +105,7 @@ namespace VoetbalTicketStore.Service
                         throw new BestelException("Er mogen maximaal " + Constants.MaximaalAantalTicketsPerGebruikerPerWedstrijd + " tickets per wedstrijd aangekocht worden!");
                     }
 
-                    // is er plaats vrij? Enkel entries met tickets - TODO: enum
+                    // is er plaats vrij? Enkel entries met tickets
                     int aantalVerkochteTickets = ticketService.GetAantalVerkochteTicketsVoorVak(shoppingCartData.Vak, shoppingCartData.Wedstrijd) + abonnementService.GetAantalAbonnementenPerVakVoorThuisPloeg(shoppingCartData.Club, shoppingCartData.Vak);
 
                     int totaalAantal = aantalVerkochteTickets + shoppingCartData.Hoeveelheid;

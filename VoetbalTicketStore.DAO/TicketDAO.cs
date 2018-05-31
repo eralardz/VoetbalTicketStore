@@ -81,11 +81,10 @@ namespace VoetbalTicketStore.DAO
         }
 
         // attach: https://msdn.microsoft.com/en-us/library/jj592676(v=vs.113).aspx
-        public void KoppelBezoekerAanTicket(int teWijzigenTicket, string rijksregisternummer)
+        public void KoppelBezoekerAanTicket(Ticket ticket, string rijksregisternummer)
         {
             using (var db = new VoetbalstoreEntities())
             {
-                Ticket ticket = new Ticket { Id = teWijzigenTicket, Bezoekerrijksregisternummer = rijksregisternummer };
                 db.Tickets.Attach(ticket);
                 var entry = db.Entry(ticket);
                 entry.Property(e => e.Bezoekerrijksregisternummer).IsModified = true;
@@ -98,6 +97,16 @@ namespace VoetbalTicketStore.DAO
             using (var db = new VoetbalstoreEntities())
             {
                 return db.Tickets.Where(t => t.Gebruikerid.Equals(user) && t.Bezoekerrijksregisternummer == null).Include(w => w.Wedstrijd).Include(c => c.Wedstrijd.Club).Include(c => c.Wedstrijd.Club1).ToList();
+            }
+        }
+
+        public static void DeleteAlleTicketsVanUser(string user)
+        {
+            using (var db = new VoetbalstoreEntities())
+            {
+                List<Ticket> tickets = db.Tickets.Where(t => t.Gebruikerid.Equals(user)).ToList();
+                db.Tickets.RemoveRange(tickets);
+                db.SaveChanges();
             }
         }
     }
