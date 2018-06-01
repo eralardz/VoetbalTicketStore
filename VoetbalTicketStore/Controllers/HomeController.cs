@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -41,7 +42,7 @@ namespace VoetbalTicketStore.Controllers
 
             // Find user
             var user = await userManager.FindByIdAsync(User.Identity.GetUserId());
-            
+
             // get aangeraden wedstrijden
 
             if (wedstrijdService == null)
@@ -52,10 +53,19 @@ namespace VoetbalTicketStore.Controllers
             // viewmodel opvullen
             HomeVM homeVM = new HomeVM();
 
-            if (user != null)
+
+            // opgehaalde lijst verandert normaal niet snel, wordt tijdelijk in de session opgeslagen om het aantal SQL-queries te beperken
+            List<Wedstrijd> list = (List<Wedstrijd>)Session["AanTeRadenWedstrijden"];
+            if (user != null && list == null)
             {
                 homeVM.HighlightList = wedstrijdService.GetAanTeRadenWedstrijdenVoorClub(user.FavorietTeam, 3).ToList();
+                Session["AanTeRadenWedstrijden"] = homeVM.HighlightList;
             }
+            else
+            {
+                homeVM.HighlightList = list;
+            }
+
             return View(homeVM);
         }
 

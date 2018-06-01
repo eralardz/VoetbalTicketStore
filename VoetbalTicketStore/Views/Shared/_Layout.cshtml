@@ -37,10 +37,27 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink(@Resources.strings.Clubs, "Index", "Club")</li>
-                    <li>@Html.ActionLink(@Resources.strings.Winkelwagentje, "Index", "ShoppingCart")</li>
-                    <li>@Html.ActionLink(@Resources.strings.Bezoekers, "Index", "Bezoeker")</li>
-                    <li>@Html.ActionLink(@Resources.strings.Aankoopgeschiedenis, "Index", "Bestelling")</li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Resources.strings.Competitie<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink(@Resources.strings.Clubs, "Index", "Club")</li>
+                            <li>@Html.ActionLink(@Resources.strings.Stadions, "Index", "Stadion")</li>
+                            <li>@Html.ActionLink(@Resources.strings.Wedstrijden, "Index", "Wedstrijd")</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Resources.strings.Aankoopgeschiedenis<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink(@Resources.strings.Bezoekers, "Index", "Bezoeker")</li>
+                            <li>@Html.ActionLink(@Resources.strings.Aankoopgeschiedenis, "Index", "Bestelling")</li>
+                        </ul>
+                    </li>           
+                    <li>
+                        <a href="@Url.Action("Index","ShoppingCart")">
+                            <span class="glyphicon glyphicon-shopping-cart gi-2x"></span>
+                        </a>
+                    </li>
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">

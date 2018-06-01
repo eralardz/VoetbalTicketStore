@@ -392,6 +392,8 @@ namespace VoetbalTicketStore.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            // abandon session -> bvb. informatie over favoriete wedstrijden opschonen
+            Session.Abandon();
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }

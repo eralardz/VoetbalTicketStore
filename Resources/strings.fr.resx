@@ -126,6 +126,9 @@
   <data name="Clubs" xml:space="preserve">
     <value>Clubs</value>
   </data>
+  <data name="Competitie" xml:space="preserve">
+    <value>Compétition</value>
+  </data>
   <data name="Hallo" xml:space="preserve">
     <value>Bonjour</value>
   </data>
@@ -135,11 +138,20 @@
   <data name="Registreren" xml:space="preserve">
     <value>S'inscrire</value>
   </data>
+  <data name="Stadions" xml:space="preserve">
+    <value>Stades</value>
+  </data>
   <data name="Taal" xml:space="preserve">
     <value>Langue</value>
   </data>
   <data name="Uitloggen" xml:space="preserve">
     <value>Se déloguer</value>
+  </data>
+  <data name="Uw aankopen" xml:space="preserve">
+    <value>Vos achats</value>
+  </data>
+  <data name="Wedstrijden" xml:space="preserve">
+    <value>Matchs</value>
   </data>
   <data name="Winkelwagentje" xml:space="preserve">
     <value>Caddie</value>

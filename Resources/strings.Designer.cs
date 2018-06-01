@@ -88,6 +88,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Competitie.
+        /// </summary>
+        public static string Competitie {
+            get {
+                return ResourceManager.GetString("Competitie", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hallo.
         /// </summary>
         public static string Hallo {
@@ -115,6 +124,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stadions.
+        /// </summary>
+        public static string Stadions {
+            get {
+                return ResourceManager.GetString("Stadions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Taal.
         /// </summary>
         public static string Taal {
@@ -129,6 +147,24 @@ namespace Resources {
         public static string Uitloggen {
             get {
                 return ResourceManager.GetString("Uitloggen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uw aankopen.
+        /// </summary>
+        public static string Uw_aankopen {
+            get {
+                return ResourceManager.GetString("Uw aankopen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wedstrijden.
+        /// </summary>
+        public static string Wedstrijden {
+            get {
+                return ResourceManager.GetString("Wedstrijden", resourceCulture);
             }
         }
         
