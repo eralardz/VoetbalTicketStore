@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using VoetbalTicketStore.Models;
 using VoetbalTicketStore.Service;
+using VoetbalTicketStore.Service.Interfaces;
 using VoetbalTicketStore.ViewModel;
 
 namespace VoetbalTicketStore.Controllers
@@ -13,25 +14,42 @@ namespace VoetbalTicketStore.Controllers
     public class AbonnementController : BaseController
     {
 
-        private VakService vakService;
-        private ClubService clubService;
+
+        private IVakService vakService;
+        private IClubService clubService;
+
+        public AbonnementController()
+        {
+
+        }
+
+        public AbonnementController(IVakService vakService, IClubService clubService)
+        {
+            this.vakService = vakService;
+            this.clubService = clubService;
+        }
 
         [Authorize]
         // GET: Abonnement
         public ActionResult Buy(ClubOverview clubOverview)
         {
-            if(clubOverview == null)
+            if (clubOverview == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            vakService = new VakService();
-            clubService = new ClubService();
+            if (vakService == null)
+            {
+                vakService = new VakService();
+            }
+            if (clubService == null)
+            {
+                clubService = new ClubService();
+            }
 
             IList<Vak> thuisVakken = vakService.GetThuisVakkeninStadion(clubOverview.Stadionid).ToList();
 
             vakService.BerekenAbonnementPrijzenBijVakken(thuisVakken, clubService.GetClub(clubOverview.GekozenClubId));
-
 
             // Lijst voor aantal tickets
             List<SelectListItem> list = new List<SelectListItem>

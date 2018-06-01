@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
@@ -58,11 +59,13 @@ namespace VoetbalTicketStore.Controllers.Tests
 
             var homeController = new HomeController(fakeWedstrijdService, new UserManager<ApplicationUser>(userManagerMock.Object))
             {
-                ControllerContext = A.Fake<ControllerContext>(),
-                
+                ControllerContext = A.Fake<ControllerContext>()
             };
 
             A.CallTo(() => homeController.ControllerContext.HttpContext.User).Returns(fakePrincipal);
+
+            // fake session
+            A.CallTo(() => homeController.ControllerContext.HttpContext.Session["AanTeRadenWedstrijden"]).Returns(new List<Wedstrijd>());
 
             // act
             var result = await homeController.Index();

@@ -82,6 +82,7 @@
     <Compile Include="Interfaces\IAbonnementService.cs" />
     <Compile Include="Interfaces\IBestellingService.cs" />
     <Compile Include="Interfaces\IBezoekerService.cs" />
+    <Compile Include="Interfaces\IClubService.cs" />
     <Compile Include="Interfaces\IMailService.cs" />
     <Compile Include="Interfaces\IPDFService.cs" />
     <Compile Include="Interfaces\IShoppingCartDataService.cs" />

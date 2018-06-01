@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using VoetbalTicketStore.ViewModel;
 using System.Web.Mvc;
+using FakeItEasy;
+using VoetbalTicketStore.Service.Interfaces;
 
 namespace VoetbalTicketStore.Controllers.Tests
 {
@@ -18,7 +20,15 @@ namespace VoetbalTicketStore.Controllers.Tests
         public void BuyTest()
         {
             // arrange
-            AbonnementController abonnementController = new AbonnementController();
+
+            var fakeVakService = A.Fake<IVakService>();
+            A.CallTo(() => fakeVakService.GetThuisVakkeninStadion(1)).Returns(null);
+            A.CallTo(() => fakeVakService.BerekenAbonnementPrijzenBijVakken(null, null)).DoesNothing();
+
+            var fakeClubService = A.Fake<IClubService>();
+
+
+            AbonnementController abonnementController = new AbonnementController(fakeVakService, fakeClubService);
             ClubOverview clubOverview = new ClubOverview();
 
             // act
