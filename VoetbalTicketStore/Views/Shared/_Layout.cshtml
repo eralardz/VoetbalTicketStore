@@ -50,9 +50,9 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Resources.strings.Aankoopgeschiedenis<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>@Html.ActionLink(@Resources.strings.Bezoekers, "Index", "Bezoeker")</li>
-                            <li>@Html.ActionLink(@Resources.strings.Aankoopgeschiedenis, "Index", "Bestelling")</li>
+                            <li>@Html.ActionLink(@Resources.strings.Geschiedenis, "Index", "Bestelling")</li>
                         </ul>
-                    </li>           
+                    </li>
                     <li>
                         <a href="@Url.Action("Index","ShoppingCart")">
                             <span class="glyphicon glyphicon-shopping-cart gi-2x"></span>
@@ -83,13 +83,11 @@
     </div>
 
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/bootstrap")
-    <script src="~/Scripts/ticketstore.js"></script>
-    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/bootstrap")
+        <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+        <script src="~/Scripts/ticketstore.js"></script>
 
-
-
-    @RenderSection("scripts", required: false)
+        @RenderSection("scripts", required: false)
 </body>
 </html>

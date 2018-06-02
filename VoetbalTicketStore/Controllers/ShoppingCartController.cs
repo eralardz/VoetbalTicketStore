@@ -223,8 +223,13 @@ namespace VoetbalTicketStore.Controllers
                         new ApplicationDbContext()));
                 }
                 var user = userManager.FindById(User.Identity.GetUserId());
-                user.FavorietTeam = bestellingService.GetMeestGekochteThuisploeg(User.Identity.GetUserId());
-                userManager.Update(user);
+                int nieuwFavorietTeam = bestellingService.GetMeestGekochteThuisploeg(User.Identity.GetUserId());
+
+                if (nieuwFavorietTeam != -1)
+                {
+                    user.FavorietTeam = nieuwFavorietTeam;
+                    userManager.Update(user);
+                }
             }
             catch (BestelException ex)
             {

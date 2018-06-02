@@ -97,6 +97,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Geschiedenis.
+        /// </summary>
+        public static string Geschiedenis {
+            get {
+                return ResourceManager.GetString("Geschiedenis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hallo.
         /// </summary>
         public static string Hallo {
