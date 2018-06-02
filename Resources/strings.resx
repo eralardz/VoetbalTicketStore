@@ -129,6 +129,9 @@
   <data name="Competitie" xml:space="preserve">
     <value>Competitie</value>
   </data>
+  <data name="Geschiedenis" xml:space="preserve">
+    <value>Geschiedenis</value>
+  </data>
   <data name="Hallo" xml:space="preserve">
     <value>Hallo</value>
   </data>

@@ -36,6 +36,7 @@
                         <ul class="list-group">
                             <li class="list-group-item"><strong>Ticket </strong>#@Html.DisplayFor(modelItem => ticket.Id)</li>
                             <li class="list-group-item">@Html.DisplayFor(modelItem => ticket.Wedstrijd.Club.Naam) - @Html.DisplayFor(modelItem => ticket.Wedstrijd.Club1.Naam)</li>
+                            <li class="list-group-item">@Html.DisplayFor(modelItem => ticket.Wedstrijd.Stadion.Naam)</li>
                             <li class="list-group-item">@Html.DisplayFor(modelItem => ticket.Wedstrijd.DatumEnTijd)</li>
                             <li class="list-group-item">@Html.DisplayFor(modelItem => ticket.Prijs)</li>
 
@@ -73,14 +74,18 @@
                             @if ((ticket.Wedstrijd.DatumEnTijd - DateTime.Now).TotalDays > 7)
                             {
                                 <li class="list-group-item">
-                                    @using (Html.BeginForm("Annuleren", "Bestelling", new VoetbalTicketStore.ViewModel.BestellingVM { BestellingId = ticket.BestellingId, TicketId = ticket.Id }, FormMethod.Post))
+                                    @using (Html.BeginForm("Annuleren", "Bestelling", new VoetbalTicketStore.ViewModel.BestellingVM { BestellingId = ticket.BestellingId, TicketId = ticket.Id }, FormMethod.Post, htmlAttributes: new { @class = "ilform" }))
                                     {
                                         @Html.AntiForgeryToken()
 
-                                        <button type="submit" class="btn btn-danger btn-sm" role="menuitem">
+                                        <button type="submit" class="btn btn-danger btn-sm" role="menuitem" data-toggle="tooltip" title="(nog @Math.Floor(Math.Abs((7 - (ticket.Wedstrijd.DatumEnTijd - DateTime.Now).TotalDays))) dagen)">
                                             <i class="glyphicon glyphicon-remove"></i>Annuleren
                                         </button>
                                     }
+
+
+
+
                                 </li>
                             }
                         </ul>
@@ -131,3 +136,5 @@
         </div>
     }
 }
+
+
