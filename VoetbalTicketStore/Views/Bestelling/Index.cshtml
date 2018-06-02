@@ -16,7 +16,7 @@
         <h1>Uw aankoopgeschiedenis <small>Tickets en abonnementen</small></h1>
     </div>
 </div>
-@if (Model.Bestellingen.Count() == 0)
+@if (Model.Bestellingen == null || Model.Bestellingen.Count() == 0)
 {
     <div class="alert alert-info" role="alert">
         Je hebt nog geen bestellingen geplaatst. Van zodra je tickets of een abonnement bestelt, kunnen deze hier bekeken worden.

@@ -93,7 +93,14 @@ namespace VoetbalTicketStore.DAO
                               ClubId = g.Key.Id
                           }).Take(1);
 
-                return id.FirstOrDefault().ClubId;
+                if (id.FirstOrDefault() != null)
+                {
+                    return id.FirstOrDefault().ClubId;
+                }
+                else
+                {
+                    return -1;
+                }
             }
         }
 
