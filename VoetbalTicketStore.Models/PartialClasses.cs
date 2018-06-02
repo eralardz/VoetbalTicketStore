@@ -48,4 +48,13 @@ namespace VoetbalTicketStore.Models
     {
     }
 
+    [MetadataType(typeof(VakTypeMetaData))]
+    public partial class VakType
+    {
+    }
+
+    [MetadataType(typeof(VakMetaData))]
+    public partial class Vak
+    {
+    }
 }

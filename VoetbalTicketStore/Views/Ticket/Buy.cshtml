@@ -33,7 +33,7 @@
         <table class="table table-hover">
             <tr>
                 <th>
-                    @Html.LabelFor(modelItem => modelItem.VakkenList.First().VakType)
+                    @Html.LabelFor(modelItem => modelItem.VakkenList.First().VakType.Beschrijving)
                 </th>
                 <th>
                     @Html.LabelFor(modelItem => modelItem.VakkenList.First().BerekendePrijs)
@@ -51,7 +51,7 @@
                         @Html.DisplayFor(modelItem => item.BerekendePrijs)
                     </td>
                     <td>
-                        @if (item.AantalVrijePlaatsen == 0)
+                        @if (item.AantalVrijePlaatsen <= 0)
                         {
                             <text>Geen tickets meer!</text>
 
@@ -63,7 +63,7 @@
 
                     </td>
                     <td>
-                        @if (item.AantalVrijePlaatsen == 0)
+                        @if (item.AantalVrijePlaatsen <= 0)
                         {
                             <button type="button" class="btn btn-warning" disabled>Uitverkocht!</button>
                         }

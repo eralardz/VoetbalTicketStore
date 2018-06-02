@@ -86,4 +86,18 @@ namespace VoetbalTicketStore.Models
         [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal Prijs { get; set; }
     }
+
+    public class VakTypeMetaData
+    {
+        [Display(Name = "Vak")]
+        public string Beschrijving { get; set; }
+    }
+
+
+    public class VakMetaData
+    {
+        [Display(Name = "Prijs")]
+        public virtual VakType VakType { get; set; }
+    }
+
 }

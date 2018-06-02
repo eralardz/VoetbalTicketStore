@@ -12,6 +12,7 @@ namespace VoetbalTicketStore.Models
     {
         [NotMapped]
         [DisplayFormat(DataFormatString = "{0:C}")]
+        [Display(Name = "Prijs")]
         public decimal BerekendePrijs { get; set; }
         [NotMapped]
         public int AantalVrijePlaatsen { get; set; }
