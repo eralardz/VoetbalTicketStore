@@ -7,6 +7,11 @@
 
         <ul class="nav navbar-nav navbar-right">
             <li>
+                <a href="@Url.Action("Index","ShoppingCart")">
+                    <span class="glyphicon glyphicon-shopping-cart gi-2x"></span>
+                </a>
+            </li>
+            <li>
                 @Html.ActionLink(Resources.strings.Hallo + ", " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
             </li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()">@Resources.strings.Uitloggen</a></li>
@@ -16,6 +21,11 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
+        <li>
+            <a href="@Url.Action("Index","ShoppingCart")">
+                <span class="glyphicon glyphicon-shopping-cart gi-2x"></span>
+            </a>
+        </li>
         <li>@Html.ActionLink(@Resources.strings.Registreren, "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
         <li>@Html.ActionLink(@Resources.strings.Inloggen, "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
