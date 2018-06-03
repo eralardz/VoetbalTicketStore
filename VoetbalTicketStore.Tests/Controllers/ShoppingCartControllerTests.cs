@@ -264,6 +264,8 @@ namespace VoetbalTicketStore.Controllers.Tests
             A.CallTo(() => fakeShoppingCartDataService.RemoveShoppingCartDataVanBestelling(0)).DoesNothing();
             ShoppingCartController shoppingCartController = new ShoppingCartController(new BestellingService(), fakeShoppingCartDataService, null);
 
+
+
             // act
             var result = shoppingCartController.Clear(new ShoppingCart());
 

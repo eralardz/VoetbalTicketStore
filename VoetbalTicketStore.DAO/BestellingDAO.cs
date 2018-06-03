@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using VoetbalTicketStore.Models;
 using System.Data.Entity;
+using VoetbalTicketStore.DAO.Interfaces;
 
 namespace VoetbalTicketStore.DAO
 {
-    public class BestellingDAO
+    public class BestellingDAO : IBestellingDAO
     {
         public Bestelling FindOpenstaandeBestelling(string user)
         {

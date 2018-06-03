@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VoetbalTicketStore.DAO.Interfaces;
 using VoetbalTicketStore.Models;
 
 namespace VoetbalTicketStore.DAO
 {
-    public class VakTypeDAO
+    public class VakTypeDAO : IVakTypeDAO
     {
         public IEnumerable<VakType> All()
         {

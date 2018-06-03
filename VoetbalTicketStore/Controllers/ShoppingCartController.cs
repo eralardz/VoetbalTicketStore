@@ -200,8 +200,6 @@ namespace VoetbalTicketStore.Controllers
             // Bestelling deleten en dan de bestellijnen cascaden zou handig zijn, maar lukt niet aangezien de FK constraint voor de tickets dan overtreden wordt
             shoppingCartDataService.RemoveShoppingCartDataVanBestelling(shoppingCart.GeselecteerdeBestelling);
 
-            Session["ShoppingCartItemTotal"] = null;
-
             return RedirectToAction("Index");
         }
 

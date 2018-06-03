@@ -78,8 +78,17 @@
     <Compile Include="BestellingDAO.cs" />
     <Compile Include="BezoekerDAO.cs" />
     <Compile Include="ClubDAO.cs" />
+    <Compile Include="Interfaces\IAbonnementDAO.cs" />
+    <Compile Include="Interfaces\IBestellingDAO.cs" />
     <Compile Include="Interfaces\IBezoekerDAO.cs" />
+    <Compile Include="Interfaces\IClubDAO.cs" />
+    <Compile Include="Interfaces\IShoppingCartDataDAO.cs" />
+    <Compile Include="Interfaces\IStadionDAO.cs" />
+    <Compile Include="Interfaces\ITicketDAO.cs" />
     <Compile Include="Interfaces\IUserDAO.cs" />
+    <Compile Include="Interfaces\IVakDAO.cs" />
+    <Compile Include="Interfaces\IVakTypeDAO.cs" />
+    <Compile Include="Interfaces\IWedstrijdDAO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShoppingCartDataDAO.cs" />
     <Compile Include="StadionDAO.cs" />
@@ -87,7 +96,6 @@
     <Compile Include="UserDAO.cs" />
     <Compile Include="VakDAO.cs" />
     <Compile Include="VakTypeDAO.cs" />
-    <Compile Include="VoetbalTicketStoreDAO.cs" />
     <Compile Include="WedstrijdDAO.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -4,11 +4,12 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VoetbalTicketStore.DAO.Interfaces;
 using VoetbalTicketStore.Models;
 
 namespace VoetbalTicketStore.DAO
 {
-    public class ClubDAO
+    public class ClubDAO : IClubDAO
     {
         public IEnumerable<Club> All()
         {

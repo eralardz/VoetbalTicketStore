@@ -57,7 +57,12 @@ namespace VoetbalTicketStore.Controllers.Tests
             var fakeWedstrijdService = A.Fake<IWedstrijdService>();
             A.CallTo(() => fakeWedstrijdService.GetAanTeRadenWedstrijdenVoorClub(1, 3)).Returns(null);
 
-            var homeController = new HomeController(fakeWedstrijdService, new UserManager<ApplicationUser>(userManagerMock.Object))
+            var fakeBestellingService = A.Fake<IBestellingService>();
+            A.CallTo(() => fakeBestellingService.FindOpenstaandeBestellingDoorUser(new Guid().ToString())).Returns(null);
+
+
+
+            var homeController = new HomeController(fakeWedstrijdService, new UserManager<ApplicationUser>(userManagerMock.Object), fakeBestellingService)
             {
                 ControllerContext = A.Fake<ControllerContext>()
             };

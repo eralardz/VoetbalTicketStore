@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using VoetbalTicketStore.Models;
 using System.Data.Entity;
+using VoetbalTicketStore.DAO.Interfaces;
 
 namespace VoetbalTicketStore.DAO
 {
-    public class TicketDAO
+    public class TicketDAO : ITicketDAO
     {
 
         public int GetAantalVerkochteTicketsVoorVak(Vak vak, Wedstrijd wedstrijd)

@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using VoetbalTicketStore.Models;
 using System.Data.Entity;
-
+using VoetbalTicketStore.DAO.Interfaces;
 
 namespace VoetbalTicketStore.DAO
 {
-    public class WedstrijdDAO
+    public class WedstrijdDAO : IWedstrijdDAO
     {
         public IEnumerable<Wedstrijd> All()
         {

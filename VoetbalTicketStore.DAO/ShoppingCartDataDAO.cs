@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VoetbalTicketStore.DAO.Interfaces;
 using VoetbalTicketStore.Models;
 
 namespace VoetbalTicketStore.DAO
 {
-    public class ShoppingCartDataDAO
+    public class ShoppingCartDataDAO : IShoppingCartDataDAO
     {
         public ShoppingCartData AddToShoppingCart(ShoppingCartData shoppingCartData)
         {
@@ -88,13 +89,6 @@ namespace VoetbalTicketStore.DAO
                 db.SaveChanges();
             }
         }
-
-        //public void RemoveAllShoppingCartData(string user)
-        //{
-        //    using (var db = new VoetbalstoreEntities())
-        //    {
-        //    }
-        //}
 
         public void RemoveShoppingCartDataVanBestelling(int geselecteerdeBestelling)
         {
