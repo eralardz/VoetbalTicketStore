@@ -235,6 +235,10 @@
     <Compile Include="ViewModel\TicketWedstrijd.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="400.aspx" />
+    <Content Include="400.html" />
+    <Content Include="404.aspx" />
+    <Content Include="404.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

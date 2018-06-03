@@ -81,25 +81,34 @@ namespace VoetbalTicketStore.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Add(TicketConfirm ticketConfirm)
         {
-            if (ticketConfirm == null)
+            try
+            {
+
+
+                if (ticketConfirm == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                // Nieuwe bestelling aanmaken indien nodig
+                Bestelling bestelling = CreateNieuweBestellingIndienNodig();
+
+                // ShoppingCartData toevoegen
+                if (shoppingCartDataService == null)
+                {
+                    shoppingCartDataService = new ShoppingCartDataService();
+                }
+                shoppingCartDataService.AddToShoppingCart(bestelling.Id, ticketConfirm.Prijs, ticketConfirm.WedstrijdId, ticketConfirm.ThuisploegId, ticketConfirm.BezoekersId, ticketConfirm.AantalTickets, ticketConfirm.VakId, User.Identity.GetUserId());
+
+                // Success message meegeven
+                SetSuccessfulAddMessage("Uw winkelwagentje werd aangepast!");
+                // RedirectToAction ipv View, anders wordt geen model meegegeven!
+                return RedirectToAction("Index");
+            }
+            catch (BestelException ex)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
-            // Nieuwe bestelling aanmaken indien nodig
-            Bestelling bestelling = CreateNieuweBestellingIndienNodig();
-
-            // ShoppingCartData toevoegen
-            if (shoppingCartDataService == null)
-            {
-                shoppingCartDataService = new ShoppingCartDataService();
-            }
-            shoppingCartDataService.AddToShoppingCart(bestelling.Id, ticketConfirm.Prijs, ticketConfirm.WedstrijdId, ticketConfirm.ThuisploegId, ticketConfirm.BezoekersId, ticketConfirm.AantalTickets, ticketConfirm.VakId, User.Identity.GetUserId());
-
-            // Success message meegeven
-            SetSuccessfulAddMessage("Uw winkelwagentje werd aangepast!");
-            // RedirectToAction ipv View, anders wordt geen model meegegeven!
-            return RedirectToAction("Index");
         }
 
         [HttpPost]
