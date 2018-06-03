@@ -10,7 +10,7 @@ using VoetbalTicketStore.Exceptions;
 using VoetbalTicketStore.Models.Constants;
 
 // Tests moeten lopen op een testdatabank met de aangeleverde dummy data!
-namespace VoetbalTicketStore.Service.Tests
+namespace VoetbalTicketStore.Tests.Service
 {
     [TestFixture]
     public class AbonnementServiceTests
@@ -39,7 +39,7 @@ namespace VoetbalTicketStore.Service.Tests
             int aantalAbonnementen = abonnementService.GetAantalAbonnementenPerVakVoorThuisPloeg(club, vak);
 
             // assert
-            Assert.That(aantalAbonnementen == 2);
+            Assert.AreEqual(aantalAbonnementen, 2);
         }
 
         [Test]

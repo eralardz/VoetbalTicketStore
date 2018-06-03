@@ -73,6 +73,7 @@ namespace VoetbalTicketStore.Controllers
                     TotaalPrijs = bestellingService.BerekenTotaalPrijs(bestelling.ShoppingCartDatas),
                     HoeveelheidList = list
                 };
+                UpdateShoppingCartCounter(bestelling);
             }
             return View(shoppingCart);
         }
@@ -83,8 +84,6 @@ namespace VoetbalTicketStore.Controllers
         {
             try
             {
-
-
                 if (ticketConfirm == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -100,6 +99,8 @@ namespace VoetbalTicketStore.Controllers
                 }
                 shoppingCartDataService.AddToShoppingCart(bestelling.Id, ticketConfirm.Prijs, ticketConfirm.WedstrijdId, ticketConfirm.ThuisploegId, ticketConfirm.BezoekersId, ticketConfirm.AantalTickets, ticketConfirm.VakId, User.Identity.GetUserId());
 
+                UpdateShoppingCartCounter(bestelling);
+
                 // Success message meegeven
                 SetSuccessfulAddMessage("Uw winkelwagentje werd aangepast!");
                 // RedirectToAction ipv View, anders wordt geen model meegegeven!
@@ -107,7 +108,7 @@ namespace VoetbalTicketStore.Controllers
             }
             catch (BestelException ex)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, ex.Message);
             }
         }
 
@@ -130,16 +131,15 @@ namespace VoetbalTicketStore.Controllers
             }
             shoppingCartDataService.AddAbonnementToShoppingCart(bestelling.Id, abonnementBuy.Prijs, abonnementBuy.AantalAbonnementen, abonnementBuy.GeselecteerdVakId, abonnementBuy.PloegId, User.Identity.GetUserId());
 
+            UpdateShoppingCartCounter(bestelling);
+
             // Success message meegeven
             SetSuccessfulAddMessage("Uw winkelwagentje werd aangepast!");
 
             return RedirectToAction("Index");
         }
 
-        private void SetSuccessfulAddMessage(string message)
-        {
-            TempData["success"] = message;
-        }
+
 
         private Bestelling CreateNieuweBestellingIndienNodig()
         {
@@ -188,7 +188,6 @@ namespace VoetbalTicketStore.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Clear(ShoppingCart shoppingCart)
         {
-
             if (shoppingCart == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -200,6 +199,8 @@ namespace VoetbalTicketStore.Controllers
             }
             // Bestelling deleten en dan de bestellijnen cascaden zou handig zijn, maar lukt niet aangezien de FK constraint voor de tickets dan overtreden wordt
             shoppingCartDataService.RemoveShoppingCartDataVanBestelling(shoppingCart.GeselecteerdeBestelling);
+
+            Session["ShoppingCartItemTotal"] = null;
 
             return RedirectToAction("Index");
         }
@@ -239,6 +240,9 @@ namespace VoetbalTicketStore.Controllers
                     user.FavorietTeam = nieuwFavorietTeam;
                     userManager.Update(user);
                 }
+
+                Session["ShoppingCartItemTotal"] = null;
+
             }
             catch (BestelException ex)
             {
@@ -254,5 +258,29 @@ namespace VoetbalTicketStore.Controllers
             TempData["msg"] = "Uw bestelling werd succesvol afgerond!";
             return RedirectToAction("Index", "Bezoeker");
         }
+
+        #region privates
+        private void UpdateShoppingCartCounter(Bestelling bestelling)
+        {
+            int totaalAantalitems = 0;
+            foreach (ShoppingCartData s in bestelling.ShoppingCartDatas)
+            {
+                totaalAantalitems += s.Hoeveelheid;
+            }
+            if (totaalAantalitems > 0)
+            {
+                Session["ShoppingCartItemTotal"] = totaalAantalitems;
+            }
+            else
+            {
+                Session["ShoppingCartItemTotal"] = null;
+            }
+        }
+
+        private void SetSuccessfulAddMessage(string message)
+        {
+            TempData["success"] = message;
+        }
+        #endregion
     }
 }

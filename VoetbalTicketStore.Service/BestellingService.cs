@@ -84,7 +84,7 @@ namespace VoetbalTicketStore.Service
                 int count = group.First().Count();
                 if (count > 1)
                 {
-                    throw new BestelException("Je wil tickets voor verschillende wedstrijden op dezelfde dag kopen. Dit is niet toegestaan!");
+                    throw new BestelException("Je wil tickets voor verschillende wedstrijden of vakken op dezelfde dag kopen. Dit is niet toegestaan!");
                 }
             }
 
@@ -115,7 +115,19 @@ namespace VoetbalTicketStore.Service
                     if (rest < 0)
                     {
                         int aantalVrijePlaatsen = shoppingCartData.Vak.MaximumAantalZitplaatsen - aantalVerkochteTickets;
-                        throw new BestelException("Er zijn nog slechts " + aantalVrijePlaatsen + " tickets beschikbaar voor " + shoppingCartData.Wedstrijd.Club.Naam + " - " + shoppingCartData.Wedstrijd.Club1.Naam + " op " + shoppingCartData.Wedstrijd.DatumEnTijd + ". Verminder het aantal tickets en probeer opnieuw. Wees snel!");
+
+                        string message;
+
+                        if (aantalVrijePlaatsen == 0)
+                        {
+                            message = "Er zijn geen tickets meer beschikbaar voor " + shoppingCartData.Wedstrijd.Club.Naam + " - " + shoppingCartData.Wedstrijd.Club1.Naam + " op " + shoppingCartData.Wedstrijd.DatumEnTijd.ToShortDateString() + ". Te laat!";
+                        }
+                        else
+                        {
+                            message = "Er zijn nog slechts " + aantalVrijePlaatsen + " tickets beschikbaar voor " + shoppingCartData.Wedstrijd.Club.Naam + " - " + shoppingCartData.Wedstrijd.Club1.Naam + " op " + shoppingCartData.Wedstrijd.DatumEnTijd.ToShortDateString() + ". Verminder het aantal tickets en probeer opnieuw. Wees snel!";
+                        }
+
+                        throw new BestelException(message);
                     }
                 }
 

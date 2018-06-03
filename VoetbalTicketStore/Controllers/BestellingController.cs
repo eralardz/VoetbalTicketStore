@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using VoetbalTicketStore.Exceptions;
 using VoetbalTicketStore.Models;
 using VoetbalTicketStore.Service;
 using VoetbalTicketStore.ViewModel;
@@ -32,7 +33,7 @@ namespace VoetbalTicketStore.Controllers
         // GET: Bestelling
         public ActionResult Index()
         {
-            if(bestellingService == null)
+            if (bestellingService == null)
             {
                 bestellingService = new BestellingService();
             }
@@ -66,11 +67,18 @@ namespace VoetbalTicketStore.Controllers
                 ticketService = new TicketService();
             }
 
-            //ticketService = new TicketService();
-            ticketService.AnnuleerTicket(bestellingVM.TicketId);
+            try
+            {
+                //ticketService = new TicketService();
+                ticketService.AnnuleerTicket(bestellingVM.TicketId);
 
-            TempData["msg"] = "Uw ticket werd geannuleerd.";
-            return RedirectToAction("Index");
+                TempData["msg"] = "Uw ticket werd geannuleerd.";
+                return RedirectToAction("Index");
+            }
+            catch (BestelException ex)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, ex.Message);
+            }
         }
     }
 }

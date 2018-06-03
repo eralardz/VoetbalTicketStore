@@ -18,16 +18,18 @@ namespace VoetbalTicketStore.Controllers
 
         private IWedstrijdService wedstrijdService;
         private UserManager<ApplicationUser> userManager;
+        private IBestellingService bestellingService;
 
         public HomeController()
         {
 
         }
 
-        public HomeController(IWedstrijdService wedstrijdService, UserManager<ApplicationUser> userManager)
+        public HomeController(IWedstrijdService wedstrijdService, UserManager<ApplicationUser> userManager, IBestellingService bestellingService)
         {
             this.wedstrijdService = wedstrijdService;
             this.userManager = userManager;
+            this.bestellingService = bestellingService;
         }
 
 
@@ -53,17 +55,44 @@ namespace VoetbalTicketStore.Controllers
             // viewmodel opvullen
             HomeVM homeVM = new HomeVM();
 
+            if (user != null)
+            {
+                if (Session["ShoppingCartItemTotal"] == null)
+                {
+                    if (bestellingService == null)
+                    {
+                        bestellingService = new BestellingService();
+                        Bestelling bestelling = bestellingService.FindOpenstaandeBestellingDoorUser(user.Id);
+                        if (bestelling != null)
+                        {
+                            int totaalAantalitems = 0;
+                            foreach (ShoppingCartData s in bestelling.ShoppingCartDatas)
+                            {
+                                totaalAantalitems += s.Hoeveelheid;
+                            }
+                            if (totaalAantalitems > 0)
+                            {
+                                Session["ShoppingCartItemTotal"] = totaalAantalitems;
+                            }
+                            else
+                            {
+                                Session["ShoppingCartItemTotal"] = null;
+                            }
+                        }
+                    }
+                }
 
-            // opgehaalde lijst verandert normaal niet snel, wordt tijdelijk in de session opgeslagen om het aantal SQL-queries te beperken
-            List<Wedstrijd> list = (List<Wedstrijd>)Session["AanTeRadenWedstrijden"];
-            if (user != null && list == null)
-            {
-                homeVM.HighlightList = wedstrijdService.GetAanTeRadenWedstrijdenVoorClub(user.FavorietTeam, 3).ToList();
-                Session["AanTeRadenWedstrijden"] = homeVM.HighlightList;
-            }
-            else
-            {
-                homeVM.HighlightList = list;
+                // opgehaalde lijst verandert normaal niet snel, wordt tijdelijk in de session opgeslagen om het aantal SQL-queries te beperken
+                List<Wedstrijd> list = (List<Wedstrijd>)Session["AanTeRadenWedstrijden"];
+                if (list == null)
+                {
+                    homeVM.HighlightList = wedstrijdService.GetAanTeRadenWedstrijdenVoorClub(user.FavorietTeam, 3).ToList();
+                    Session["AanTeRadenWedstrijden"] = homeVM.HighlightList;
+                }
+                else
+                {
+                    homeVM.HighlightList = list;
+                }
             }
 
             return View(homeVM);

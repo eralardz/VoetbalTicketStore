@@ -2,8 +2,9 @@
 using VoetbalTicketStore.Exceptions;
 using VoetbalTicketStore.Models;
 using VoetbalTicketStore.Models.Constants;
+using VoetbalTicketStore.Service;
 
-namespace VoetbalTicketStore.Service.Tests
+namespace VoetbalTicketStore.Tests.Service
 {
     [TestFixture]
     public class BezoekerServiceTests

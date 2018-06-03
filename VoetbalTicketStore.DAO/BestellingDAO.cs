@@ -15,7 +15,7 @@ namespace VoetbalTicketStore.DAO
             using (var db = new VoetbalstoreEntities())
             {
                 // geeft null terug indien geen bestelling gevonden werd
-                return db.Bestellings.Where(b => b.Bevestigd == false && b.AspNetUsersId.Equals(user)).FirstOrDefault();
+                return db.Bestellings.Where(b => b.Bevestigd == false && b.AspNetUsersId.Equals(user)).Include(b => b.ShoppingCartDatas).FirstOrDefault();
             }
         }
 

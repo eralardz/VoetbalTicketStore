@@ -8,7 +8,7 @@ using VoetbalTicketStore.Models;
 using NUnit.Framework;
 
 // Tests moeten lopen op een testdatabank met de aangeleverde dummy data!
-namespace VoetbalTicketStore.Service.Tests
+namespace VoetbalTicketStore.Tests.Service
 {
     [TestFixture]
     public class ClubServiceTests

@@ -124,6 +124,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Over ons.
+        /// </summary>
+        public static string OverOns {
+            get {
+                return ResourceManager.GetString("OverOns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Registreren.
         /// </summary>
         public static string Registreren {
@@ -162,9 +171,9 @@ namespace Resources {
         /// <summary>
         ///   Looks up a localized string similar to Uw aankopen.
         /// </summary>
-        public static string Uw_aankopen {
+        public static string UwAankopen {
             get {
-                return ResourceManager.GetString("Uw aankopen", resourceCulture);
+                return ResourceManager.GetString("UwAankopen", resourceCulture);
             }
         }
         

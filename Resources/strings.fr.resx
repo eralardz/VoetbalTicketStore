@@ -138,6 +138,9 @@
   <data name="Inloggen" xml:space="preserve">
     <value>Se connecter</value>
   </data>
+  <data name="OverOns" xml:space="preserve">
+    <value>A propos de nous</value>
+  </data>
   <data name="Registreren" xml:space="preserve">
     <value>S'inscrire</value>
   </data>
@@ -150,7 +153,7 @@
   <data name="Uitloggen" xml:space="preserve">
     <value>Se déloguer</value>
   </data>
-  <data name="Uw aankopen" xml:space="preserve">
+  <data name="UwAankopen" xml:space="preserve">
     <value>Vos achats</value>
   </data>
   <data name="Wedstrijden" xml:space="preserve">

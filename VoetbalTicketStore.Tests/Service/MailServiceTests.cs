@@ -13,7 +13,7 @@ using netDumbster.smtp;
 using FakeItEasy;
 using System.Net;
 
-namespace VoetbalTicketStore.Service.Tests
+namespace VoetbalTicketStore.Tests.Service
 {
     [TestFixture]
     public class MailServiceTests
