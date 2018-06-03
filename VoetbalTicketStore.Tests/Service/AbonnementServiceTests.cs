@@ -121,7 +121,7 @@ namespace VoetbalTicketStore.Service.Tests
             // gekoppeld abonnement
             Abonnement abo1 = new Abonnement()
             {
-                AspNetUsersId = "19ce82ed-fda7-4aa5-a28d-72b4b76d6bbb",
+                AspNetUsersId = "41615bf3-a89a-4ba9-aa9b-1ef693909b8a",
                 Clubid = 1,
                 Prijs = 100,
                 VakId = 22,
@@ -132,7 +132,7 @@ namespace VoetbalTicketStore.Service.Tests
             // niet gekoppeld abonnement
             Abonnement abo2 = new Abonnement()
             {
-                AspNetUsersId = "19ce82ed-fda7-4aa5-a28d-72b4b76d6bbb",
+                AspNetUsersId = "41615bf3-a89a-4ba9-aa9b-1ef693909b8a",
                 Clubid = 4,
                 Prijs = 200,
                 VakId = 22,
@@ -154,7 +154,7 @@ namespace VoetbalTicketStore.Service.Tests
                 int abo2Id = abonnementsWeggechreven.ToArray()[1].Id;
 
                 // act
-                List<Abonnement> resultaat = abonnementService.GetNietGekoppeldeAbonnementen("19ce82ed-fda7-4aa5-a28d-72b4b76d6bbb").ToList();
+                List<Abonnement> resultaat = abonnementService.GetNietGekoppeldeAbonnementen("41615bf3-a89a-4ba9-aa9b-1ef693909b8a").ToList();
 
                 // assert aantal
                 Assert.AreEqual(1, resultaat.Count());

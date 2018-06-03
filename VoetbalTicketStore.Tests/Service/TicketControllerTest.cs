@@ -40,11 +40,11 @@ namespace VoetbalTicketStore.Tests.Service
                 Bestelling bestelling = bestellingService.CreateNieuweBestellingIndienNodig(user);
 
                 decimal prijs = 55;
-                int wedstrijdId = 11;
-                int thuisploegId = 4;
-                int bezoekersId = 1;
+                int wedstrijdId = 10;
+                int thuisploegId = 6;
+                int bezoekersId = 4;
                 int aantalTickets = 1;
-                int vakId = 22;
+                int vakId = 26;
 
                 shoppingCartDataService.AddToShoppingCart(bestelling.Id, prijs, wedstrijdId, thuisploegId, bezoekersId, aantalTickets, vakId, user);
 
